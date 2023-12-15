@@ -1,0 +1,13 @@
+<footer>
+  {{ partial "foot_custom.html" . }}
+  {{ with .Site.Params.footer }}
+  <hr />
+  {{ $bottom := replace . "{Year}" now.Year }}
+  {{ $bottom := replace $bottom "{name}" $.Site.Params.name }}
+  {{ $bottom := replace $bottom "{github}" $.Site.Params.github }}
+  {{ $bottom | markdownify }}
+  {{ end }}
+</footer>
+</body>
+
+</html>

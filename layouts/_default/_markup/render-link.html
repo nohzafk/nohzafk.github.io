@@ -1,0 +1,27 @@
+{{/* https://hugocodex.org/add-ons/new-window-fix/# */}}
+{{ $link := .Destination }}
+{{ $isRemote := (or (strings.HasPrefix $link "http") (in (lower $link) ".pdf")) }}
+{{- if not $isRemote -}}
+{{ $url := urls.Parse .Destination }}
+{{- if $url.Path -}}
+{{ $fragment := "" }}
+{{- with $url.Fragment }}
+{{ $fragment = printf "#%s" . }}
+{{ end -}}
+{{- with .Page.GetPage $url.Path }}
+{{ $link = printf "%s%s" .RelPermalink $fragment }}
+{{ end }}
+{{ end -}}
+{{- end -}}
+<a href="{{ $link | safeURL }}" {{ with .Title}} title="{{ . }}" {{ end }}{{ if $isRemote }} target="_blank"
+    rel="noopener" {{ end }}>{{ .Text | safeHTML }}
+    {{ if $isRemote }}
+    <svg class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="12"
+        shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="1.5" viewBox="0 0 24 24" width="12" style="color:var(--geist-foreground);width:12px;height:12px">
+        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+        <path d="M15 3h6v6" />
+        <path d="M10 14L21 3" />
+    </svg>
+    {{ end }}
+</a>

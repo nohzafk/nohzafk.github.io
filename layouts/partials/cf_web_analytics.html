@@ -1,0 +1,4 @@
+{{ if and (eq hugo.Environment "production") .Site.Params.cfWebAnalytics }}
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "{{ .Site.Params.cfWebAnalytics }}"}'></script>
+{{ end }}

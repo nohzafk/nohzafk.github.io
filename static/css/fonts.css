@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/alliance/Alliance-No-1-Regular.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: italic;
+  font-weight: 400;
+  src: url("/fonts/alliance/Alliance-No-1-Italic.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: normal;
+  font-weight: 450;
+  src: url("/fonts/alliance/Alliance-No-1-Medium.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/fonts/alliance/Alliance-No-1-SemiBold.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/alliance/Alliance-No-1-Bold.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-family: "Alliance No.1";
+  font-style: normal;
+  font-weight: 800;
+  src: url("/fonts/alliance/Alliance-No-1-ExtraBold.woff2") format("woff2");
+  font-display: swap
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/fira-code-v22-latin-regular.woff2') format('woff2');
+}
+
+.wrapper h1,
+.wrapper h2,
+.wrapper h3,
+.wrapper h4,
+.wrapper h5,
+.wrapper h6 {
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0.4rem;
+}
+
+.wrapper h1 {
+  font-size: 28px !important;
+  line-height: 32px !important;
+  font-weight: 800;
+}
+
+@media(min-width: 768px) {
+  .wrapper h1 {
+    font-size: 40px !important;
+    line-height: 44px !important;
+  }
+}
+
+@media(min-width: 1012px) {
+  .wrapper h1 {
+    font-size: 48px !important;
+    line-height: 52px !important;
+    letter-spacing: -0.03em !important;
+  }
+}
+
+.wrapper h2 {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 600;
+}
+
+@media(min-width: 768px) {
+  .wrapper h2 {
+    font-size: 24px !important;
+    line-height: 28px !important;
+  }
+}
+
+.wrapper h3,
+.wrapper h4,
+.wrapper h5,
+.wrapper h6 {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  font-weight: 500;
+}
+
+@media(min-width: 768px) {
+
+  .wrapper h3,
+  .wrapper h4,
+  .wrapper h5,
+  .wrapper h6 {
+    font-size: 20px !important;
+    line-height: 24px !important;
+  }
+}

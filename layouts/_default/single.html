@@ -1,0 +1,11 @@
+{{ partial "header.html" . }}
+
+{{ partial "logo.html" . }}
+
+<div itemscope="" itemtype="http://schema.org/Blog">
+    {{ partial "article_body.html" (dict "Page" . "IsList" false) }}
+</div>
+
+{{ partial "utterances/script" . }}
+
+{{ partial "footer.html" . }}

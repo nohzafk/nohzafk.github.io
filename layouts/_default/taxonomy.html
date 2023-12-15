@@ -1,0 +1,14 @@
+{{ partial "header.html" . }}
+
+{{ partial "logo.html" . }}
+
+<h1>{{ .Title }}</h1>
+
+{{ range where .Pages "Type" "in" (slice "posts" "notes") }}
+
+{{ partial "article_body.html" (dict "Page" . "IsList" true) }}
+
+{{ end }}
+
+
+{{ partial "footer.html" . }}

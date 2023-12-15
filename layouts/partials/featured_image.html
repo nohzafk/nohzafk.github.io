@@ -1,0 +1,8 @@
+{{/* don't show featured image on homepage */}}
+{{/* featured image only show on post for a good looking to share to social media */}}
+{{/* image is displayed in its entirety without cropping, centered inside a container that has a 16:9 aspect ratio*/}}
+{{ with .Params.image }}
+<div class="featured-img">
+    <img src="{{ . }}" alt="{{ $.Title }}">
+</div>
+{{ end }}

@@ -1,0 +1,32 @@
+<div class="timeline">
+    {{ range where .Pages "Type" "posts" }}
+    <div class="article">
+        <div class="ayear text-mono">{{ .Date.Year}}</div>
+        <div class="amonth text-mono">{{ printf "%02d" (.Date.Month) }}</div>
+        <div class="atitle">
+            <a class="nolink" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </div>
+    </div>
+    {{ end }}
+</div>
+<script>
+    let previousYear = null;
+    let previousMonth = null;
+
+    document.querySelectorAll('.article').forEach((article) => {
+        const year = article.querySelector('.ayear');
+        const month = article.querySelector('.amonth');
+
+        if (year.textContent === previousYear) {
+            year.style.visibility = 'hidden';
+        } else {
+            previousYear = year.textContent;
+        }
+
+        if (month.textContent === previousMonth) {
+            month.style.visibility = 'hidden';
+        } else {
+            previousMonth = month.textContent;
+        }
+    });
+</script>

@@ -1,0 +1,9 @@
+{{ with .Params.Tags }}
+<div class="tags">
+    <span>
+        {{ range . }}
+        <a class="tags text-mono nolink" href="/tags/{{ . }}">#{{ . }}</a>
+        {{ end }}
+    </span>
+</div>
+{{ end }}

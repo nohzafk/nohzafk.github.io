@@ -1,0 +1,69 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "Away From Keyboard"
+googleAnalytics = "G-L1RDJZ2L1W"
+disqusShortname = ""
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
+footnotereturnlinkcontents = "↩"
+enableRobotsTXT = true
+
+[permalinks]
+notes = "/notes/:filename/"
+posts = "/posts/:filename/"
+
+[[menu.main]]
+name = "Home"
+url = ""
+weight = 1
+
+[[menu.main]]
+name = "About"
+url = "about/"
+weight = 2
+
+[[menu.main]]
+name = "Posts"
+url = "posts/"
+weight = 3
+
+[[menu.main]]
+name = "Notes"
+url = "notes/"
+weight = 4
+
+[[menu.main]]
+name = "Tags"
+url = "tags/"
+weight = 5
+
+[[menu.main]]
+name = "RSS"
+url = "index.xml"
+
+[params]
+description = "Patching life's bugs: One commit at a time"
+footer = "&copy; {name} 2017 -- {Year} | [Github]({github})"
+github = "https://github.com/nohzafk"
+name = "nohz.afk"
+cfWebAnalytics = ""
+
+[params.utterances]
+repo = "nohzafk/blog-comment"
+
+
+[markup]
+[markup.highlight]
+codeFences = false
+
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
+
+# utterance support
+[module]
+[[module.imports]]
+path = "github.com/hugomods/utterances"
+
+# panguSpacing shortcode
+[[module.imports]]
+path = "github.com/nohzafk/hugo-pangu-spacing"

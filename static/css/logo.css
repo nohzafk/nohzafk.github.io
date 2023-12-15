@@ -1,0 +1,43 @@
+/* Logo Grid Container */
+.logo-grid {
+    position: relative;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: calc(100vw * 9 /16 - 40px);
+    max-height: 240px;
+}
+
+.logo-grid::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 29px,
+            #ddd 29px,
+            #ddd 30px,
+            transparent 30px,
+            transparent 59px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 29px,
+            #ddd 29px,
+            #ddd 30px,
+            transparent 30px,
+            transparent 59px);
+    /* This ensures the grid lines are behind the content of the logo-grid container */
+    z-index: -1;
+}
+
+/* Title Logo Inside the logo-grid Container */
+.logo {
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 8px;
+    font-family: 'Fira Code', Optima, Candara, Calibri, Arial, sans-serif;
+}

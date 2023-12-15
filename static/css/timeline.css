@@ -1,0 +1,45 @@
+.timeline {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.article {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ayear,
+.amonth {
+    font-size: 1.2em;
+    /* This means the items won't grow or shrink and will respect the width we've set */
+    flex: 0 0 auto;
+    transform: rotate(-25deg);
+    /* Rotate the text */
+    white-space: nowrap;
+    /* Ensure that the text doesn't wrap to the next line */
+    transform-origin: bottom left;
+    /* Set the pivot point for the rotation */
+}
+
+.amonth {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.atitle {
+    /* This allows the title to take up the remaining space */
+    flex: 1;
+    position: relative;
+    padding-left: 15px;
+}
+
+.atitle::before {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    bottom: -0.8rem;
+    left: 0;
+    border-left: 3.8px solid #ededeb;
+}

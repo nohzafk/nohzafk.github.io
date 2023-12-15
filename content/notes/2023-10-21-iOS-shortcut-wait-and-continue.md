@@ -1,0 +1,11 @@
+---
+title: "2023-11-06-055122"
+date: "2023-11-06T05:51:22+08:00"
+tags: [a-shell, ios]
+---
+
+When using the a-shell action in iOS Shortcuts to execute shell commands or Python scripts, it is often necessary to wait for the execution to finish before continuing to execute other actions.
+
+This can be achieved by using the `open shortcuts://` command as the last step in the a-shell action and adding a `Wait for Return` action afterwards. This combination allows for waiting until a-shell finishes executing a long-running process before proceeding with other actions.
+
+![](/images/20231021_77d0cf.jpg)

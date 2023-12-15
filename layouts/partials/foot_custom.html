@@ -1,0 +1,35 @@
+{{/* scroll to top */}}
+<script>
+    const up = document.querySelector('#up');
+    if (up) {
+        up.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+    }
+</script>
+
+{{/* https://cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.js */}}
+<script defer src="/js/center-img.min.js"></script>
+
+{{/* https://hugocodex.org/add-ons/lightbox/ */}}
+<script type="text/javascript" src="/js/lightbox.js"></script>
+<link rel="stylesheet" href="/css/lightbox.css" />
+
+
+{{/* highlightjs */}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+{{/* schemas SEO */}}
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "url": "{{ .Site.BaseURL }}",
+    "name": "{{ $.Site.Params.name }}",
+    "sameAs": [ "{{ $.Site.Params.github }}" ]
+}
+</script>
+
+{{ partial "cf_web_analytics.html" . }}

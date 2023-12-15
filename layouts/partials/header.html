@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" xml:lang="{{ .Site.LanguageCode }}" itemscope itemtype="http://schema.org/WebSite">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+    {{ $sccss := resources.Get "css/noto-sans-sc.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $sccss.RelPermalink }}" />
+
+    <link rel="stylesheet" href="{{ "css/fonts.css" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/logo.css" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/timeline.css" | relURL }}" />
+    
+    {{ partial "head_custom.html" . }}
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu text-mono">
+      {{ range .Site.Menus.main }}
+      <li><a class="nolink" href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+      {{ end }}
+    </ul>
+    </nav>
