@@ -3,22 +3,24 @@ title: Leveraging Emacs 29.1  Use-Package and Other emacs lisp tips
 date: 2023-12-24T02:51:47+0800
 tags: [emacs, lisp]
 ---
-## built-in use-package 
+## built-in **use-package**
 As a seasoned Emacs user, I've been eagerly anticipating the built-in arrival of use-package in version 29.1. And now it's finally here! This [declarative configuration tool](https://www.masteringemacs.org/article/spotlight-use-package-a-declarative-configuration-tool) has already become my go-to for confining all the chaotic Emacs configurations, making everything more organized and manageable. So, if you haven't already, I'd wholeheartedly recommend upgrading your Emacs to the latest version 29.1.
 
 ## Tips for Checking Package Installation 
 
 When you're neck-deep in code, it's quite common to forget whether you've installed a particular package or not. Emacs has got you covered with several commands: 
 
-- featurep: Use this if a package ends with provide. 
-- fboundp: This comes in handy when you need to check if a certain function is defined. 
-- bound-and-true-p: Use this to confirm whether a global minor mode is both installed and activated.
+- **featurep**: Use this if a package ends with provide. 
+- **fboundp**: This comes in handy when you need to check if a certain function is defined. 
+- **bound-and-true-p**: Use this to confirm whether a global minor mode is both installed and activated.
 
 ## The Power of cl-letf 
 
 I've found [**cl-letf**](https://www.gnu.org/software/emacs/manual/html_mono/cl.html#Macros) to be incredibly useful when I need to dynamically and temporarily override functions and values defined externally. It's particularly handy when paired with advice, allowing me to alter the behavior of third-party packages without meddling with their source code.
 
 Here's a practical example of how to override a function defined in a package. The code modifies the behavior of original-split-window-horizontally inside create-window so that no matter what argument it receives, a fixed width is used:
+
+```elisp 
 (defun my-create-window-advice (orig-fun &rest args)
   "Advice to modify the behavior of `split-window-horizontally' in `create-window'."
   (let ((original-split-window-horizontally (symbol-function 'split-window-horizontally))
@@ -29,7 +31,7 @@ Here's a practical example of how to override a function defined in a package. T
       (apply orig-fun args))))
 
 (advice-add 'create-window :around #'my-create-window-advice)
- 
+```
 
 ## Embracing thread-first and thread-last Macros
 
@@ -42,9 +44,12 @@ In Emacs Lisp, the thread-first (`->`) and thread-last (`->>`) macros are powerf
 The thread-first macro (`->`) takes the first argument and threads it as the second item in the next form, and so on. This is particularly useful when the output of one function is the input of the next.
 
 #### Example:
+
+```elisp
 (-> (list 1 2 3)
     (mapcar (lambda (x) (+ x 1)))
     (seq-filter (lambda (x) (> x 2))))
+```
 
 In this example, the list (1 2 3) is first passed to mapcar, which increments each element. The result is then passed to seq-filter, which filters out elements less than or equal to 2. The macro makes it clear that the operations are applied in sequence.
 
@@ -53,8 +58,17 @@ In this example, the list (1 2 3) is first passed to mapcar, which increments ea
 The thread-last macro (`->>`) is similar to thread-first, but it threads the first argument as the last item in the next form. This is useful when the function takes the primary input as its last argument.
 
 ##### Example:
+
+```elisp
 (->> (list 1 2 3)
      (mapcar (lambda (x) (+ x 1)))
      (seq-remove (lambda (x) (<= x 2))))
+```
 
 Here, the same operations are applied as in the thread-first example. However, the ->> macro is used, which would be more suitable if the functions being applied expected their main argument as the last parameter.
+
+Both thread-first and thread-last are syntactic sugar that can make code involving sequences of operations more readable and maintainable. They are particularly useful in data transformation pipelines and can significantly enhance the clarity of functional programming patterns in Emacs Lisp.
+
+## Summary 
+
+After a decade of using Emacs, it continues to be an indispensable part of my programming arsenal. Once one has really recognized the extensibility of emacs, it’s hard to not miss it every time using another editor.
