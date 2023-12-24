@@ -39,35 +39,7 @@ One of my favorite features of Emacs version 25 and onwards is the built-in thre
 
 In Emacs Lisp, the thread-first (`->`) and thread-last (`->>`) macros are powerful tools for improving the readability of function call sequences. They allow for a more intuitive and linear style of writing nested function calls, especially useful in situations where you have multiple operations that need to be applied in sequence.
 
-###  thread-first (`->`) Macro:
-
-The thread-first macro (`->`) takes the first argument and threads it as the second item in the next form, and so on. This is particularly useful when the output of one function is the input of the next.
-
-#### Example:
-
-```elisp
-(-> (list 1 2 3)
-    (mapcar (lambda (x) (+ x 1)))
-    (seq-filter (lambda (x) (> x 2))))
-```
-
-In this example, the list (1 2 3) is first passed to mapcar, which increments each element. The result is then passed to seq-filter, which filters out elements less than or equal to 2. The macro makes it clear that the operations are applied in sequence.
-
-### thread-last (`->>`) Macro:
-
-The thread-last macro (`->>`) is similar to thread-first, but it threads the first argument as the last item in the next form. This is useful when the function takes the primary input as its last argument.
-
-##### Example:
-
-```elisp
-(->> (list 1 2 3)
-     (mapcar (lambda (x) (+ x 1)))
-     (seq-remove (lambda (x) (<= x 2))))
-```
-
-Here, the same operations are applied as in the thread-first example. However, the ->> macro is used, which would be more suitable if the functions being applied expected their main argument as the last parameter.
-
-Both thread-first and thread-last are syntactic sugar that can make code involving sequences of operations more readable and maintainable. They are particularly useful in data transformation pipelines and can significantly enhance the clarity of functional programming patterns in Emacs Lisp.
+https://codelearn.me/2023/05/28/emacs_thread_macros.html
 
 ## Summary 
 
