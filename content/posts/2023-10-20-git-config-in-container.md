@@ -27,7 +27,7 @@ Another approach is to prepare a `.gitconfig` file on your host system with the 
 
 To do this, create a `.gitconfig` file on your host system with the desired Git settings. For example:
 
-```shell
+```ini
 [user]
     name = Your Name
     email = email@example.com
@@ -35,7 +35,7 @@ To do this, create a `.gitconfig` file on your host system with the desired Git 
 
 Next, include the following line in your Dockerfile:
 
-```Dockerfile
+```dockerfile
 COPY .gitconfig /root/.gitconfig
 ```
 

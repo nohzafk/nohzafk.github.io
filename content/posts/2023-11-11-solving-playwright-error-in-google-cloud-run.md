@@ -10,7 +10,7 @@ I recently ventured into deploying a service on Google Cloud Run. My goal was st
 
 During the development phase, I worked with a `python:3.11-slim` base image on `macOS`, and my Dockerfile functioned without a hitch. Here's a snapshot of the Dockerfile I used:
 
-```text
+```dockerfile
 from python:3.11-slim
 
 RUN apt-get update && \
@@ -64,7 +64,7 @@ After some search and experiments, I found the only solution in to [specify the 
 
 using `python:3.11-slim-bookworm`
 
-```text
+```dockerfile
 FROM python:3.11-slim-bookworm
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright
@@ -85,7 +85,7 @@ RUN PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright && \
 
 using `ubuntu:22.04`
 
-```text
+```dockerfile
 FROM ubuntu:22.04
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/app/ms-playwright

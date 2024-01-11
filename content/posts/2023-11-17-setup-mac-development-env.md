@@ -83,7 +83,7 @@ git config --global alias.ss status
 ### git-delta
 `~/.gitconfig`
 
-```text
+```ini
 [core]
     pager = delta
 
@@ -103,12 +103,14 @@ git config --global alias.ss status
 
 
 ## fish shell
+
 ```shell
 starship preset nerd-font-symbols -o ~/.config/starship.toml
 ```
 
 add to `~/.config/fish/config.fish`
-```text
+
+```shell
 # Add HomeBrew's bin directory to path so you can use HomeBrew's binaries like `starship`
 # Fish uses `fish_add_path` instead of `export PATH` modify $PATH.
 fish_add_path "/opt/homebrew/bin/"
@@ -125,12 +127,12 @@ plugin:
 ### abbreviation
 add to `~/.config/fish/config.fish`
 
-```text
+```shell
 source ~/.config/fish/abbreviation.fish
 ```
 
 create `abbreviation.fish`
-```text
+```shell
 abbr proxyall "set --export http_proxy http://127.0.0.1:7890; set --export https_proxy http://127.0.0.1:7890"
 ```
 
@@ -208,7 +210,7 @@ skhd config
 
 `cmd + ctrl + shift + alt` is the `Hyper` Key configurated using `Karabiner-Elements`
 
-```text
+```shell
 # change focus between external displays (left and right)
 cmd + ctrl + shift + alt - p : yabai -m display --focus west
 cmd + ctrl + shift + alt - n : yabai -m display --focus east
