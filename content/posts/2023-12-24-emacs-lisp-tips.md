@@ -20,7 +20,7 @@ I've found [**cl-letf**](https://www.gnu.org/software/emacs/manual/html_mono/cl.
 
 Here's a practical example of how to override a function defined in a package. The code modifies the behavior of original-split-window-horizontally inside create-window so that no matter what argument it receives, a fixed width is used:
 
-```elisp 
+```lisp 
 (defun my-create-window-advice (orig-fun &rest args)
   "Advice to modify the behavior of `split-window-horizontally' in `create-window'."
   (let ((original-split-window-horizontally (symbol-function 'split-window-horizontally))
@@ -37,7 +37,7 @@ Here's a practical example of how to override a function defined in a package. T
 
 One of my favorite features of Emacs version 25 and onwards is the built-in thread-first and thread-last macros. These can prove immensely useful when dealing with complex data transformations - they help maintain clean and readable code.
 
-In Emacs Lisp, the thread-first (`->`) and thread-last (`->>`) macros are powerful tools for improving the readability of function call sequences. They allow for a more intuitive and linear style of writing nested function calls, especially useful in situations where you have multiple operations that need to be applied in sequence.
+In Emacs Lisp, the **thread-first** and **thread-last** are powerful tools for improving the readability of function call sequences. They allow for a more intuitive and linear style of writing nested function calls, especially useful in situations where you have multiple operations that need to be applied in sequence.
 
 https://codelearn.me/2023/05/28/emacs_thread_macros.html
 
