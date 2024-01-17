@@ -1,6 +1,6 @@
 ---
 title: memorize wetter vocabulary
-date: 2024-01-17T07:30:32+0800
+date: 2024-01-17T07:58:53+0800
 tags: [german]
 ---
 # different weather phenomena along with their genders.
@@ -14,7 +14,7 @@ tags: [german]
 7. **der Sturm** (the storm) - Masculine
 8. **der Wind** (the wind) - Masculine
 
-# **Mnemonic Device:**
+# Mnemonic Device
 
 - **Feminine (die)**: Think of **Sun and Clouds** as nurturing elements in nature, traditionally associated with feminine qualities. Hence, "die Sonne" (sun) and "die Wolke" (cloud) are feminine.
 
