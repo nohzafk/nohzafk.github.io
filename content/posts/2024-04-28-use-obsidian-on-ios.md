@@ -1,6 +1,7 @@
 ---
 title: use Obsidian on iOS
-date: 2024-04-28T13:46:12+0800
+date: 2024-04-28T13:50:09+0800
+tags: [ios, obisidian]
 ---
 Obsidian works amazingly well on iOS, it is really satisfying to write notes on mobile with it. Along with iOS shortcuts and automation, using Obsidian streamlines your mobile note-taking experience like never before.
 
@@ -15,7 +16,7 @@ Use this excellent font for low vision reading , perfect for using with Obsidian
 
 this plugin exposes api to Obsidian via schema URL, combing it with iOS shortcuts make it possible to perform complex automation, like creating note, appending note and reordering list (via Sort & Permutation plugin).
 
-there is a Call Command parameter for calling command from other plugins, which is the key component to automate with iOS shortcuts.
+there is a ==Call Command== parameter for calling command from other plugins, which is the key component to automate with iOS shortcuts.
 
 ## example: add to list and reorder list alphabetically
 
@@ -32,4 +33,4 @@ use commands from various plugin to do following steps:
 - trim white space, via [trim whitespace](obsidian://show-plugin?id=obsidian-trim-whitespace)
 - reorder list, via [Sort & Permute lines](obsidian://show-plugin?id=obsidian-sort-and-permute-lines)
 
-![](/images/20240428_b6688d.jpg
+![](/images/20240428_b6688d.jpg)
