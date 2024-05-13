@@ -52,6 +52,8 @@ Use this excellent font for low vision reading , perfect for using with Obsidian
 Enable [Custom Font Loader](obsidian://show-plugin?id=custom-font-loader) plugin, enable multiple fonts.
 
 Custom CSS of using different fonts for default and code block.
+
+```css
 :root * {
   --font-default: Atkinson-Hyperlegible-Regular-102a;
   --default-font: Atkinson-Hyperlegible-Regular-102a;
@@ -77,6 +79,7 @@ font-family: 'Iosevka';
 .cm-s-obsidian span.cm-inline-code {
 font-family: 'Iosevka';
 }
+```
 
 ## references
 [How to increase Code block font?! - #2 by ariehen - Custom CSS & Theme Design - Obsidian Forum](https://forum.obsidian.md/t/how-to-increase-code-block-font/70013/2)
