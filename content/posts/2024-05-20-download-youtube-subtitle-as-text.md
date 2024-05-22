@@ -1,7 +1,10 @@
 ---
 title: use yt-dlp to download youtube subtitle as plain text
 date: 2024-05-22T14:07:19+0800
+tags: [tool, youtube]
 ---
+
+```shell
 # Function to download and process subtitles
 download_and_process_subtitles() {
     local video_url="$1"
@@ -29,3 +32,4 @@ BASE_FILENAME="basename"
 
 # Call the function
 download_and_process_subtitles "$VIDEO_URL" "$BASE_FILENAME"
+```
