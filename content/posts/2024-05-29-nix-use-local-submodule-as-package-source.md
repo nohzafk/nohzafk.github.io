@@ -1,11 +1,14 @@
 ---
 title: nix use local submodule as package source
-date: 2024-05-29T09:04:20+0800
+tags: [flake, nix, submodule]
+date: 2024-05-29T10:13:23+0800
 ---
 Found a hacked way to use local submodule directory as nix package source, so that I might separate different configuration using different git repos.
 
 in `flake.nix` add local submodule as input
+
 ```nix
+# flake.nix
 inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:lnl7/nix-darwin";
@@ -49,4 +52,6 @@ pkgs.stdenv.mkDerivation {
 }
 ```
 
-and `pkg-sketchybar-config` can be included in home.nix as regular package.
+and `pkg-sketchybar-config` can be included in `home.nix` as regular package.
+
+#nix-darwin
