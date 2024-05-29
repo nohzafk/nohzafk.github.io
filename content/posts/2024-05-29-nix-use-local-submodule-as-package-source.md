@@ -1,6 +1,5 @@
 ---
 title: nix use local submodule as package source
-tags: [nix-darwin]
 date: 2024-05-29T09:04:20+0800
 ---
 Found a hacked way to use local submodule directory as nix package source, so that I might separate different configuration using different git repos.
@@ -24,6 +23,8 @@ inputs = {
 `config-sketchybar` is a local git submodule, we can define a package using it as source.
 
 `pkg-sketchybar-config.nix`
+
+```nix
 { inputs, pkgs, ... }:
 
 pkgs.stdenv.mkDerivation {
@@ -49,5 +50,3 @@ pkgs.stdenv.mkDerivation {
 ```
 
 and `pkg-sketchybar-config` can be included in home.nix as regular package.
-
-#nix-darwin
