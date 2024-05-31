@@ -1,7 +1,7 @@
 ---
 title: Integration Obsidian with Emacs
 tags: [emacs, emacsclient, obsidian]
-date: 2024-05-31T21:08:41+0800
+date: 2024-05-31T21:12:02+0800
 ---
 ## [Emacs-obsidian](https://github.com/licht1stein/obsidian.el)
 might be too overkill for me , just opening note in Emacs for intensive editing is enough. 
@@ -9,7 +9,7 @@ might be too overkill for me , just opening note in Emacs for intensive editing 
 
 use [Deft Mode](https://youtu.be/mldoUx_wi10?si=e3avbZIKtAkOWHNz)
 
-# from [[Obsidian]]: open current file in Emacs
+## from [[Obsidian]]: open current file in Emacs
 
 [open file and go to line](https://stackoverflow.com/questions/3139970/open-a-file-at-line-with-filenameline-syntax)
 command for **emacsclient** to open a.txt at line 4 column 3
