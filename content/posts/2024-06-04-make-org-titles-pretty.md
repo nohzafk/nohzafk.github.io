@@ -1,6 +1,6 @@
 ---
 title: Make Emacs Org titles pretty
-tags: [elisp, headings, org]
+tags: [elisp, emacs, org]
 date: 2024-06-03T17:24:44+0800
 ---
 # different height for Org mode headings
