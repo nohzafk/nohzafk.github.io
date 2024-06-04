@@ -9,7 +9,7 @@ modify only the height of headings in Org mode without affecting other attribute
 Instead of using **custom-theme-set-faces** which replaces the whole face definition (and could unintentionally override theme-specific settings like color), use **set-face-attribute**
 
 **doom-emacs** config example
-```elisp
+```lisp
 (after! org
   ;; Adjust the height of org headings upon org-mode startup
   (add-hook 'org-mode-hook (lambda ()
