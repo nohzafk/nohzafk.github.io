@@ -13,7 +13,7 @@ If you are editing a file, the function will display the file path. Otherwise, i
 for example, `~/projects/blog/content/posts/emacs-frame-title-format.md` will be display as `~/p/b/c/posts/emacs-frame-title-format.md`
 
 
-```elisp
+```lisp
 
 (defun shorten-path-for-title (path)
   "Shorten a file PATH to be displayed in the frame title.
