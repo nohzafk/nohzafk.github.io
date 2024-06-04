@@ -1,14 +1,14 @@
 ---
 title: disable vertico-posframe during search
 post: 2024-06-04-disable-vertico-posframe-during-search.md
-date: 2024-06-04T09:47:08+0800
-tags: [elisp, emacs, posframe]
+date: 2024-06-04T09:50:06+0800
+tags: [emacs, lisp, vertico-posframe]
 ---
 I use [vertico-postframe](https://github.com/tumashu/vertico-posframe) to place my completion window at the center of screen, however when doing incremental search like doom-emacs `SPC s s`, it will block the man window.
 
 Here is how to temporarily disable **vertico-posframe-mode** in Emacs before executing a function, like an incremental search, and then re-enable it afterward.
 
-```elisp
+```lisp
 (defun my-search-without-posframe ()
   "Perform a search without `vertico-posframe-mode' temporarily."
   (interactive)
@@ -24,7 +24,7 @@ Here is how to temporarily disable **vertico-posframe-mode** in Emacs before exe
 
 in `config.el`
 
-```elsip
+```lisp
 (map! :leader
       :desc "Search without posframe"
       "s s" #'my-search-without-posframe)
