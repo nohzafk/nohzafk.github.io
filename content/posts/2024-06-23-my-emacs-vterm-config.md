@@ -12,7 +12,7 @@ use `edit <file>` in **vTerm** buffer will open file at the new window above vTe
 
 `vterm.fish`
 
-```shell
+```bash
 # https://github.com/akermu/emacs-libvterm
 function vterm_printf
     if begin
