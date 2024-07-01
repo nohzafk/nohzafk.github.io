@@ -2,7 +2,7 @@
 title: Usage of Result type in Gleam/Rust
 post: 2024-07-01-usage-of-result-type-in-gleam-rust.md
 date: 2024-07-01T15:32:21+0800
-tags: [error_handling, result.or, result.unwrap]
+tags: [gleam, type_system]
 ---
 # typical usage of result.unwrap and result.or
 
