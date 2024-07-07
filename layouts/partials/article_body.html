@@ -2,10 +2,11 @@
 <div class="wrapper">
   <section class="front" itemprop="blogPosts" itemscope="" itemtype="http://schema.org/BlogPosting">
     <article>
-      <header {{ if eq .Section "notes" }}style="display: none;" {{ end }}>
+      {{ if eq .Section "posts" }}
+      <header>
         <h1>
-          <a class="nolink" href="{{ .RelPermalink }}" {{ if eq .Section "posts" }}itemprop="url" {{end}}>
-            <span class="vmiddle" itemprop="name headline mainEntityOfPage">{{ .Title | markdownify}}</span>
+          <a class="nolink" href="{{ .RelPermalink }}" itemprop="url">
+            <span class="vmiddle" style="color: #54433a;" itemprop="name headline mainEntityOfPage">{{ .Title | markdownify}}</span>
             <svg class="vmiddle" class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="24"
               shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
               stroke-width="1.5" viewBox="0 0 24 24" width="24"
@@ -30,11 +31,23 @@
             {{ .ReadingTime }} minute{{ if (ne .ReadingTime 1) }}s{{ end }} to read
           </li>
         </ul>
-        {{ if eq .Section "posts" }}
         {{ partial "tags.html" . }}
-        {{ end }}
-
       </header>
+      {{ end }}
+      {{ if eq .Section "notes" }}
+      <header>
+        <h2>
+          <span class="vmiddle" style="color: #54433a;" itemprop="name headline mainEntityOfPage">{{ .Title | markdownify}}</span>
+        </h2>
+        <ul class="subline" style="display: none;">
+          <li>
+            <time itemprop="datePublished dateModified" datetime={{ .Date.Format "2006/01/02" }}>
+              {{ .Date.Format "2006/01/02" }}
+            </time>
+          </li>
+        </ul>
+      </header>
+      {{ end }}
 
       {{ if not $.IsList }}
       {{ partial "featured_image.html" . }}
@@ -42,7 +55,7 @@
 
       <div class="main" itemprop="articleBody">
         <div class="{{ .Section }}">
-          {{ partial "content.html" .Content }}          
+          {{ partial "content.html" .Content }}
         </div>
       </div>
 
