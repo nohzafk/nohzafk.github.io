@@ -32,7 +32,7 @@ Erlang references are unique identifiers created by the Erlang runtime system. T
 4. Erlang-specific: They are native to the BEAM VM, so they work well with Gleam, which runs on this VM.
 
 It's important to note that:
-- Erlang references are not persistent across program runs. If you need to save and reload your tensors, you'll need to implement a serialization strategy.
+- Erlang references are not persistent across program runs. If you need to save and reload your records, you'll need to implement a serialization strategy.
 - References are not garbage collected until the object they're associated with is no longer referenced.
 
 ## Example
