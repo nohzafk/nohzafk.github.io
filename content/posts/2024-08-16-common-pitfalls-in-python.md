@@ -2,7 +2,7 @@
 title: Common pitfalls in Python
 post: 2024-08-16-common-pitfalls-in-python.md
 date: 2024-08-15T22:08:48+0800
-tags: [closures, default_arguments, gil]
+tags: [gil, python]
 ---
 Python is a great language but not perfect. 
 
