@@ -1,19 +1,19 @@
 ---
-title: Min P and Temperature
+title: Minimum Probability and Temperature
 post: 2024-08-18-min-p-and-temperature.md
 date: 2024-08-18T00:34:16+0800
-tags: [min_p, temperature, token]
+tags: [llm, min_p, temperature]
 ---
-# LLM Sampling Techniques: min_p and Temperature
+# LLM Sampling Techniques: Minimum Probability and Temperature
 
-## min_p Sampling
+## Minimum Probability Sampling
 
 ### Definition
-min_p sampling is a technique used in language model APIs to balance between diversity and coherence in the model's output.
+Minimum probability sampling is a technique used in language model APIs to balance between diversity and coherence in the model's output.
 
 ### How it works
 - Sets a dynamic threshold for token selection based on the probability of the most likely token.
-- The threshold is a fraction (determined by the min_p value) of the top token's probability.
+- The threshold is a fraction (determined by the **min_p** value) of the top token's probability.
 
 #### Example explanation
    Let's say min_p = 0.1, and we're generating the next token:
