@@ -1,11 +1,5 @@
-{{ partial "header.html" . }}
-
-{{ partial "logo.html" . }}
-
-<div itemscope="" itemtype="http://schema.org/Blog">
-    {{ partial "article_body.html" (dict "Page" . "IsList" false) }}
-</div>
-
-{{ partial "utterances/script" . }}
-
-{{ partial "footer.html" . }}
+{{ define "main" }}
+  {{ partial "header_table.html" . }}
+  <label class="debug-toggle-label"><input type="checkbox" class="debug-toggle" /> Debug mode</label>
+  {{ .Content }}
+{{ end }}

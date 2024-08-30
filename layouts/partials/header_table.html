@@ -1,0 +1,20 @@
+<table class="header">
+  <tr>
+    <td colspan="2" rowspan="2" class="width-auto">
+      <h1 class="title">{{ .Title }}</h1>
+      {{ with .Params.subtitle }}<span class="subtitle">{{ . }}</span>{{ end }}
+    </td>
+    <th>Version</th>
+    <td class="width-min">{{ .Params.version }}</td>
+  </tr>
+  <tr>
+    <th>Updated</th>
+    <td class="width-min"><time style="white-space: pre;">{{ .Date.Format "2006-01-02" }}</time></td>
+  </tr>
+  <tr>
+    <th class="width-min">Author</th>
+    <td class="width-auto"><a href="{{ .Site.Params.authorURL }}"><cite>{{ .Site.Params.author }}</cite></a></td>
+    <th class="width-min">License</th>
+    <td>{{ .Site.Params.license }}</td>
+  </tr>
+</table>

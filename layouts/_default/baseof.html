@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+    <link rel="stylesheet" href="{{ "css/monospace.css" | relURL }}">
+    {{ partial "head_custom.html" . }}
+</head>
+<body>
+    {{ block "main" . }}{{ end }}
+    <div class="debug-grid"></div>
+    <script src="{{ "js/index.js" | relURL }}"></script>
+</body>
+</html>
