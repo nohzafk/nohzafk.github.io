@@ -9,7 +9,6 @@ pre code.hljs {
 :not(pre)>code {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-medium);
-    font-feature-settings: "ss02" on, "ss01" on;
     padding: 0 4px;
 }
 

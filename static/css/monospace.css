@@ -1,58 +1,4 @@
-@font-face {
-    font-family: "Alliance No.1";
-    font-style: normal;
-    font-weight: 400;
-    src: url("/fonts/alliance/Alliance-No-1-Regular.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-family: "Alliance No.1";
-    font-style: italic;
-    font-weight: 400;
-    src: url("/fonts/alliance/Alliance-No-1-Italic.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-family: "Alliance No.1";
-    font-style: normal;
-    font-weight: 450;
-    src: url("/fonts/alliance/Alliance-No-1-Medium.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-family: "Alliance No.1";
-    font-style: normal;
-    font-weight: 500;
-    src: url("/fonts/alliance/Alliance-No-1-SemiBold.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-family: "Alliance No.1";
-    font-style: normal;
-    font-weight: 600;
-    src: url("/fonts/alliance/Alliance-No-1-Bold.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-family: "Alliance No.1";
-    font-style: normal;
-    font-weight: 800;
-    src: url("/fonts/alliance/Alliance-No-1-ExtraBold.woff2") format("woff2");
-    font-display: swap
-  }
-  
-  @font-face {
-    font-display: swap;
-    font-family: 'Fira Code';
-    font-style: normal;
-    font-weight: 400;
-    src: url('/fonts/fira-code-v22-latin-regular.woff2') format('woff2');
-  }
+@import url('https://fonts.cdnfonts.com/css/ibm-plex-mono-3');
 
 @font-face {
     font-display: swap;
@@ -194,8 +140,7 @@ table {
 
 /* Main Styles */
 :root {
-    --font-family: "Alliance No.1", "Fira Code", "Noto Sans SC", monospace;
-    /* --font-family: "JetBrains Mono", "Noto Sans SC", monospace; */
+    --font-family: "IBM Plex Mono", "Fira Code", "Noto Sans SC", monospace;
     --code-font-family: "Fira Code", "Lucida Console", Monaco, monospace;
     --line-height: 1.20rem;
     --border-thickness: 2px;
@@ -217,7 +162,6 @@ table {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "ss02" on, "ss01" on;
 }
 
 @media (prefers-color-scheme: dark) {
