@@ -8,6 +8,8 @@
     <label class="debug-toggle-label"><input type="checkbox" class="debug-toggle" /> Debug mode</label>
     {{ end }}
 
+    {{ partial "featured_image.html" . }}
+
     <div itemprop="articleBody">
     {{ .Content }}
     </div>
