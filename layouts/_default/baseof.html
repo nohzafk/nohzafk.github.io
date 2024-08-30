@@ -17,25 +17,26 @@
 </head>
 <body>
     <div itemscope="" itemtype="http://schema.org/Blog">
-    {{ partial "logo_table.html" . }}
+        {{ partial "logo_table.html" . }}
 
-    {{ block "main" . }}{{ end }}
+        {{ block "main" . }}{{ end }}
 
-    {{ if .Site.Params.debug }}
-        <div class="debug-grid"></div>
-        <script src="{{ "js/debug-grid.js" | relURL }}"></script>
-    {{ end }}
-
-    <footer>
-        {{ partial "foot_custom.html" . }}
-        {{ with .Site.Params.footer }}
-        <hr />
-        {{ $bottom := replace . "{Year}" now.Year }}
-        {{ $bottom := replace $bottom "{name}" $.Site.Params.name }}
-        {{ $bottom := replace $bottom "{github}" $.Site.Params.github }}
-        {{ $bottom | markdownify }}
+        {{ if .Site.Params.debug }}
+            <div class="debug-grid"></div>
+            <script src="{{ "js/debug-grid.js" | relURL }}"></script>
         {{ end }}
-      </footer>
+
+        <footer>
+            {{ partial "foot_custom.html" . }}
+            {{ with .Site.Params.footer }}
+                <hr />
+                {{ $bottom := replace . "{Year}" now.Year }}
+                {{ $bottom := replace $bottom "{name}" $.Site.Params.name }}
+                {{ $bottom := replace $bottom "{github}" $.Site.Params.github }}
+                {{ $bottom | markdownify }}
+            {{ end }}
+        </footer>
+
     </div>
 </body>
 </html>

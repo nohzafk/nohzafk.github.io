@@ -21,3 +21,8 @@ Other:
 
 - [CLI2ELI](https://github.com/nohzafk/cli2eli): Wrap any command-line tool to Emacs commands easily
 - [The Gleam Learner](https://github.com/nohzafk/the_gleam_learner): A port of [The Little Learner](https://www.thelittlelearner.com/#TheCode) ported to [Gleam](https://gleam.run/) language. This short book covers the necessary concepts about deep learning.
+
+
+### blog theme
+
+[the-monospace-web](https://github.com/owickstrom/the-monospace-web)
