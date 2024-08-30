@@ -6,6 +6,13 @@ pre code.hljs {
     white-space: pre-wrap;
 }
 
+@media (prefers-color-scheme: dark) {
+    pre code.hljs {
+        color: #fff;
+        background-color: #000;
+    }
+}
+
 :not(pre)>code {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-medium);
