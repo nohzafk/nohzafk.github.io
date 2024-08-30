@@ -1,0 +1,27 @@
+{{ define "main" }}
+
+  {{ $pages := first 25 (where .Site.RegularPages "Type" "in" (slice "posts" "notes")) }}
+
+  {{ $lastIndex := sub (len $pages) 1 }}
+
+  {{ range $index, $page := $pages }}
+
+    {{ partial "article_content.html" . }}
+
+    {{ if not (eq $index $lastIndex) }}
+    <div style="display: flex; justify-content: center;">
+        <svg class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="24"
+          shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="1.5" viewBox="0 0 24 24" width="24" style="color:var(--geist-foreground);width:24px;height:24px">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M1.05 12H7" />
+          <path d="M17.01 12h5.95" />
+        </svg>
+    </div>
+    {{ end }}
+
+  {{ end }}
+
+  {{ template "_internal/pagination.html" . }}
+
+{{ end }}

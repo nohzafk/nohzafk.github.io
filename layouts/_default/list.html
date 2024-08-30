@@ -1,56 +1,27 @@
-{{ partial "header.html" . }}
+{{ define "main" }}
 
-{{ partial "logo.html" . }}
-
-{{ if or .IsHome (eq .Section "notes") }}
-<div itemscope="" itemtype="http://schema.org/Blog">
-
-  {{ .Content }}
-
-  <!-- Initialize an empty slice -->
-  {{ $pages := slice }}
-  {{ if .IsHome }}
-
-  {{/* only show latest 25 articles on homepage */}}
-  {{ $pages = first 25 (where .Site.RegularPages "Section" "!=" "") }}
-  {{ else }}
-  {{ $paginator := .Paginate (where .Pages "Type" "notes") }}
-  {{ $pages = $paginator.Pages }}
-  {{ end }}
+  {{ $pages := first 25 (where .Site.RegularPages "Type" "in" (slice "notes")) }}
 
   {{ $lastIndex := sub (len $pages) 1 }}
 
   {{ range $index, $page := $pages }}
-  {{ partial "article_body.html" (dict "Page" $page "IsList" true) }}
-  {{ if not (eq $index $lastIndex) }}
-  <div style="display: flex; justify-content: center;">
-    <svg class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="24"
-      shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-      stroke-width="1.5" viewBox="0 0 24 24" width="24" style="color:var(--geist-foreground);width:24px;height:24px">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M1.05 12H7" />
-      <path d="M17.01 12h5.95" />
-    </svg>
-  </div>
-  {{ end }}
-  {{ end }}
-</div>
 
-{{if .IsHome }}
-<div style="display: flex; align-items: center;">
-  <a style="vertical-align: middle; float: left;" href="/posts">All Posts</a>
-  <svg id="up" style="display: inline-block; vertical-align: middle; margin-left: auto; margin-right: auto;"
-    class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="24" shape-rendering="geometricPrecision"
-    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-    width="24" style="color:var(--geist-foreground);width:24px;height:24px">
-    <path d="M17 11l-5-5-5 5" />
-    <path d="M17 18l-5-5-5 5" />
-  </svg>
-  <a style="vertical-align: middle; float: left;" href="/notes">All Notes</a>
-</div>
-{{ else }}
-{{ template "_internal/pagination.html" . }}
-{{ end }}
-{{ end }}
+  {{ partial "article_content.html" . }}
 
-{{ partial "footer.html" . }}
+    {{ if not (eq $index $lastIndex) }}
+    <div style="display: flex; justify-content: center;">
+      <svg class="with-icon_icon__MHUeb" data-testid="geist-icon" fill="none" height="24"
+        shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="1.5" viewBox="0 0 24 24" width="24" style="color:var(--geist-foreground);width:24px;height:24px">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M1.05 12H7" />
+        <path d="M17.01 12h5.95" />
+      </svg>
+    </div>
+    {{ end }}
+
+  {{ end }}
+
+  {{ template "_internal/pagination.html" . }}
+
+{{ end }}

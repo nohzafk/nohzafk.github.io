@@ -1,3 +1,67 @@
+@font-face {
+    font-family: "Alliance No.1";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/alliance/Alliance-No-1-Regular.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-family: "Alliance No.1";
+    font-style: italic;
+    font-weight: 400;
+    src: url("/fonts/alliance/Alliance-No-1-Italic.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-family: "Alliance No.1";
+    font-style: normal;
+    font-weight: 450;
+    src: url("/fonts/alliance/Alliance-No-1-Medium.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-family: "Alliance No.1";
+    font-style: normal;
+    font-weight: 500;
+    src: url("/fonts/alliance/Alliance-No-1-SemiBold.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-family: "Alliance No.1";
+    font-style: normal;
+    font-weight: 600;
+    src: url("/fonts/alliance/Alliance-No-1-Bold.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-family: "Alliance No.1";
+    font-style: normal;
+    font-weight: 800;
+    src: url("/fonts/alliance/Alliance-No-1-ExtraBold.woff2") format("woff2");
+    font-display: swap
+  }
+  
+  @font-face {
+    font-display: swap;
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/fira-code-v22-latin-regular.woff2') format('woff2');
+  }
+
+@font-face {
+    font-display: swap;
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/fira-code-v22-latin-regular.woff2') format('woff2');
+}
+
 /* Reset CSS */
 html,
 body,
@@ -131,16 +195,18 @@ table {
 /* Main Styles */
 :root {
     --font-family: "Alliance No.1", "Fira Code", "Noto Sans SC", monospace;
+    /* --font-family: "JetBrains Mono", "Noto Sans SC", monospace; */
+    --code-font-family: "Fira Code", "Lucida Console", Monaco, monospace;
     --line-height: 1.20rem;
     --border-thickness: 2px;
     --text-color: #000;
     --text-color-alt: #666;
-    --background-color: #fff;
+    --background-color: #fafafa;;
     --background-color-alt: #eee;
 
-    --font-weight-normal: 500;
+    --font-weight-normal: 400;
     --font-weight-medium: 600;
-    --font-weight-bold: 800;
+    --font-weight-bold: 500;
 
     font-family: var(--font-family);
     font-optical-sizing: auto;
@@ -148,6 +214,10 @@ table {
     font-style: normal;
     font-variant-numeric: tabular-nums lining-nums;
     font-size: 16px;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss02" on, "ss01" on;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -163,7 +233,6 @@ table {
 * {
     box-sizing: border-box;
 }
-
 
 *+* {
     margin-top: var(--line-height);
@@ -220,7 +289,6 @@ h1 {
 
 h2 {
     font-size: 1rem;
-    text-transform: uppercase;
 }
 
 hr {
@@ -298,7 +366,7 @@ table tbody tr:first-child>* {
 
 
 th {
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .width-min {
@@ -386,15 +454,7 @@ code {
 }
 
 code {
-    font-weight: var(--font-weight-medium);
-}
-
-pre code {
-    background: none;
-    font-size: 14px;
-    line-height: 20px;
-    font-family: "Fira Code", "Lucida Console", Monaco, monospace;
-    white-space: pre-wrap;
+    font-weight: var(--font-weight-normal);
 }
 
 figure {

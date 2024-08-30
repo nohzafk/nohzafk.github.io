@@ -1,0 +1,16 @@
+<section itemprop="blogPosts" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article>
+    <header>
+    {{ partial "header_table.html" . }}
+    </header>
+
+    {{ if .Site.Params.debugGrid }}
+    <label class="debug-toggle-label"><input type="checkbox" class="debug-toggle" /> Debug mode</label>
+    {{ end }}
+
+    <div itemprop="articleBody">
+    {{ .Content }}
+    </div>
+
+  </article>
+</section>

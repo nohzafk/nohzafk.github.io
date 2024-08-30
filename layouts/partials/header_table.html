@@ -1,20 +1,33 @@
 <table class="header">
   <tr>
     <td colspan="2" rowspan="2" class="width-auto">
-      <h1 class="title">{{ .Title }}</h1>
-      {{ with .Params.subtitle }}<span class="subtitle">{{ . }}</span>{{ end }}
+      <h1>
+        <a class="nolink" href="{{ .RelPermalink }}" itemprop="url">
+          <span itemprop="name headline mainEntityOfPage">
+            {{ .Title | markdownify}}
+          </span>
+        </a>
+      </h1>
     </td>
-    <th>Version</th>
-    <td class="width-min">{{ .Params.version }}</td>
-  </tr>
-  <tr>
     <th>Updated</th>
-    <td class="width-min"><time style="white-space: pre;">{{ .Date.Format "2006-01-02" }}</time></td>
+    <td class="width-min">
+      <time itemprop="datePublished dateModified" style="white-space: pre;">
+        {{ .Date.Format "2006/01/02" }}
+      </time>
+    </td>
   </tr>
   <tr>
-    <th class="width-min">Author</th>
-    <td class="width-auto"><a href="{{ .Site.Params.authorURL }}"><cite>{{ .Site.Params.author }}</cite></a></td>
-    <th class="width-min">License</th>
-    <td>{{ .Site.Params.license }}</td>
+    <th>Words</th>
+    <td itemprop="wordCount" class="width-min">
+      {{ len (split .Content " ") }}
+    </td>
+  </tr>
+  <tr>
+    <th class="width-min">Tags</th>
+    <td class="width-auto">
+      {{ partial "tags.html" . }}
+    </td>
+    <th class="width-min">Read</th>
+    <td>{{ .ReadingTime }} minute{{ if (ne .ReadingTime 1) }}s{{ end }}</td>
   </tr>
 </table>

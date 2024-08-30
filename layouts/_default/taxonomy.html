@@ -1,14 +1,11 @@
-{{ partial "header.html" . }}
+{{ define "main" }}
 
-{{ partial "logo.html" . }}
+    <h1>{{ .Title }}</h1>
 
-<h1>{{ .Title }}</h1>
+    {{ range where .Pages "Type" "in" (slice "posts" "notes") }}
 
-{{ range where .Pages "Type" "in" (slice "posts" "notes") }}
+        {{ partial "article_content.html" . }}
 
-{{ partial "article_body.html" (dict "Page" . "IsList" true) }}
+    {{ end }}
 
 {{ end }}
-
-
-{{ partial "footer.html" . }}

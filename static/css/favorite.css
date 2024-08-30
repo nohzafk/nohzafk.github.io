@@ -1,0 +1,125 @@
+/* highlightjs */
+pre code.hljs {
+    font-family: var(--code-font-family);
+    font-weight: var(--font-weight-normal);
+    background: none;
+    white-space: pre-wrap;
+}
+
+:not(pre)>code {
+    font-family: var(--code-font-family);
+    font-weight: var(--font-weight-medium);
+    font-feature-settings: "ss02" on, "ss01" on;
+    padding: 0 4px;
+}
+
+pre {
+    padding-left: 0;
+    padding: 1em;
+    border-left: 3.8px solid #e1dfdc;
+    margin-left: 0px;
+}
+
+/* blockquote style */
+blockquote {
+    border-left: 0;
+    position: relative;
+    text-align: left;
+    padding: 1rem 1.2rem;
+    /* create space for the quotes */
+    width: 90%;
+    margin: 0 auto 0;
+    background:
+        linear-gradient(to right, #ededeb 4px, transparent 4px) 0 100%,
+        /* linear-gradient(to left, #ededeb 4px, transparent 4px) 100% 0, */
+        /* linear-gradient(to bottom, #ededeb 4px, transparent 4px) 100% 0, */
+        linear-gradient(to top, #ededeb 4px, transparent 4px) 0 100%;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+
+blockquote::before {
+    content: open-quote;
+    position: absolute;
+    color: #afaaa5;
+    font-size: 48px;
+    top: -12px;
+    margin-right: -18px;
+    right: 100%;
+    font-family: var(--font-family);
+}
+
+cite {
+    font-weight: lighter;
+    font-size: 14px;
+    font-style: italic;
+}
+
+cite:before {
+    content: '\2015' ' ';
+}
+
+/* paginator */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1px;
+    list-style-type: none;
+    margin: 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 5px 15px;
+    color: #8e8985;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background-image: none;
+    text-decoration: none;
+}
+
+.page-item.disabled .page-link,
+.page-item.disabled .page-link:hover {
+    cursor: not-allowed;
+    color: #c8c3be;
+}
+
+.page-item.active .page-link {
+    color: #e1dfdc;
+}
+
+.page-link:hover {
+    color: #e1dfdc;
+}
+
+/* element */
+strong {
+    color: #ac4142;
+}
+
+.nolink {
+    text-decoration: none;
+    background-image: none;
+}
+
+.logo {
+    /* position: relative; */
+    font-size: 30px;
+    font-weight: var(--font-weight-medium);
+    font-family: var(--code-font-family);
+    margin-top: var(--line-height);
+    margin-bottom: var(--line-height);
+}
+
+footer {
+    text-align: center;
+    color: #afaaa5;
+}
+
+footer {
+    clear: both;
+}

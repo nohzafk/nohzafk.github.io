@@ -46,6 +46,7 @@ footer = "&copy; {name} 2017 -- {Year} | [Github]({github})"
 github = "https://github.com/nohzafk"
 name = "nohz.afk"
 cfWebAnalytics = ""
+debugGrid = false
 
 [params.utterances]
 repo = "nohzafk/blog-comment"

@@ -1,0 +1,14 @@
+<table class="header" >
+    <tr>
+        <td colspan="6" class="width-auto" style="border: none; text-align: center;">
+            <div class="logo">{{ .Site.Title }}</div>
+        </td>
+    </tr>
+    <tr>
+        {{ range .Site.Menus.main }}
+        <td class="width-min" style="border: none; text-align: center;">
+            <a class="nolink" href="{{ .URL | relURL }}">{{ .Name }}</a>
+        </td>
+        {{ end }}
+    </tr>
+</table>

@@ -2,7 +2,7 @@
 layout: about
 ---
 
-### _Patching life's bugs: One commit at a time_
+## Patching life's bugs: One commit at a time
 
 Welcome, this is **nohz.afk**, I am mainly a Python programmer and have been a long time **Emacs** user. My areas of interest include Cloud Computing, DevOps, and Machine Learning.
 

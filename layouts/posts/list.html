@@ -1,9 +1,5 @@
-{{ partial "header.html" .}}
-
-{{ partial "logo.html" .}}
-
-{{ .Content}}
+{{ define "main" }}
 
 {{ partial "timeline.html" . }}
 
-{{ partial "footer.html" .}}
+{{ end }}

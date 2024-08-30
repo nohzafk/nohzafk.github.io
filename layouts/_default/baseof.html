@@ -3,13 +3,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+
+    {{ $sccss := resources.Get "css/noto-sans-sc.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $sccss.RelPermalink }}" />
+
     <link rel="stylesheet" href="{{ "css/monospace.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/favorite.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />
+    <link rel="stylesheet" href="{{ "css/timeline.css" | relURL }}" />
+
     {{ partial "head_custom.html" . }}
 </head>
 <body>
+    <div itemscope="" itemtype="http://schema.org/Blog">
+    {{ partial "logo_table.html" . }}
+
     {{ block "main" . }}{{ end }}
-    <div class="debug-grid"></div>
-    <script src="{{ "js/index.js" | relURL }}"></script>
+
+    {{ if .Site.Params.debug }}
+        <div class="debug-grid"></div>
+        <script src="{{ "js/debug-grid.js" | relURL }}"></script>
+    {{ end }}
+
+    <footer>
+        {{ partial "foot_custom.html" . }}
+        {{ with .Site.Params.footer }}
+        <hr />
+        {{ $bottom := replace . "{Year}" now.Year }}
+        {{ $bottom := replace $bottom "{name}" $.Site.Params.name }}
+        {{ $bottom := replace $bottom "{github}" $.Site.Params.github }}
+        {{ $bottom | markdownify }}
+        {{ end }}
+      </footer>
+    </div>
 </body>
 </html>
