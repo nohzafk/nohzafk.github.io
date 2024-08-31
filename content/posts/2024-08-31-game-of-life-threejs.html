@@ -1,0 +1,218 @@
+---
+title: "Game of Life in Threejs using WebGL"
+date: 2024-08-31T15:19:48+08:00
+tags: ["cluade", "javascript", "webgl"]
+---
+
+<div>
+    <p>This Game of Life use <a href="https://threejs.org/", target="_blank">threejs</a> to utilize GPUs.</p>
+    <p>Implemented by Claude Sonnet 3.5 in 5 minutes.</p>
+</div>
+
+<div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+    <table id="controls">
+        <tr>
+            <td style="border: none;"><input type="number" id="gridSizeInput" min="50" max="1000" value="100" step="50"></td>
+            <td style="border: none;"><button id="updateGridBtn">Update Grid Size</button></td>
+            <td style="border: none;"><button id="resetBtn">Reset</button></td>
+            <td style="border: none;"><button id="stepBtn">Step</button></td>
+            <td style="border: none;"><button id="playPauseBtn">Pause</button></td>
+        </tr>
+    </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="vertexShader" type="x-shader/x-vertex">
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+</script>
+<script id="fragmentShader" type="x-shader/x-fragment">
+    uniform sampler2D tPreviousState;
+    uniform vec2 resolution;
+    varying vec2 vUv;
+
+    void main() {
+        vec2 texel = vec2(1.0 / resolution.x, 1.0 / resolution.y);
+        vec2 uv = vUv;
+
+        float state = texture2D(tPreviousState, uv).r;
+        float sum = 0.0;
+
+        // Count live neighbors
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                vec2 neighbor = fract(uv + vec2(float(i), float(j)) * texel);
+                sum += texture2D(tPreviousState, neighbor).r;
+            }
+        }
+
+        // Apply Game of Life rules
+        if (state > 0.5) {
+            // Cell is alive
+            gl_FragColor = (sum < 1.5 || sum > 3.5) ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(1.0, 1.0, 1.0, 1.0);
+        } else {
+            // Cell is dead
+            gl_FragColor = (sum > 2.5 && sum < 3.5) ? vec4(1.0, 1.0, 1.0, 1.0) : vec4(0.0, 0.0, 0.0, 1.0);
+        }
+    }
+</script>
+<script id="renderShader" type="x-shader/x-fragment">
+    uniform sampler2D tDiffuse;
+    varying vec2 vUv;
+
+    void main() {
+        vec4 color = texture2D(tDiffuse, vUv);
+        gl_FragColor = vec4(color.rgb, 1.0);
+    }
+</script>
+<script>
+    class GameOfLife {
+        constructor(gridSize) {
+            this.gridSize = gridSize;
+            this.isPlaying = true;
+
+            this.scene = new THREE.Scene();
+            this.camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0.1, 10);
+            this.camera.position.z = 1;
+
+            this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gameCanvas') });
+            this.updateRendererSize();
+
+            this.createRenderTargets();
+            this.createShaderMaterial();
+            this.createQuad();
+            this.resetGrid();
+
+            window.addEventListener('resize', () => this.updateRendererSize());
+        }
+
+        createRenderTargets() {
+            const options = {
+                format: THREE.RGBAFormat,
+                type: THREE.FloatType,
+                minFilter: THREE.NearestFilter,
+                magFilter: THREE.NearestFilter
+            };
+            this.rtA = new THREE.WebGLRenderTarget(this.gridSize, this.gridSize, options);
+            this.rtB = new THREE.WebGLRenderTarget(this.gridSize, this.gridSize, options);
+        }
+
+        createShaderMaterial() {
+            this.material = new THREE.ShaderMaterial({
+                uniforms: {
+                    tPreviousState: { value: null },
+                    resolution: { value: new THREE.Vector2(this.gridSize, this.gridSize) }
+                },
+                vertexShader: document.getElementById('vertexShader').textContent,
+                fragmentShader: document.getElementById('fragmentShader').textContent
+            });
+
+            this.renderMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    tDiffuse: { value: null }
+                },
+                vertexShader: document.getElementById('vertexShader').textContent,
+                fragmentShader: document.getElementById('renderShader').textContent
+            });
+        }
+
+        createQuad() {
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            this.quad = new THREE.Mesh(geometry, this.material);
+            this.scene.add(this.quad);
+        }
+
+        updateGridSize(newSize) {
+            this.gridSize = newSize;
+            this.createRenderTargets();
+            this.material.uniforms.resolution.value.set(this.gridSize, this.gridSize);
+            this.resetGrid();
+        }
+
+        updateRendererSize() {
+            const size = Math.min(800, window.innerWidth - 40, window.innerHeight - 40);
+            this.renderer.setSize(size, size);
+        }
+
+        resetGrid() {
+            const size = this.gridSize * this.gridSize * 4; // RGBA
+            const data = new Float32Array(size);
+            for (let i = 0; i < size; i += 4) {
+                const value = Math.random() > 0.5 ? 1 : 0;
+                data[i] = data[i + 1] = data[i + 2] = value;
+                data[i + 3] = 1;  // Set alpha to 1
+            }
+            const texture = new THREE.DataTexture(data, this.gridSize, this.gridSize, THREE.RGBAFormat, THREE.FloatType);
+            texture.needsUpdate = true;
+
+            this.renderer.setRenderTarget(this.rtA);
+            this.quad.material = this.renderMaterial;
+            this.renderMaterial.uniforms.tDiffuse.value = texture;
+            this.renderer.render(this.scene, this.camera);
+            this.renderer.setRenderTarget(null);
+
+            this.quad.material = this.material;
+            this.material.uniforms.tPreviousState.value = this.rtA.texture;
+        }
+
+        step() {
+            // Render to rtB
+            this.renderer.setRenderTarget(this.rtB);
+            this.renderer.render(this.scene, this.camera);
+
+            // Swap render targets
+            let temp = this.rtA;
+            this.rtA = this.rtB;
+            this.rtB = temp;
+
+            // Update uniform
+            this.material.uniforms.tPreviousState.value = this.rtA.texture;
+        }
+
+        update() {
+            if (this.isPlaying) {
+                this.step();
+            }
+
+            // Render the result to the screen
+            this.renderer.setRenderTarget(null);
+            this.quad.material = this.renderMaterial;
+            this.renderMaterial.uniforms.tDiffuse.value = this.rtA.texture;
+            this.renderer.render(this.scene, this.camera);
+
+            // Switch back to simulation material for next frame
+            this.quad.material = this.material;
+        }
+
+        togglePlayPause() {
+            this.isPlaying = !this.isPlaying;
+            document.getElementById('playPauseBtn').textContent = this.isPlaying ? 'Pause' : 'Play';
+        }
+    }
+
+    let game = new GameOfLife(100);
+
+    function animate() {
+        game.update();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // UI Controls
+    document.getElementById('resetBtn').addEventListener('click', () => game.resetGrid());
+    document.getElementById('stepBtn').addEventListener('click', () => game.step());
+    document.getElementById('playPauseBtn').addEventListener('click', () => game.togglePlayPause());
+    document.getElementById('updateGridBtn').addEventListener('click', () => {
+        const newSize = parseInt(document.getElementById('gridSizeInput').value, 10);
+        if (newSize >= 50 && newSize <= 1000) {
+            game.updateGridSize(newSize);
+        } else {
+            alert('Please enter a grid size between 10 and 1000.');
+        }
+    });
+</script>
