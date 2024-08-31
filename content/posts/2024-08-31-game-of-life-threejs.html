@@ -15,6 +15,8 @@ tags: ["cluade", "javascript", "webgl"]
         <tr>
             <td style="border: none;"><input type="number" id="gridSizeInput" min="50" max="1000" value="100" step="50"></td>
             <td style="border: none;"><button id="updateGridBtn">Update Grid Size</button></td>
+        </tr>
+        <tr>
             <td style="border: none;"><button id="resetBtn">Reset</button></td>
             <td style="border: none;"><button id="stepBtn">Step</button></td>
             <td style="border: none;"><button id="playPauseBtn">Pause</button></td>
@@ -134,8 +136,9 @@ tags: ["cluade", "javascript", "webgl"]
         }
 
         updateRendererSize() {
-            const size = Math.min(800, window.innerWidth - 40, window.innerHeight - 40);
-            this.renderer.setSize(size, size);
+                const containerWidth = this.renderer.domElement.parentElement.clientWidth;
+                const size = Math.min(800, containerWidth, window.innerHeight - 40);
+                this.renderer.setSize(size, size);
         }
 
         resetGrid() {
