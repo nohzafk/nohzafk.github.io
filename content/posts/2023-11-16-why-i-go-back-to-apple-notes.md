@@ -1,7 +1,7 @@
 ---
 title: "why I go back to Apple Notes"
 date: 2023-11-16T13:35:31+0800
-image: /images/20231116_77398e.jpg
+images: ["/images/20231116_77398e.jpg"]
 tags: [ios, tool, notion, apple]
 ---
 

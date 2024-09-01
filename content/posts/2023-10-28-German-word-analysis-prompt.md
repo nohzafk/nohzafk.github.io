@@ -1,7 +1,7 @@
 ---
 title: "ChatGPT prompt for Comprehensive Analysis of German Words"
 date: '2023-11-01T11:40:28+0800'
-image: /images/20231028_65de83.jpg
+images: ["/images/20231028_65de83.jpg"]
 tags: [chatgpt, prompt, german, linguistics]
 ---
 
@@ -24,7 +24,7 @@ When I enter a German word, your task is to provide a comprehensive analysis of 
 Refer to this format to provide a thorough understanding of the inquired German word, aiding in learning and retention of the word and related vocabulary.
 ```
 
-Here is an example. 
+Here is an example.
 
 Input: `Anzeige`
 

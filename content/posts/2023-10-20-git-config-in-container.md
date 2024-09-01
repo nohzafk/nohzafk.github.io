@@ -1,7 +1,7 @@
 ---
 title: Persisting Git Configurations in Docker Containers
 date: 2023-10-20
-image: /images/20231020_822f1c.jpg
+images: ["/images/20231020_822f1c.jpg"]
 tags: [docker, git, configuration]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Setting up a CI/CD Pipeline with Google Cloud Build and GitHub
 date: 2023-10-20
-image: /images/20231020_583856.jpg
+images: ["/images/20231020_583856.jpg"]
 tags: [ci/cd, google cloud build, github]
 ---
 
@@ -15,7 +15,7 @@ Once the APIs are enabled, the next step is to connect your GitHub repository to
 
 ## Creating Build Trigger
 
-After successfully connecting your GitHub repository, you need to create a build trigger. A build trigger defines the conditions under which a build should be triggered, such as when changes are pushed to a specific branch or tag. To create a build trigger, specify the branch or tag that should trigger the build and define the build configuration. The build configuration can be defined using a `cloudbuild.yaml` file in your repository. This file specifies the steps that should be performed during the build process. 
+After successfully connecting your GitHub repository, you need to create a build trigger. A build trigger defines the conditions under which a build should be triggered, such as when changes are pushed to a specific branch or tag. To create a build trigger, specify the branch or tag that should trigger the build and define the build configuration. The build configuration can be defined using a `cloudbuild.yaml` file in your repository. This file specifies the steps that should be performed during the build process.
 
 Here's a sample `cloudbuild.yaml` file that builds a Docker image and deploys it to Cloud Run:
 

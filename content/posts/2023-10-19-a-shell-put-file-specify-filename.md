@@ -1,9 +1,9 @@
---- 
+---
 title: Specify filename for 'put file' shortcut action of A-Shell on iOS
 date: 2023-10-20
-image: /images/20231020_2d7567.jpg
+images: ["/images/20231020_2d7567.jpg"]
 tags: [a-shell, ios, automation, scripting]
---- 
+---
 
 As of the time of writing, the current version of A-Shell is **1.12.1**.
 
@@ -20,7 +20,7 @@ getgif
 import sys
 
 if __name__ == "__main__":
-    # print the first command line argument 
+    # print the first command line argument
     print(sys.argv[1])
 ```
 
