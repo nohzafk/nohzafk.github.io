@@ -47,6 +47,7 @@ github = "https://github.com/nohzafk"
 name = "nohz.afk"
 cfWebAnalytics = ""
 debugGrid = false
+images = ["apple-touch-icon.png"]
 
 [params.utterances]
 repo = "nohzafk/blog-comment"
