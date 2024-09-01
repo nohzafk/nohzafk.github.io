@@ -150,8 +150,8 @@ table {
     --background-color-alt: #eee;
 
     --font-weight-normal: 400;
-    --font-weight-medium: 600;
-    --font-weight-bold: 500;
+    --font-weight-medium: 800;
+    --font-weight-bold: 600;
 
     font-family: var(--font-family);
     font-optical-sizing: auto;
@@ -219,7 +219,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     margin: calc(var(--line-height) * 2) 0 var(--line-height);
     line-height: var(--line-height);
 }
@@ -232,7 +232,14 @@ h1 {
 }
 
 h2 {
-    font-size: 1rem;
+    font-size: 1.5rem;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--font-weight-bold);
 }
 
 hr {
@@ -310,7 +317,7 @@ table tbody tr:first-child>* {
 
 
 th {
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .width-min {
