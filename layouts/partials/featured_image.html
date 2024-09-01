@@ -1,6 +1,6 @@
-{{/* image is displayed in its entirety without cropping, centered inside a container that has a 16:9 aspect ratio*/}}
-{{ with .Params.image }}
+{{/* image is displayed in its entirety without cropping, centered inside a container that has a 16:9 aspect ratio */}}
+{{ with index .Params.images 0 }}
 <div class="featured-img">
-    <img src="{{ . }}" alt="{{ $.Title }}">
+    <img src="{{ . }}" alt="{{ $.Title }}" />
 </div>
 {{ end }}
