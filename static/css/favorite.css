@@ -129,3 +129,14 @@ footer {
 footer {
     clear: both;
 }
+
+kbd {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 2px #fff;
+    color: #333;
+    font-weight: var(--font-weight-medium);
+    font-family: var(--code-font-family);
+    white-space: nowrap;
+}

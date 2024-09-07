@@ -11,7 +11,7 @@
     {{ partial "featured_image.html" . }}
 
     <div itemprop="articleBody">
-    {{ .Content }}
+    {{ partial "content.html" .Content }}
     </div>
 
   </article>

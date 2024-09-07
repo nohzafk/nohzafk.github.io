@@ -4,7 +4,7 @@ post: 2024-08-23-org-src-block-execute-pytest.md
 date: 2024-08-23T14:50:38+0800
 tags: [emacs, org-mode, pytest]
 ---
-I recently wanted to practice some LeetCode and write documents and code in an **org** file. To quickly test the code, I wanted to use `C-c C-c` on a **src-block** to run `pytest`. I created this snippet to enable that functionality.
+I recently wanted to practice some LeetCode and write documents and code in an **org** file. To quickly test the code, I wanted to use {#C-c C-c} on a **src-block** to run `pytest`. I created this snippet to enable that functionality.
 
 ```lisp
 (after! org
@@ -48,7 +48,7 @@ class Solution:
 #+end_src
 ```
 
-I used the built-in `tempo` to create a template. This allows me to run `M-x insert-leetcode-solution`, which inserts the template content and places the cursor on the line below "Problem".
+I used the built-in `tempo` to create a template. This allows me to run {#M-x insert-leetcode-solution}, which inserts the template content and places the cursor on the line below "Problem".
 
 ```lisp
 #+begin_src elisp :tangle config.el
