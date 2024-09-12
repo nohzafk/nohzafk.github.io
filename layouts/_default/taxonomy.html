@@ -2,7 +2,7 @@
 
     <h1>{{ .Title }}</h1>
 
-    {{ range where .Pages "Type" "in" (slice "posts" "notes") }}
+    {{ range where .Pages "Type" "eq" "posts" }}
 
         {{ partial "article_content.html" . }}
 

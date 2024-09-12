@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" (slice "posts" "notes")) }}
+  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "eq" "posts") }}
 
   {{ range $paginator.Pages }}
     {{ partial "article_content.html" . }}

@@ -8,7 +8,6 @@ footnotereturnlinkcontents = "↩"
 enableRobotsTXT = true
 
 [permalinks]
-notes = "/notes/:filename/"
 posts = "/posts/:filename/"
 
 [[menu.main]]
@@ -27,18 +26,14 @@ url = "posts/"
 weight = 3
 
 [[menu.main]]
-name = "Notes"
-url = "notes/"
-weight = 4
-
-[[menu.main]]
 name = "Tags"
 url = "tags/"
-weight = 5
+weight = 4
 
 [[menu.main]]
 name = "RSS"
 url = "index.xml"
+weight = 5
 
 [params]
 description = "Patching life's bugs: One commit at a time"
