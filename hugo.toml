@@ -31,9 +31,14 @@ url = "tags/"
 weight = 4
 
 [[menu.main]]
+name = "Projects"
+url = "projects/"
+weight = 5
+
+[[menu.main]]
 name = "RSS"
 url = "index.xml"
-weight = 5
+weight = 6
 
 [params]
 description = "Patching life's bugs: One commit at a time"

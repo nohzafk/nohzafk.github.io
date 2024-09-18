@@ -9,7 +9,7 @@ Welcome, this is **nohz.afk**, I am mainly a Python programmer and have been a l
 Here is my weblog where i jot down my thoughts about programming, share excerpts, tools, articles that I've collected.
 
 
-### Projects/Tools I've Worked On
+### [Projects]({{< relref "projects" >}}) I've Worked On
 
 I've made some efforts to integrate Emacs with devcontainer:
 

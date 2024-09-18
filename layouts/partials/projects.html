@@ -1,0 +1,29 @@
+<div class="projects-container">
+  {{ range sort .Pages "Params.weight" }}
+    <div class="project-card" {{ if .Params.repo }}onclick="window.open('{{ .Params.repo }}', '_blank')" style="cursor: pointer;"{{ end }}>
+      <h2 class="project-title">{{ .Title }}</h2>
+      <p class="project-description">{{ .Description }}</p>
+      <div class="project-tags">
+        {{ range .Params.tags }}
+          <span class="tag">{{ . }}</span>
+        {{ end }}
+        {{ if .Params.contributor }}
+          <span class="tag contributor-tag">contributor</span>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+</div>
+
+<script>
+  // Function to generate a random pastel color
+  function getRandomPastelColor() {
+      const hue = Math.floor(Math.random() * 360);
+      return `hsl(${hue}, 100%, 80%)`;
+  }
+
+  // Apply random background colors to project cards
+  document.querySelectorAll('.project-card').forEach(card => {
+      card.style.backgroundColor = getRandomPastelColor();
+  });
+</script>
