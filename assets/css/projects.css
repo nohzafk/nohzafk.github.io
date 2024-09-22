@@ -15,17 +15,6 @@
     color: #000;
 }
 
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.5) 100%);
-    z-index: 1;
-}
-
 .project-card::after {
     content: '';
     position: absolute;
@@ -33,9 +22,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 10px 10px;
-    z-index: 2;
+    z-index: 1;
 }
 
 .project-card>* {
@@ -51,14 +40,14 @@
 .project-title {
     font-size: 1.5em;
     margin-bottom: 10px;
-    color: #000;
+    color: var(--text-color);
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .project-description {
     font-size: 0.9em;
     margin-bottom: 15px;
-    color: #333;
+    color: var(--text-color-alt);
 }
 
 .project-tags {
@@ -69,7 +58,7 @@
 
 .tag {
     background-color: rgba(255, 255, 0, 0.3);
-    color: #000;
+    color: var(--text-color);
     padding: 5px 10px;
     border-radius: 15px;
     font-size: 0.8em;
@@ -78,11 +67,15 @@
 
 .contributor-tag {
     background-color: rgba(0, 0, 0, 0.1);
-    color: #000;
+    color: var(--text-color);
 }
 
 @media (max-width: 768px) {
     .projects-container {
         grid-template-columns: 1fr;
+    }
+    .tag {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: var(--text-color);
     }
 }
