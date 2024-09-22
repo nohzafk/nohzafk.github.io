@@ -16,14 +16,30 @@
 </div>
 
 <script>
-  // Function to generate a random pastel color
-  function getRandomPastelColor() {
-      const hue = Math.floor(Math.random() * 360);
-      return `hsl(${hue}, 100%, 80%)`;
-  }
+        // Function to generate a random less saturated color
+        function getRandomLessSaturatedColor(isDarkMode) {
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = isDarkMode ? '15%' : '30%';
+            const lightness = isDarkMode ? '30%' : '85%';
+            return `hsl(${hue}, ${saturation}, ${lightness})`;
+        }
 
-  // Apply random background colors to project cards
-  document.querySelectorAll('.project-card').forEach(card => {
-      card.style.backgroundColor = getRandomPastelColor();
-  });
+        // Function to determine if dark mode is active
+        function isDarkMode() {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        // Function to apply random background colors to project cards
+        function applyRandomColors() {
+            const darkMode = isDarkMode();
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.style.backgroundColor = getRandomLessSaturatedColor(darkMode);
+            });
+        }
+
+        // Initial application of colors
+        applyRandomColors();
+
+        // Reapply colors when color scheme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addListener(applyRandomColors);
 </script>
