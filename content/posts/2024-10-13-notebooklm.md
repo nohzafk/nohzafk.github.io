@@ -1,12 +1,12 @@
 ---
 title: NotebookLM
 post: 2024-10-13-notebooklm.md
-date: 2024-10-13T11:55:00+0800
+date: 2024-10-18T17:34:08+0800
 tags: [notebooklm, passive_learning, podcasts]
 ---
 # NotebookLM: A Helpful Tool for Passive Learning
 
-In my opinion, Google's NotebookLM is a very useful tool. It's great at turning information from dense formats into simpler, easier-to-understand ones, which helps with passive learning. Take podcasts, for example—while they don't pack as much information as books or articles, our brains are naturally tuned to language. By repeatedly listening to conversations from different angles, we can trigger new thoughts and slowly absorb knowledge.
+In my opinion, Google's NotebookLM is a very useful tool. It's great at turning information from high-density format into low-density, easier-to-understand one, which helps with passive learning. Take podcasts, for example—while they don't pack as much information as books or articles, our brains are naturally tuned to language. By repeatedly listening to conversations from different angles, we can trigger new thoughts and slowly absorb knowledge.
 
 Listening to podcasts while doing other activities, like commuting or exercising, allows the information to sink in more naturally. Engaging with the discussions, debates, and ideas in these podcasts can spark thinking, helping us learn without much effort.
 
