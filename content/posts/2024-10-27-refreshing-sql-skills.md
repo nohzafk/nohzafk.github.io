@@ -1,7 +1,7 @@
 ---
 title: refreshing SQL skills
 post: 2024-10-27-refreshing-sql-skills.md
-tags: [[sql, tutorial]]
+tags: [sql, tutorial]
 date: 2024-10-28T00:10:42+0800
 ---
 Recently I refreshed my SQL knowledge, and finished [Learn Advanced SQL Tutorials | Kaggle](https://www.kaggle.com/learn/advanced-sql/course). Highly recommend the Analytic Functions Exercise Section.
