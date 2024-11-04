@@ -18,6 +18,12 @@
 
     {{ template "_internal/twitter_cards.html" . }}
 
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+
+
     {{ partial "head_custom.html" . }}
 </head>
 <body>
@@ -41,13 +47,7 @@
                 {{ $bottom | markdownify }}
             {{ end }}
         </footer>
-
-        {{ if .Store.Get "hasMermaid" }}
-            <script type="module">
-                import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-                mermaid.initialize({ startOnLoad: true });
-            </script>
-        {{ end }}
+        
     </div>
 </body>
 </html>
