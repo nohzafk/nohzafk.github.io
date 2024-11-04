@@ -1,8 +1,8 @@
 ---
 title: Notes on OAuth 2.0
 post: 2024-11-04-notes-on-oauth-2-0.md
-date: 2024-11-04T21:03:05+0800
-tags: [api, oauth_2.0, tokens]
+date: 2024-11-04T22:02:06+0800
+tags: []
 ---
 # Notes on OAuth 2.0
 
@@ -44,17 +44,19 @@ sequenceDiagram
     AS->>AS: 7. Validates Auth Code
     AS->>C: 8. Returns Tokens
     Note right of AS: {<br/>"access_token": "ACCESS_789",<br/>"refresh_token": "REFRESH_111",<br/>"expires_in": 3600<br/>}
-
+    C->>U: 9. Set session cookie
+    Note right of C: Cookie contains<br/>session ID only
+    
     note over U,RS: Phase 3: Resource Access
-    C->>RS: 9. API Request with Access Token
+    C->>RS: 10. API Request with Access Token
     Note right of C: GET /api/resource<br/>Authorization: Bearer ACCESS_789
-    RS->>RS: 10. Validates Token
-    RS->>C: 11. Returns Protected Resource
+    RS->>RS: 11. Validates Token
+    RS->>C: 12. Returns Protected Resource
     
     note over U,RS: Phase 4: Token Refresh (When Access Token Expires)
-    C->>AS: 12. Refresh Token Request
+    C->>AS: 13. Refresh Token Request
     Note right of C: POST /token<br/>grant_type=refresh_token&<br/>refresh_token=REFRESH_111&<br/>client_id=123&<br/>client_secret=SECRET
-    AS->>C: 13. Returns New Access Token
+    AS->>C: 14. Returns New Access Token
     Note right of AS: {<br/>"access_token": "NEW_ACCESS_999",<br/>"expires_in": 3600<br/>}
 ```
 
