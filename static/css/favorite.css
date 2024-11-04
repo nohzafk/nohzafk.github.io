@@ -19,7 +19,7 @@ pre code.hljs {
     padding: 0 4px;
 }
 
-pre {
+pre:not(.mermaid) {
     padding-left: 0;
     padding: 1em;
     border-left: 3.8px solid #e1dfdc;

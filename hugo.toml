@@ -55,7 +55,7 @@ repo = "nohzafk/blog-comment"
 
 [markup]
 [markup.highlight]
-codeFences = false
+codeFences = true
 
 [markup.goldmark]
 [markup.goldmark.renderer]
