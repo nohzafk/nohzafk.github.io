@@ -55,7 +55,8 @@ repo = "nohzafk/blog-comment"
 
 [markup]
 [markup.highlight]
-codeFences = true
+codeFences = true # enable render code block hook (for mermaid)
+noClasses = false # tells Hugo to use CSS classes instead of inline styles
 
 [markup.goldmark]
 [markup.goldmark.renderer]
