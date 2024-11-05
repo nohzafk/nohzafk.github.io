@@ -6,10 +6,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
 footnotereturnlinkcontents = "↩"
 enableRobotsTXT = true
 
-[services]
-  [services.googleAnalytics]
-    id = "G-L1RDJZ2L1W"
-
 [permalinks]
 posts = "/posts/:filename/"
 

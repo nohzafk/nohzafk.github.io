@@ -1,5 +1,5 @@
 <!-- Google tag (gtag.js) -->
-{{ if and (eq hugo.Environment "production") .Site.GoogleAnalytics }}
+{{ if .Site.Config.Services.GoogleAnalytics.ID }}
 {{ with .Site.GoogleAnalytics }}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
 <script>
