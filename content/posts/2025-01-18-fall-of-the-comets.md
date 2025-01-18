@@ -1,7 +1,7 @@
 ---
 title: Fall of the comets
 post: 2025-01-18-fall-of-the-comets.md
-tags: ["javascript", "webgl"], ["claude"]
+tags: ["claude", "javascript", "webgl"]
 date: 2025-01-18T23:03:52+0800
 ---
 Original code from [@XorDev](https://x.com/xordev/status/1880344887033569682?s=46). 
