@@ -1,16 +1,16 @@
 ---
 title: Django gRPC workflow
 post: 2025-02-19-django-grpc-workflow.md
-date: 2025-02-19T23:28:57+0800
-tags: [django-rest-framework, django-socio-grpc, grpc]
+tags: [[post]]
+date: 2025-03-21T16:20:24+0800
 ---
+# 2025-02-19-django-grpc-workflow
 [Django-socio-grpc](https://github.com/socotecio/django-socio-grpc) (DSG) is a framework for using gRPC with Django. It builds upon django-rest-framework (DRF), making it easy for those familiar with DRF to get started with DSG.
 
 Although I decided to go back to DRF after exploring DSG, I chose to do so because I needed to get things done quickly. Using gRPC is considered a potential way to achieve performance gains, and there are some obstacles need to be addressed before going full gRPC. I'm leaving these notes as my learning experience.
 
-## The workflow 
+## The workflow
 Using django-socio-grpc (DSG) the workflow is like following:
-
 
 ```mermaid
 flowchart TD
@@ -71,32 +71,28 @@ class BigIntegerField(serializers.IntegerField):
 
     proto_type = "int64"
 
-# First, get the metaclass of ModelProtoSerializer
-ModelProtoSerializerMetaclass = type(proto_serializers.ModelProtoSerializer)
+class BigIntAwareModelProtoSerializer(proto_serializers.ModelProtoSerializer):
+    @classmethod
+    def update_field_mapping(cls):
+        # Create a new mapping dictionary inheriting from the base
+        field_mapping = dict(getattr(cls, "serializer_field_mapping", {}))
 
-class BigIntegerSerializerMetaclass(ModelProtoSerializerMetaclass):
-    def __new__(mcs, name, bases, attrs):  # noqa: D102 ANN001 ANN204 N804
-        # First, let's modify the serializer_field_mapping if it exists
-        for base in bases:
-            if hasattr(base, "serializer_field_mapping"):
-                # Create a new mapping dictionary inheriting from the base
-                field_mapping = dict(base.serializer_field_mapping)
-                # Update the mapping for BigInteger fields
-                field_mapping.update(
-                    {
-                        models.BigIntegerField: BigIntegerField,
-                        models.BigAutoField: BigIntegerField,
-                        models.PositiveBigIntegerField: BigIntegerField,
-                    }
-                )
-                # Add the modified mapping to attrs
-                attrs["serializer_field_mapping"] = field_mapping
-                break
+        # Update the mapping for BigInteger fields
+        field_mapping.update(
+            {
+                models.BigIntegerField: BigIntegerField,
+                models.BigAutoField: BigIntegerField,
+                models.PositiveBigIntegerField: BigIntegerField,
+            }
+        )
 
-        # Then proceed with the normal class creation
-        return super().__new__(mcs, name, bases, attrs)
+        # Set the modified mapping
+        cls.serializer_field_mapping = field_mapping
 
-class BigIntAwareModelProtoSerializer(proto_serializers.ModelProtoSerializer, metaclass=BigIntegerSerializerMetaclass):
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.update_field_mapping()
+
     """A ModelProtoSerializer that automatically converts Django BigInteger fields to gRPC int64 fields by modifying the field mapping."""
 ```
 
