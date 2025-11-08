@@ -1,8 +1,8 @@
 ---
 title: teaching claude code to use ast-grep
 post: 2025-11-08-teaching-claude-code-to-use-ast-grep.md
-date: 2025-11-08T22:32:42+0800
-tags: [ast-grep, mcp, ripgrep]
+date: 2025-11-08T23:34:34+0800
+tags: [ast-grep, mcp, skills]
 ---
 # **Teaching Claude Code to Use ast-grep**
 
@@ -50,3 +50,76 @@ The goal was simple: teach Claude _how to decide_ when to use ast-grep versus ri
 Here's the essence of what I wrote:
 
 ```
+---
+name: ast-grep
+description: Use ast-grep for structural code search. Fall back to ripgrep for plain-text searches.
+---
+
+# ast-grep: Strategic Code Search Guidance
+
+## Core Principle
+
+**ast-grep = Code structure** (syntax-aware, AST-based)  
+**ripgrep = Plain text** (fast, content-based)
+
+## Decision Tree
+
+Is this about CODE STRUCTURE?
+├─ YES → Use ast-grep MCP tools
+│   Examples:
+│   ✓ Find function or method definitions
+│   ✓ Locate class declarations
+│   ✓ Search for loops or conditional patterns
+│   ✓ Refactor code using syntax patterns
+└─ NO → Use ripgrep
+    Examples:
+    ✓ Search comments or docs
+    ✓ Find TODO or FIXME markers
+    ✓ Scan config files or logs
+```
+
+This gave Claude a clear rule of thumb:
+
+- **ast-grep** for anything syntax-aware
+- **ripgrep** for everything else
+
+I also added a few **anti-patterns**—things Claude should avoid:
+- ❌ Don't use ast-grep for plain text
+- ❌ Don't use ripgrep for structured code
+- ✅ Use the right tool based on intent, not habit
+
+That's it. The skill didn't try to re-document every ast-grep parameter.
+
+It just provided **strategic guidance**—the kind of context a human developer would know instinctively.
+
+## **What I Learned**
+
+The key takeaway was **separation of responsibility**:
+- **MCP** handles _what_ tools exist and _how_ they work.
+- **Skills** handle _when_ and _why_ to use them.
+
+Keeping those layers distinct made everything easier to maintain:
+- MCP updates don't break the skill.
+- Skill logic evolves independently.
+- Claude only loads the skill when it's relevant.
+
+It also keeps context light—since Skills use progressive disclosure, they load only when Claude detects the topic applies.
+
+## **Final Thoughts**
+
+Teaching Claude to use ast-grep wasn't just about wiring up another tool.
+
+It was about teaching **judgment**.
+
+By combining an MCP server (for capability) with a Skill (for reasoning), I gave Claude the intuition to pick the right search tool for the job—without me telling it what to do.
+
+That's the essence of extending Claude Code effectively:
+
+**tools give power, skills give intelligence.**
+
+### **References**
+
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [ast-grep](https://ast-grep.github.io/)
+- [ast-grep MCP Server](https://github.com/ast-grep/ast-grep-mcp)
