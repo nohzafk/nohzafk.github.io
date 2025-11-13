@@ -1,8 +1,8 @@
 ---
 title: The Dead Ends That Shaped My Obsidian System
 post: 2025-11-13-the-dead-ends-that-shaped-my-obsidian-system.md
-date: 2025-11-13T00:12:20+0800
-tags: []
+date: 2025-11-13T01:38:43+0800
+tags: [capture_workflows, friction, obsidian, vault_management]
 ---
 # **The Dead Ends That Shaped My Obsidian System**
 
