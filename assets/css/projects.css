@@ -1,81 +1,53 @@
-.projects-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
+/* Projects table */
+.projects-table {
+    margin: calc(var(--line-height) * 2) 0;
 }
 
-.project-card {
-    border-radius: 10px;
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-    color: #000;
+.projects-table thead th {
+    font-weight: var(--font-weight-medium);
+    text-align: left;
 }
 
-.project-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-    background-size: 10px 10px;
-    z-index: 1;
+.project-name {
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
 }
 
-.project-card>* {
-    position: relative;
-    z-index: 3;
+.project-name a {
+    text-decoration: none;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.project-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: var(--text-color);
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+.project-name a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-thickness);
 }
 
 .project-description {
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    color: var(--text-color-alt);
+    color: var(--text-color);
 }
 
 .project-tags {
-    display: inlblock;
-    flex-wrap: wrap;
-    gap: 5px;
+    color: var(--text-color-alt);
+    font-size: 0.9em;
+    white-space: nowrap;
 }
 
-.tag {
-    background-color: rgba(255, 255, 0, 0.3);
-    color: var(--text-color);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8em;
-    transition: background-color 0.3s, color 0.3s;
+.project-clickable {
+    cursor: pointer;
 }
 
-.contributor-tag {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: var(--text-color);
+.project-clickable:hover {
+    background: var(--background-color-alt);
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .projects-container {
-        grid-template-columns: 1fr;
+    .project-tags {
+        white-space: normal;
+        word-break: break-word;
     }
-    .tag {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: var(--text-color);
+
+    .project-name {
+        white-space: normal;
     }
 }
