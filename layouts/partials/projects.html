@@ -1,45 +1,26 @@
-<div class="projects-container">
-  {{ range sort .Pages "Params.weight" }}
-    <div class="project-card" {{ if .Params.repo }}onclick="window.open('{{ .Params.repo }}', '_blank')" style="cursor: pointer;"{{ end }}>
-      <h2 class="project-title">{{ .Title }}</h2>
-      <p class="project-description">{{ .Description }}</p>
-      <div class="project-tags">
-        {{ range .Params.tags }}
-          <span class="tag">{{ . }}</span>
+<table class="projects-table">
+  <thead>
+    <tr>
+      <th class="width-auto">Project</th>
+      <th class="width-auto">Description</th>
+      <th class="width-min">Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range sort .Pages "Params.weight" }}
+    <tr{{ if .Params.repo }} class="project-clickable" onclick="window.location.href='{{ .Params.repo }}'"{{ end }}>
+      <td class="project-name">
+        {{ if .Params.repo }}
+        <a href="{{ .Params.repo }}" target="_blank" rel="noopener">{{ .Title }}</a>
+        {{ else }}
+        {{ .Title }}
         {{ end }}
-        {{ if .Params.contributor }}
-          <span class="tag contributor-tag">contributor</span>
-        {{ end }}
-      </div>
-    </div>
-  {{ end }}
-</div>
-
-<script>
-        // Function to generate a random less saturated color
-        function getRandomLessSaturatedColor(isDarkMode) {
-            const hue = Math.floor(Math.random() * 360);
-            const saturation = isDarkMode ? '15%' : '30%';
-            const lightness = isDarkMode ? '30%' : '85%';
-            return `hsl(${hue}, ${saturation}, ${lightness})`;
-        }
-
-        // Function to determine if dark mode is active
-        function isDarkMode() {
-            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
-
-        // Function to apply random background colors to project cards
-        function applyRandomColors() {
-            const darkMode = isDarkMode();
-            document.querySelectorAll('.project-card').forEach(card => {
-                card.style.backgroundColor = getRandomLessSaturatedColor(darkMode);
-            });
-        }
-
-        // Initial application of colors
-        applyRandomColors();
-
-        // Reapply colors when color scheme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addListener(applyRandomColors);
-</script>
+      </td>
+      <td class="project-description">{{ .Description }}</td>
+      <td class="project-tags">
+        {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}{{ $tag }}{{ end }}{{ if .Params.contributor }}{{ if .Params.tags }}, {{ end }}contributor{{ end }}
+      </td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
