@@ -1,26 +1,53 @@
-<table class="projects-table">
-  <thead>
-    <tr>
-      <th class="width-auto">Project</th>
-      <th class="width-auto">Description</th>
-      <th class="width-min">Tags</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{ range sort .Pages "Params.weight" }}
-    <tr{{ if .Params.repo }} class="project-clickable" onclick="window.location.href='{{ .Params.repo }}'"{{ end }}>
-      <td class="project-name">
-        {{ if .Params.repo }}
-        <a href="{{ .Params.repo }}" target="_blank" rel="noopener">{{ .Title }}</a>
-        {{ else }}
-        {{ .Title }}
-        {{ end }}
-      </td>
-      <td class="project-description">{{ .Description }}</td>
-      <td class="project-tags">
-        {{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}{{ $tag }}{{ end }}{{ if .Params.contributor }}{{ if .Params.tags }}, {{ end }}contributor{{ end }}
-      </td>
-    </tr>
-    {{ end }}
-  </tbody>
-</table>
+{{- $projects := sort .Pages "Params.weight" -}}
+{{- $totalProjects := len $projects -}}
+{{- $contributorCount := 0 -}}
+{{- $uniqueTags := slice -}}
+{{- range $projects -}}
+    {{- if .Params.contributor -}}
+        {{- $contributorCount = add $contributorCount 1 -}}
+    {{- end -}}
+    {{- range .Params.tags -}}
+        {{- if not (in $uniqueTags .) -}}
+            {{- $uniqueTags = $uniqueTags | append . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+<div class="projects-container">
+    <div class="terminal-header">
+        <span>ls -la</span>
+        <span class="terminal-path">~/projects/</span>
+    </div>
+
+    <ul class="project-list">
+        {{- range $index, $project := $projects -}}
+        <li class="project-item"{{ if $project.Params.repo }} onclick="window.location.href='{{ $project.Params.repo }}'"{{ end }}>
+            <span class="project-prefix">drwxr-xr-x</span>
+            <span class="project-name">{{ $project.Title }}</span>
+            <div class="project-meta">
+                <div class="project-tags">
+                    {{- range $project.Params.tags -}}
+                    <span class="project-tag">{{ . }}</span>
+                    {{- end -}}
+                    {{- if $project.Params.contributor -}}
+                    <span class="project-tag contributor-badge">contrib</span>
+                    {{- end -}}
+                </div>
+            </div>
+            <p class="project-description">{{ $project.Description }}</p>
+        </li>
+        {{- end -}}
+    </ul>
+
+    <div class="terminal-footer">
+        <span class="stat-item">
+            total <span class="stat-value">{{ $totalProjects }}</span> projects
+        </span>
+        <span class="stat-item">
+            <span class="stat-value">{{ $contributorCount }}</span> contributions
+        </span>
+        <span class="stat-item">
+            <span class="stat-value">{{ len $uniqueTags }}</span> technologies
+        </span>
+    </div>
+</div>

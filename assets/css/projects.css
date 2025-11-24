@@ -1,53 +1,336 @@
-/* Projects table */
-.projects-table {
-    margin: calc(var(--line-height) * 2) 0;
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHOSPHOR TERMINAL - Projects Page
+   A vintage CRT monitor aesthetic with glowing phosphor text
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+.projects-container {
+    --phosphor-green: #39ff14;
+    --phosphor-green-dim: #1a7a0a;
+    --phosphor-green-glow: rgba(57, 255, 20, 0.4);
+    --phosphor-cyan: #00ffff;
+    --phosphor-amber: #ffb000;
+    --terminal-bg: #0a0a0a;
+    --terminal-bg-lighter: #141414;
+    --scanline-opacity: 0.03;
+    --crt-curve: 2px;
+    --glow-intensity: 0 0 10px var(--phosphor-green-glow), 0 0 20px rgba(57, 255, 20, 0.2);
 }
 
-.projects-table thead th {
-    font-weight: var(--font-weight-medium);
-    text-align: left;
+/* ─── Container with CRT effect ─────────────────────────────────────────────── */
+.projects-container {
+    position: relative;
+    background: var(--terminal-bg);
+    border: 2px solid var(--phosphor-green-dim);
+    border-radius: var(--crt-curve);
+    padding: 2rem 1.5rem;
+    margin: 2rem 0;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 100px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(57, 255, 20, 0.1);
 }
 
-.project-name {
-    font-weight: var(--font-weight-medium);
-    white-space: nowrap;
+/* Scanline overlay */
+.projects-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, var(--scanline-opacity)) 2px,
+        rgba(0, 0, 0, var(--scanline-opacity)) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
 }
 
-.project-name a {
+/* CRT flicker animation */
+.projects-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(57, 255, 20, 0.02) 50%,
+        transparent 100%
+    );
+    animation: crt-flicker 0.15s infinite;
+    pointer-events: none;
+    z-index: 9;
+    opacity: 0.5;
+}
+
+@keyframes crt-flicker {
+    0% { opacity: 0.5; }
+    50% { opacity: 0.52; }
+    100% { opacity: 0.5; }
+}
+
+/* ─── Terminal Header ───────────────────────────────────────────────────────── */
+.terminal-header {
+    font-family: 'VT323', 'IBM Plex Mono', monospace;
+    color: var(--phosphor-green);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--phosphor-green-dim);
+    text-shadow: var(--glow-intensity);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terminal-header::before {
+    content: "█";
+    animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.terminal-path {
+    color: var(--phosphor-cyan);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* ─── Project List (ls -la style) ───────────────────────────────────────────── */
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'VT323', 'IBM Plex Mono', monospace;
+}
+
+.project-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    color: var(--phosphor-green);
     text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+    cursor: pointer;
+    align-items: start;
+    font-size: 1.05rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: fade-slide-in 0.4s ease forwards;
 }
 
-.project-name a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: var(--border-thickness);
+/* Staggered animation delays */
+.project-item:nth-child(1) { animation-delay: 0.05s; }
+.project-item:nth-child(2) { animation-delay: 0.1s; }
+.project-item:nth-child(3) { animation-delay: 0.15s; }
+.project-item:nth-child(4) { animation-delay: 0.2s; }
+.project-item:nth-child(5) { animation-delay: 0.25s; }
+.project-item:nth-child(6) { animation-delay: 0.3s; }
+.project-item:nth-child(7) { animation-delay: 0.35s; }
+.project-item:nth-child(8) { animation-delay: 0.4s; }
+.project-item:nth-child(9) { animation-delay: 0.45s; }
+.project-item:nth-child(10) { animation-delay: 0.5s; }
+.project-item:nth-child(11) { animation-delay: 0.55s; }
+.project-item:nth-child(12) { animation-delay: 0.6s; }
+.project-item:nth-child(13) { animation-delay: 0.65s; }
+.project-item:nth-child(14) { animation-delay: 0.7s; }
+.project-item:nth-child(15) { animation-delay: 0.75s; }
+
+@keyframes fade-slide-in {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.project-description {
-    color: var(--text-color);
+.project-item:hover {
+    background: var(--terminal-bg-lighter);
+    border-left-color: var(--phosphor-green);
+    text-shadow: var(--glow-intensity);
 }
 
-.project-tags {
-    color: var(--text-color-alt);
+/* Glitch effect on hover */
+.project-item:hover .project-name {
+    animation: glitch-text 0.3s ease;
+}
+
+@keyframes glitch-text {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); }
+}
+
+/* ─── Project Components ────────────────────────────────────────────────────── */
+.project-prefix {
+    color: var(--phosphor-green-dim);
     font-size: 0.9em;
     white-space: nowrap;
 }
 
-.project-clickable {
-    cursor: pointer;
+.project-name {
+    color: var(--phosphor-cyan);
+    font-weight: normal;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.project-clickable:hover {
-    background: var(--background-color-alt);
+.project-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
 }
 
-/* Responsive adjustments */
+.project-description {
+    color: rgba(57, 255, 20, 0.7);
+    font-size: 0.85em;
+    grid-column: 1 / -1;
+    padding-left: calc(3ch + 1rem);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+/* ─── Tags as chmod-style permissions ───────────────────────────────────────── */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.project-tag {
+    background: transparent;
+    border: 1px solid var(--phosphor-green-dim);
+    color: var(--phosphor-amber);
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75em;
+    text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.project-tag:hover {
+    border-color: var(--phosphor-amber);
+    background: rgba(255, 176, 0, 0.1);
+}
+
+.contributor-badge {
+    color: var(--phosphor-green);
+    border-color: var(--phosphor-green);
+}
+
+.contributor-badge::before {
+    content: "◆ ";
+}
+
+/* ─── Footer Stats ──────────────────────────────────────────────────────────── */
+.terminal-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--phosphor-green-dim);
+    font-family: 'VT323', 'IBM Plex Mono', monospace;
+    color: var(--phosphor-green-dim);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-value {
+    color: var(--phosphor-green);
+    text-shadow: var(--glow-intensity);
+}
+
+/* ─── Responsive Design ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .project-tags {
-        white-space: normal;
-        word-break: break-word;
+    .projects-container {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
     }
 
-    .project-name {
-        white-space: normal;
+    .project-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 1rem 0.75rem;
+    }
+
+    .project-prefix {
+        display: none;
+    }
+
+    .project-meta {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .project-description {
+        padding-left: 0;
+    }
+
+    .project-tags {
+        justify-content: flex-start;
+    }
+
+    .terminal-footer {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+/* ─── Dark mode override (ensure it stays dark) ─────────────────────────────── */
+@media (prefers-color-scheme: light) {
+    .projects-container {
+        /* Keep the terminal dark even in light mode for authenticity */
+        background: var(--terminal-bg);
+        color: var(--phosphor-green);
+    }
+}
+
+/* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .projects-container::after {
+        animation: none;
+    }
+
+    .terminal-header::before {
+        animation: none;
+        opacity: 1;
+    }
+
+    .project-item {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .project-item:hover .project-name {
+        animation: none;
     }
 }
