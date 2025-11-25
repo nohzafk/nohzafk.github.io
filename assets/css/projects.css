@@ -226,6 +226,7 @@
     font-size: 0.75em;
     text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
     transition: all 0.2s ease;
+    margin: 0; /* Reset global *+* margin rule */
 }
 
 .project-tag:hover {
