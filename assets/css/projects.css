@@ -216,17 +216,26 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: flex-end;
+    align-items: center;
+}
+
+.project-tags > * {
+    margin: 0 !important;
 }
 
 .project-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 1.5em;
     background: transparent;
     border: 1px solid var(--phosphor-green-dim);
     color: var(--phosphor-amber);
-    padding: 0.15rem 0.5rem;
+    padding: 0 0.5rem;
     font-size: 0.75em;
+    line-height: 1;
     text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
     transition: all 0.2s ease;
-    margin: 0; /* Reset global *+* margin rule */
+    margin: 0;
 }
 
 .project-tag:hover {
