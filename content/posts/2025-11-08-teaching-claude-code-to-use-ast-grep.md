@@ -1,7 +1,7 @@
 ---
 title: teaching claude code to use ast-grep
 post: 2025-11-08-teaching-claude-code-to-use-ast-grep.md
-date: 2025-11-26T05:31:40+0800
+date: 2025-11-26T15:34:00+0800
 tags: [ast-grep, claude_code, mcp, ripgrep]
 ---
 # Teaching Claude Code to Use ast-grep
@@ -91,6 +91,16 @@ I also added a few **anti-patterns**—things Claude should avoid:
 That's it. The skill didn't try to re-document every ast-grep parameter.
 
 It just provided **strategic guidance**—the kind of context a human developer would know instinctively.
+
+## Step 3: Telling Claude Code to Use the Skill
+
+Add this line to your project's `CLAUDE.md`:
+
+```
+Prefer ast-grep over Grep for structural code searches.
+```
+
+Or use the quick memory shortcut—type `# Prefer ast-grep over Grep for structural code searches.` and Claude Code will prompt you to save it.
 
 ## What I Learned
 
