@@ -1,0 +1,36 @@
+<header class="article-header">
+    <div class="hud-frame">
+        <div class="hud-corner top-left">┌─</div>
+        <div class="hud-label">ARTICLE</div>
+        <div class="hud-corner top-right">─┐</div>
+    </div>
+
+    <h1 class="article-title">
+        <a class="nolink" href="{{ .RelPermalink }}" itemprop="url">
+            <span itemprop="name headline mainEntityOfPage">
+                {{ .Title | markdownify }}
+            </span>
+        </a>
+    </h1>
+
+    <div class="hud-frame bottom">
+        <div class="hud-corner bottom-left">└─</div>
+        <div class="hud-corner bottom-right">─┘</div>
+    </div>
+
+    {{ with .Params.Tags }}
+    <div class="article-tags">
+        {{ range . }}
+        <a class="tag" href="/tags/{{ . }}">#{{ . }}</a>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <div class="article-meta">
+        <time itemprop="datePublished dateModified">{{ $.Date.Format "2006/01/02" }}</time>
+        <span class="meta-separator">│</span>
+        <span itemprop="wordCount">{{ len (split $.Content " ") }}w</span>
+        <span class="meta-separator">│</span>
+        <span>{{ $.ReadingTime }}min</span>
+    </div>
+</header>

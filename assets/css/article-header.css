@@ -1,0 +1,147 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARTICLE HEADER - HUD Style
+   Spacecraft HUD-inspired design using Departure Mono box drawing
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+    --hud-accent: #39ff14;
+    --hud-accent-dim: rgba(57, 255, 20, 0.5);
+    --header-tag-color: #666;
+    --header-tag-hover: #39ff14;
+    --header-meta-color: #888;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --hud-accent: #0d5c00;
+        --hud-accent-dim: rgba(13, 92, 0, 0.5);
+        --header-tag-color: #555;
+        --header-tag-hover: #0d5c00;
+        --header-meta-color: #888;
+    }
+}
+
+/* ─── Article Header Container ──────────────────────────────────────────────── */
+.article-header {
+    margin-bottom: 2rem;
+}
+
+.article-header > * {
+    margin: 0;
+}
+
+/* ─── HUD Frame ─────────────────────────────────────────────────────────────── */
+.hud-frame {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--hud-accent);
+    margin-bottom: 0.5rem;
+}
+
+.hud-frame > * {
+    margin: 0;
+}
+
+.hud-frame.bottom {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.hud-corner {
+    opacity: 0.7;
+}
+
+.hud-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+}
+
+/* ─── Article Title ─────────────────────────────────────────────────────────── */
+.article-title {
+    font-size: 2rem;
+    line-height: 1.3;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.article-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ─── Tags ──────────────────────────────────────────────────────────────────── */
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-tags > * {
+    margin: 0;
+}
+
+.article-tags .tag {
+    color: var(--header-tag-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.article-tags .tag:hover {
+    color: var(--header-tag-hover);
+}
+
+/* ─── Meta Info ─────────────────────────────────────────────────────────────── */
+.article-meta {
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--header-meta-color);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.article-meta > * {
+    margin: 0;
+}
+
+.meta-separator {
+    color: var(--hud-accent-dim);
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .article-title {
+        font-size: 1.5rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .hud-frame {
+        font-size: 0.7rem;
+    }
+
+    .hud-label {
+        font-size: 0.6rem;
+    }
+
+    .article-tags {
+        font-size: 0.8rem;
+    }
+
+    .article-meta {
+        font-size: 0.7rem;
+    }
+}
