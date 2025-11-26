@@ -5,25 +5,26 @@
 
 /* ─── CSS Variables ─────────────────────────────────────────────────────────── */
 :root {
-    --hud-accent: #39ff14;
-    --hud-accent-dim: rgba(57, 255, 20, 0.5);
-    --header-tag-color: #666;
-    --header-tag-hover: #39ff14;
+    --hud-accent: #ffb000;
+    --hud-accent-dim: rgba(255, 176, 0, 0.5);
+    --header-tag-color: #888;
+    --header-tag-hover: #ffb000;
     --header-meta-color: #888;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --hud-accent: #0d5c00;
-        --hud-accent-dim: rgba(13, 92, 0, 0.5);
-        --header-tag-color: #555;
-        --header-tag-hover: #0d5c00;
+        --hud-accent: #8b5a00;
+        --hud-accent-dim: rgba(139, 90, 0, 0.5);
+        --header-tag-color: #666;
+        --header-tag-hover: #8b5a00;
         --header-meta-color: #888;
     }
 }
 
 /* ─── Article Header Container ──────────────────────────────────────────────── */
 .article-header {
+    margin-top: 3rem;
     margin-bottom: 2rem;
 }
 

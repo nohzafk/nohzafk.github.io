@@ -102,9 +102,15 @@ cite:before {
     color: #e1dfdc;
 }
 
-/* element */
+/* element - emphasis text in terminal amber */
 strong {
-    color: #ac4142;
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    strong {
+        color: #ffb000;
+    }
 }
 
 .nolink {
