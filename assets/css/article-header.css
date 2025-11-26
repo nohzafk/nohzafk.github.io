@@ -5,10 +5,10 @@
 
 /* ─── CSS Variables ─────────────────────────────────────────────────────────── */
 :root {
-    --hud-accent: #ffb000;
-    --hud-accent-dim: rgba(255, 176, 0, 0.5);
+    --hud-accent: #80580a;
+    --hud-accent-dim: rgba(128, 88, 10, 0.5);
     --header-tag-color: #888;
-    --header-tag-hover: #ffb000;
+    --header-tag-hover: #80580a;
     --header-meta-color: #888;
 }
 
@@ -53,13 +53,11 @@
 }
 
 .hud-corner {
-    opacity: 0.7;
 }
 
 .hud-label {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
-    opacity: 0.5;
 }
 
 /* ─── Article Title ─────────────────────────────────────────────────────────── */
