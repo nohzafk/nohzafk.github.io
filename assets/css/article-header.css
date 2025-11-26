@@ -62,8 +62,8 @@
 
 /* ─── Article Title ─────────────────────────────────────────────────────────── */
 .article-title {
-    font-size: 2rem;
-    line-height: 1.3;
+    font-size: 2.25rem;
+    line-height: 1.2;
     font-weight: 800;
     color: var(--text-color);
     margin: 0;
@@ -124,7 +124,7 @@
 /* ─── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .article-title {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         padding: 0.25rem 0.5rem;
     }
 

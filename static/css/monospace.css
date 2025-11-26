@@ -225,7 +225,7 @@ h6 {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     line-height: calc(2 * var(--line-height));
     margin-bottom: calc(var(--line-height) * 2);
     text-transform: uppercase;
