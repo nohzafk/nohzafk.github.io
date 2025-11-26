@@ -1,11 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    PHOSPHOR TERMINAL - Projects Page
    A vintage CRT monitor aesthetic with glowing phosphor text
+   Supports both dark and light modes
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+/* ─── CSS Variables (Dark Mode - Default) ───────────────────────────────────── */
 .projects-container {
     --phosphor-green: #39ff14;
     --phosphor-green-dim: #1a7a0a;
@@ -17,20 +18,49 @@
     --scanline-opacity: 0.03;
     --crt-curve: 2px;
     --glow-intensity: 0 0 10px var(--phosphor-green-glow), 0 0 20px rgba(57, 255, 20, 0.2);
+    --border-color: var(--phosphor-green-dim);
+    --box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5), 0 0 20px rgba(57, 255, 20, 0.1);
+    --description-color: rgba(57, 255, 20, 0.7);
+    --cyan-glow: 0 0 10px rgba(0, 255, 255, 0.4);
+    --cyan-text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    --amber-text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
+    --tag-hover-bg: rgba(255, 176, 0, 0.1);
+    --flicker-color: rgba(57, 255, 20, 0.02);
+}
+
+/* ─── CSS Variables (Light Mode) ────────────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+    .projects-container {
+        --phosphor-green: #0d5c00;
+        --phosphor-green-dim: #2d8c1a;
+        --phosphor-green-glow: rgba(13, 92, 0, 0.15);
+        --phosphor-cyan: #006d6d;
+        --phosphor-amber: #8b5a00;
+        --terminal-bg: #f0f5eb;
+        --terminal-bg-lighter: #e5ece0;
+        --scanline-opacity: 0.02;
+        --glow-intensity: 0 1px 2px rgba(0, 0, 0, 0.1);
+        --border-color: #2d8c1a;
+        --box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.08);
+        --description-color: rgba(13, 92, 0, 0.75);
+        --cyan-glow: 0 1px 2px rgba(0, 109, 109, 0.2);
+        --cyan-text-shadow: 0 1px 1px rgba(0, 109, 109, 0.15);
+        --amber-text-shadow: 0 1px 1px rgba(139, 90, 0, 0.15);
+        --tag-hover-bg: rgba(139, 90, 0, 0.08);
+        --flicker-color: rgba(13, 92, 0, 0.01);
+    }
 }
 
 /* ─── Container with CRT effect ─────────────────────────────────────────────── */
 .projects-container {
     position: relative;
     background: var(--terminal-bg);
-    border: 2px solid var(--phosphor-green-dim);
+    border: 2px solid var(--border-color);
     border-radius: var(--crt-curve);
     padding: 2rem 1.5rem;
     margin: 2rem 0;
     overflow: hidden;
-    box-shadow:
-        inset 0 0 100px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(57, 255, 20, 0.1);
+    box-shadow: var(--box-shadow);
 }
 
 /* Scanline overlay */
@@ -63,7 +93,7 @@
     background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(57, 255, 20, 0.02) 50%,
+        var(--flicker-color) 50%,
         transparent 100%
     );
     animation: crt-flicker 0.15s infinite;
@@ -104,7 +134,7 @@
 
 .terminal-path {
     color: var(--phosphor-cyan);
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    text-shadow: var(--cyan-glow);
 }
 
 /* ─── Project List (ls -la style) ───────────────────────────────────────────── */
@@ -188,7 +218,7 @@
 .project-name {
     color: var(--phosphor-cyan);
     font-weight: normal;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    text-shadow: var(--cyan-text-shadow);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -202,7 +232,7 @@
 }
 
 .project-description {
-    color: rgba(57, 255, 20, 0.7);
+    color: var(--description-color);
     font-size: 0.85em;
     grid-column: 1 / -1;
     padding-left: calc(3ch + 1rem);
@@ -233,14 +263,14 @@
     padding: 0 0.5rem;
     font-size: 0.75em;
     line-height: 1;
-    text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
+    text-shadow: var(--amber-text-shadow);
     transition: all 0.2s ease;
     margin: 0;
 }
 
 .project-tag:hover {
     border-color: var(--phosphor-amber);
-    background: rgba(255, 176, 0, 0.1);
+    background: var(--tag-hover-bg);
 }
 
 .contributor-badge {
@@ -314,14 +344,6 @@
     }
 }
 
-/* ─── Dark mode override (ensure it stays dark) ─────────────────────────────── */
-@media (prefers-color-scheme: light) {
-    .projects-container {
-        /* Keep the terminal dark even in light mode for authenticity */
-        background: var(--terminal-bg);
-        color: var(--phosphor-green);
-    }
-}
 
 /* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
