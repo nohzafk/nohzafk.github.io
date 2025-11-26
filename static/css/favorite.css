@@ -127,6 +127,28 @@ strong {
     font-family: "IBM Plex Mono", monospace;
     margin-top: var(--line-height);
     margin-bottom: var(--line-height);
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .logo {
+        color: #80580a;
+    }
+}
+
+/* Navigation links */
+.header a.nolink {
+    transition: color 0.2s ease;
+}
+
+.header a.nolink:hover {
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .header a.nolink:hover {
+        color: #80580a;
+    }
 }
 
 footer {
