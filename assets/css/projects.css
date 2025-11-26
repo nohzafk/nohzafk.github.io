@@ -44,8 +44,8 @@
         --phosphor-green-glow: rgba(13, 92, 0, 0.15);
         --phosphor-cyan: #006d6d;
         --phosphor-amber: #8b5a00;
-        --terminal-bg: #f0f5eb;
-        --terminal-bg-lighter: #e5ece0;
+        --terminal-bg: #fafafa;
+        --terminal-bg-lighter: #f0f0f0;
         --scanline-opacity: 0.02;
         --glow-intensity: 0 1px 2px rgba(0, 0, 0, 0.1);
         --border-color: #2d8c1a;
@@ -63,7 +63,6 @@
 .projects-container {
     position: relative;
     background: var(--terminal-bg);
-    border: 2px solid var(--border-color);
     border-radius: var(--crt-curve);
     padding: 2rem 1.5rem;
     margin: 2rem 0;
