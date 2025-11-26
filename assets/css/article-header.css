@@ -121,6 +121,37 @@
     color: var(--hud-accent-dim);
 }
 
+/* ─── About Section ─────────────────────────────────────────────────────────── */
+.about-section {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.about-section > * {
+    margin: 0;
+}
+
+.about-content {
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
+
+.about-content > * {
+    margin: 0;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+}
+
+.about-content h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--hud-accent);
+    font-family: 'Departure Mono', monospace;
+}
+
 /* ─── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .article-title {
