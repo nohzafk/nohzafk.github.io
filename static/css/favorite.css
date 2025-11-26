@@ -2,6 +2,7 @@
 pre code.hljs {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-normal);
+    font-size: 0.85rem;
     background: none;
     white-space: pre-wrap;
 }
@@ -16,13 +17,12 @@ pre code.hljs {
 :not(pre)>code {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-medium);
+    font-size: 0.9em;
     padding: 0 4px;
 }
 
 pre:not(.mermaid) {
-    padding-left: 0;
     padding: 1em;
-    border-left: 3.8px solid #e1dfdc;
     margin-left: 0px;
 }
 
@@ -102,9 +102,15 @@ cite:before {
     color: #e1dfdc;
 }
 
-/* element */
+/* element - emphasis text in terminal amber */
 strong {
-    color: #ac4142;
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    strong {
+        color: #80580a;
+    }
 }
 
 .nolink {
@@ -116,9 +122,31 @@ strong {
     /* position: relative; */
     font-size: 30px;
     font-weight: var(--font-weight-medium);
-    font-family: var(--code-font-family);
+    font-family: "IBM Plex Mono", monospace;
     margin-top: var(--line-height);
     margin-bottom: var(--line-height);
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .logo {
+        color: #80580a;
+    }
+}
+
+/* Navigation links */
+.header a.nolink {
+    transition: color 0.2s ease;
+}
+
+.header a.nolink:hover {
+    color: #8b5a00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .header a.nolink:hover {
+        color: #80580a;
+    }
 }
 
 footer {

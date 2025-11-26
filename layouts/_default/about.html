@@ -1,5 +1,20 @@
 {{ define "main" }}
 
-{{ .Content }}
+<section class="about-section">
+    <div class="hud-frame">
+        <div class="hud-corner top-left">┌─</div>
+        <div class="hud-label">PROFILE</div>
+        <div class="hud-corner top-right">─┐</div>
+    </div>
+
+    <div class="about-content">
+        {{ .Content }}
+    </div>
+
+    <div class="hud-frame bottom">
+        <div class="hud-corner bottom-left">└─</div>
+        <div class="hud-corner bottom-right">─┘</div>
+    </div>
+</section>
 
 {{ end }}

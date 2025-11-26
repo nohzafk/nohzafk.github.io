@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARTICLE HEADER - HUD Style
+   Spacecraft HUD-inspired design using Departure Mono box drawing
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+    --hud-accent: #80580a;
+    --hud-accent-dim: rgba(128, 88, 10, 0.5);
+    --header-tag-color: #888;
+    --header-tag-hover: #80580a;
+    --header-meta-color: #888;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --hud-accent: #8b5a00;
+        --hud-accent-dim: rgba(139, 90, 0, 0.5);
+        --header-tag-color: #666;
+        --header-tag-hover: #8b5a00;
+        --header-meta-color: #888;
+    }
+}
+
+/* ─── Article Header Container ──────────────────────────────────────────────── */
+.article-header {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.article-header > * {
+    margin: 0;
+}
+
+/* ─── HUD Frame ─────────────────────────────────────────────────────────────── */
+.hud-frame {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--hud-accent);
+    margin-bottom: 0.5rem;
+}
+
+.hud-frame > * {
+    margin: 0;
+}
+
+.hud-frame.bottom {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.hud-corner {
+}
+
+.hud-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+}
+
+/* ─── Article Title ─────────────────────────────────────────────────────────── */
+.article-title {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.article-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ─── Tags ──────────────────────────────────────────────────────────────────── */
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-tags > * {
+    margin: 0;
+}
+
+.article-tags .tag {
+    color: var(--header-tag-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.article-tags .tag:hover {
+    color: var(--header-tag-hover);
+}
+
+/* ─── Meta Info ─────────────────────────────────────────────────────────────── */
+.article-meta {
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--header-meta-color);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.article-meta > * {
+    margin: 0;
+}
+
+.meta-separator {
+    color: var(--hud-accent-dim);
+}
+
+/* ─── About Section ─────────────────────────────────────────────────────────── */
+.about-section {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.about-section > * {
+    margin: 0;
+}
+
+.about-content {
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
+
+.about-content > * {
+    margin: 0;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+}
+
+.about-content h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--hud-accent);
+    font-family: 'Departure Mono', monospace;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .article-title {
+        font-size: 1.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .hud-frame {
+        font-size: 0.7rem;
+    }
+
+    .hud-label {
+        font-size: 0.6rem;
+    }
+
+    .article-tags {
+        font-size: 0.8rem;
+    }
+
+    .article-meta {
+        font-size: 0.7rem;
+    }
+}
