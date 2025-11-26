@@ -1,11 +1,31 @@
 {{ define "main" }}
 
-    <h1>{{ .Title }}</h1>
+<section class="taxonomy-section">
+    <div class="hud-frame">
+        <div class="hud-corner top-left">┌─</div>
+        <div class="hud-label">#{{ .Title }}</div>
+        <div class="hud-corner top-right">─┐</div>
+    </div>
 
-    {{ range where .Pages "Type" "eq" "posts" }}
+    <div class="taxonomy-count">
+        {{ len .Pages }} {{ if eq (len .Pages) 1 }}post{{ else }}posts{{ end }}
+    </div>
 
-        {{ partial "article_content.html" . }}
+    <ul class="taxonomy-list">
+        {{ range where .Pages "Type" "eq" "posts" }}
+        <li class="taxonomy-item">
+            <a href="{{ .RelPermalink }}" class="taxonomy-link">
+                <span class="taxonomy-title">{{ .Title }}</span>
+                <span class="taxonomy-date">{{ .Date.Format "2006/01/02" }}</span>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
 
-    {{ end }}
+    <div class="hud-frame bottom">
+        <div class="hud-corner bottom-left">└─</div>
+        <div class="hud-corner bottom-right">─┘</div>
+    </div>
+</section>
 
 {{ end }}

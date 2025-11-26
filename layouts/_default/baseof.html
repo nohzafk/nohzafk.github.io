@@ -17,6 +17,9 @@
     {{ $articleHeaderCSS := resources.Get "css/article-header.css" | resources.Minify }}
     <link rel="stylesheet" href="{{ $articleHeaderCSS.RelPermalink }}">
 
+    {{ $taxonomyCSS := resources.Get "css/taxonomy.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $taxonomyCSS.RelPermalink }}">
+
     <link rel="stylesheet" href="{{ "css/monospace.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/favorite.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />

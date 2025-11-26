@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAXONOMY & TAGS - HUD Style
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+.tags-section,
+.taxonomy-section {
+    --hud-accent: #8b5a00;
+    --hud-accent-dim: rgba(139, 90, 0, 0.5);
+    --hud-text: #333;
+    --hud-text-dim: #666;
+    --hud-hover-bg: rgba(139, 90, 0, 0.05);
+    --hud-border: rgba(139, 90, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+    .tags-section,
+    .taxonomy-section {
+        --hud-accent: #80580a;
+        --hud-accent-dim: rgba(128, 88, 10, 0.5);
+        --hud-text: #e0e0e0;
+        --hud-text-dim: #888;
+        --hud-hover-bg: rgba(128, 88, 10, 0.1);
+        --hud-border: rgba(128, 88, 10, 0.4);
+    }
+}
+
+/* ─── Section Container ─────────────────────────────────────────────────────── */
+.tags-section,
+.taxonomy-section {
+    margin: 2rem 0;
+}
+
+.tags-section > *,
+.taxonomy-section > * {
+    margin: 0;
+}
+
+/* ─── HUD Frame (shared with other pages) ───────────────────────────────────── */
+.tags-section .hud-frame,
+.taxonomy-section .hud-frame {
+    display: flex;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    color: var(--hud-accent);
+    font-size: 0.85rem;
+    user-select: none;
+}
+
+.tags-section .hud-frame.bottom,
+.taxonomy-section .hud-frame.bottom {
+    margin-top: 1.5rem;
+}
+
+.tags-section .hud-corner,
+.taxonomy-section .hud-corner {
+    white-space: pre;
+}
+
+.tags-section .hud-label,
+.taxonomy-section .hud-label {
+    padding: 0 1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* ─── Tags List (terms.html) ────────────────────────────────────────────────── */
+.tags-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.tags-grid > * {
+    margin: 0;
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+    text-decoration: none;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--hud-border);
+}
+
+.tag-item > * {
+    margin: 0;
+}
+
+.tag-item:last-child {
+    border-bottom: none;
+}
+
+.tag-item:hover {
+    background: var(--hud-hover-bg);
+    padding-left: 1rem;
+}
+
+.tag-name {
+    color: var(--hud-accent);
+}
+
+.tag-count {
+    color: var(--hud-text-dim);
+    font-size: 0.8rem;
+}
+
+.tag-item:hover .tag-count {
+    color: var(--hud-accent);
+}
+
+/* ─── Taxonomy List (taxonomy.html) ─────────────────────────────────────────── */
+.taxonomy-count {
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--hud-text-dim);
+    padding: 1rem 0 0.5rem;
+}
+
+.taxonomy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.taxonomy-item {
+    border-bottom: 1px solid var(--hud-border);
+}
+
+.taxonomy-item:last-child {
+    border-bottom: none;
+}
+
+.taxonomy-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.taxonomy-link:hover {
+    background: var(--hud-hover-bg);
+    padding-left: 1rem;
+}
+
+.taxonomy-title {
+    color: var(--hud-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+}
+
+.taxonomy-link:hover .taxonomy-title {
+    color: var(--hud-accent);
+}
+
+.taxonomy-date {
+    color: var(--hud-text-dim);
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .tags-grid {
+        gap: 0.5rem;
+    }
+
+    .tag-item {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .taxonomy-link {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .taxonomy-date {
+        font-size: 0.75rem;
+    }
+}
