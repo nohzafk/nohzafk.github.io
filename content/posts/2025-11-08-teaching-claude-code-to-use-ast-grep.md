@@ -1,15 +1,15 @@
 ---
 title: teaching claude code to use ast-grep
 post: 2025-11-08-teaching-claude-code-to-use-ast-grep.md
-date: 2025-11-08T23:34:34+0800
-tags: [ast-grep, mcp, skills]
+date: 2025-11-26T05:31:40+0800
+tags: [ast-grep, claude_code, mcp, ripgrep]
 ---
-# **Teaching Claude Code to Use ast-grep**
+# Teaching Claude Code to Use ast-grep
 
 I wanted Claude Code to understand the difference between **searching for code structure** and **searching for plain text**. That meant teaching it when to reach for **ast-grep** instead of **ripgrep**—and to make that decision automatically.
 
 This is how I taught it to do that.
-## **Figuring Out the Right Tools**
+## Figuring Out the Right Tools
 
 Claude Code can be extended in several ways—skills, commands, hooks, sub-agents, MCP servers, and plugins.
 
@@ -23,7 +23,7 @@ Think of it like this:
 
 I didn't want to type /ast-grep every time. I wanted Claude to _decide_ on its own.
 
-## **Step 1: Adding the ast-grep MCP Server**
+## Step 1: Adding the ast-grep MCP Server
 
 The first step was to register the **ast-grep MCP server** with Claude Code.
 
@@ -37,7 +37,7 @@ After this, Claude had full access to ast-grep—but it still didn't know when t
 
 That's where the **Skill** came in.
 
-## **Step 2: Teaching Strategy with a Skill**
+## Step 2: Teaching Strategy with a Skill
 
 I created a new skill file at:
 
@@ -92,7 +92,7 @@ That's it. The skill didn't try to re-document every ast-grep parameter.
 
 It just provided **strategic guidance**—the kind of context a human developer would know instinctively.
 
-## **What I Learned**
+## What I Learned
 
 The key takeaway was **separation of responsibility**:
 - **MCP** handles _what_ tools exist and _how_ they work.
@@ -105,7 +105,7 @@ Keeping those layers distinct made everything easier to maintain:
 
 It also keeps context light—since Skills use progressive disclosure, they load only when Claude detects the topic applies.
 
-## **Final Thoughts**
+## Final Thoughts
 
 Teaching Claude to use ast-grep wasn't just about wiring up another tool.
 
@@ -117,7 +117,7 @@ That's the essence of extending Claude Code effectively:
 
 **tools give power, skills give intelligence.**
 
-### **References**
+### References
 
 - [Claude Code Skills](https://code.claude.com/docs/en/skills)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
