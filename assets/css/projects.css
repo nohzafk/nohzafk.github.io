@@ -130,6 +130,10 @@
     gap: 0.5rem;
 }
 
+.terminal-header > * {
+    margin: 0;
+}
+
 .terminal-header::before {
     content: "█";
     animation: cursor-blink 1s step-end infinite;
