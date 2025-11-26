@@ -112,7 +112,7 @@
 .terminal-header {
     font-family: 'VT323', 'IBM Plex Mono', monospace;
     color: var(--phosphor-green);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--phosphor-green-dim);
@@ -158,7 +158,7 @@
     position: relative;
     cursor: pointer;
     align-items: start;
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     opacity: 0;
     transform: translateX(-10px);
     animation: fade-slide-in 0.4s ease forwards;
@@ -211,7 +211,7 @@
 /* ─── Project Components ────────────────────────────────────────────────────── */
 .project-prefix {
     color: var(--phosphor-green-dim);
-    font-size: 0.9em;
+    font-size: 1em;
     white-space: nowrap;
 }
 
@@ -233,7 +233,7 @@
 
 .project-description {
     color: var(--description-color);
-    font-size: 0.85em;
+    font-size: 1em;
     grid-column: 1 / -1;
     padding-left: calc(3ch + 1rem);
     margin-top: 0.25rem;
@@ -261,7 +261,7 @@
     border: 1px solid var(--phosphor-green-dim);
     color: var(--phosphor-amber);
     padding: 0 0.5rem;
-    font-size: 0.75em;
+    font-size: 0.85em;
     line-height: 1;
     text-shadow: var(--amber-text-shadow);
     transition: all 0.2s ease;
@@ -289,7 +289,7 @@
     border-top: 1px solid var(--phosphor-green-dim);
     font-family: 'VT323', 'IBM Plex Mono', monospace;
     color: var(--phosphor-green-dim);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
