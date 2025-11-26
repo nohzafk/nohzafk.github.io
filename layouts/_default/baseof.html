@@ -11,6 +11,9 @@
     {{ $projectsCSS := resources.Get "css/projects.css" | resources.Minify }}
     <link rel="stylesheet" href="{{ $projectsCSS.RelPermalink }}">
 
+    {{ $tablesCSS := resources.Get "css/tables.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $tablesCSS.RelPermalink }}">
+
     <link rel="stylesheet" href="{{ "css/monospace.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/favorite.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />

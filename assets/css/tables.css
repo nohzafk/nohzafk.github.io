@@ -1,0 +1,151 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TERMINAL TABLES - Distinctive table styling with box drawing characters
+   Uses Departure Mono's box drawing features for a retro terminal look
+   Only applies to content tables, not header/metadata tables
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Reuse Departure Mono from projects.css */
+@font-face {
+    font-family: 'Departure Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/DepartureMono-Regular.woff2') format('woff2'),
+         url('/fonts/DepartureMono-Regular.woff') format('woff');
+}
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+    --table-header-bg: #1a1a1a;
+    --table-header-text: #e0e0e0;
+    --table-border-accent: #39ff14;
+    --table-row-hover: rgba(57, 255, 20, 0.05);
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --table-header-bg: #1a1a1a;
+        --table-header-text: #e0e0e0;
+        --table-border-accent: #39ff14;
+        --table-row-hover: rgba(0, 0, 0, 0.03);
+    }
+}
+
+/* ─── Table Container (exclude .header tables) ──────────────────────────────── */
+article table:not(.header) {
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+    margin: 1.5rem 0;
+    overflow: hidden;
+}
+
+/* ─── Table Header ──────────────────────────────────────────────────────────── */
+article table:not(.header) thead tr {
+    background: var(--table-header-bg);
+}
+
+article table:not(.header) th {
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--table-header-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-bottom: 2px solid var(--table-border-accent);
+    text-align: left;
+    position: relative;
+}
+
+/* Box drawing decoration before first header cell */
+article table:not(.header) thead tr th:first-child::before {
+    content: "░ ";
+    color: var(--table-border-accent);
+    opacity: 0.8;
+}
+
+/* Decorative line above header using box characters */
+article table:not(.header) thead::before {
+    content: "┌────────────────────────────────────────────────────────────────────────────┐";
+    display: block;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--table-border-accent);
+    background: var(--table-header-bg);
+    padding: 0.25rem 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+/* Decorative line below header */
+article table:not(.header) thead::after {
+    content: "├────────────────────────────────────────────────────────────────────────────┤";
+    display: block;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--table-border-accent);
+    background: var(--table-header-bg);
+    padding: 0 0.5rem 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+/* ─── Table Body ────────────────────────────────────────────────────────────── */
+article table:not(.header) td {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-bottom: 1px solid var(--background-color-alt, #eee);
+    vertical-align: top;
+}
+
+article table:not(.header) tbody tr:hover {
+    background: var(--table-row-hover);
+}
+
+/* Subtle left border accent on hover */
+article table:not(.header) tbody tr:hover td:first-child {
+    box-shadow: inset 3px 0 0 var(--table-border-accent);
+}
+
+/* ─── Table Footer decoration ───────────────────────────────────────────────── */
+article table:not(.header) tbody tr:last-child td {
+    border-bottom: none;
+}
+
+article table:not(.header)::after {
+    content: "└────────────────────────────────────────────────────────────────────────────┘";
+    display: block;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--table-border-accent);
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.4;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    article table:not(.header) th,
+    article table:not(.header) td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    article table:not(.header) thead::before,
+    article table:not(.header) thead::after,
+    article table:not(.header)::after {
+        font-size: 0.6rem;
+    }
+}
+
+/* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    article table:not(.header) tbody tr {
+        transition: none;
+    }
+}
