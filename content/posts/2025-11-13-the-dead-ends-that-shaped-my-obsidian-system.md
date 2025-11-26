@@ -1,8 +1,8 @@
 ---
 title: The Dead Ends That Shaped My Obsidian System
 post: 2025-11-13-the-dead-ends-that-shaped-my-obsidian-system.md
-date: 2025-11-26T03:58:39+0800
-tags: [knowledge_management, note-taking, obsidian, productivity]
+date: 2025-11-26T04:03:59+0800
+tags: [capture_workflow, knowledge_management, note-taking, obsidian]
 ---
 Before arriving at a clean, stable setup in #Obsidian, I went through a long phase of experimentation. I tried to make it everything at once — a note-taking tool, an archive library, a task tracker, a project manager, even a reading queue.
 
@@ -45,7 +45,7 @@ For a while, I logged daily tasks in Obsidian using a day/ folder. It didn't tak
 That's when I realized: **Obsidian is for thinking, not executing.**
 
 Now, short-term tasks live in dedicated apps (Apple Reminders, Things, Todoist), while long-term goals and context stay in Obsidian. This separation keeps my knowledge space focused and prevents mental overload.
-### **No Reading Queue in Obsidian**
+## No Reading Queue in Obsidian
 
 I briefly considered managing a reading queue in Obsidian using Bases, complete with metadata and progress tracking. But it quickly became clear: that approach encouraged **hoarding**.
 
