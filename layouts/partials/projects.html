@@ -14,15 +14,21 @@
 {{- end -}}
 
 <div class="projects-container">
+    <div class="hud-frame">
+        <div class="hud-corner top-left">┌─</div>
+        <div class="hud-label">Projects</div>
+        <div class="hud-corner top-right">─┐</div>
+    </div>
+
     <div class="terminal-header">
-        <span>ls -la</span>
+        <span class="terminal-prompt">ls -la</span>
         <span class="terminal-path">~/projects/</span>
     </div>
 
     <ul class="project-list">
         {{- range $index, $project := $projects -}}
         <li class="project-item"{{ if $project.Params.repo }} onclick="window.location.href='{{ $project.Params.repo }}'"{{ end }}>
-            <span class="project-prefix">drwxr-xr-x</span>
+            <span class="project-prefix">►</span>
             <span class="project-name">{{ $project.Title }}</span>
             <div class="project-meta">
                 <div class="project-tags">
@@ -47,7 +53,12 @@
             <span class="stat-value">{{ $contributorCount }}</span> contributions
         </span>
         <span class="stat-item">
-            <span class="stat-value">{{ len $uniqueTags }}</span> technologies
+            <span class="stat-value">{{ len $uniqueTags }}</span> tags
         </span>
+    </div>
+
+    <div class="hud-frame bottom">
+        <div class="hud-corner bottom-left">└─</div>
+        <div class="hud-corner bottom-right">─┘</div>
     </div>
 </div>

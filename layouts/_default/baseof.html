@@ -20,6 +20,9 @@
     {{ $postsCSS := resources.Get "css/posts.css" | resources.Minify }}
     <link rel="stylesheet" href="{{ $postsCSS.RelPermalink }}">
 
+    {{ $taxonomyCSS := resources.Get "css/taxonomy.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $taxonomyCSS.RelPermalink }}">
+
     <link rel="stylesheet" href="{{ "css/monospace.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/favorite.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />

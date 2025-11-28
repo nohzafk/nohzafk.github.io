@@ -1,13 +1,25 @@
 {{ define "main" }}
 
-<h1>{{ .Title }}</h1>
+<section class="tags-section">
+    <div class="hud-frame">
+        <div class="hud-corner top-left">┌─</div>
+        <div class="hud-label">{{ .Title }}</div>
+        <div class="hud-corner top-right">─┐</div>
+    </div>
 
-<ul class="terms">
-  {{ range sort .Data.Terms "Count" "desc" }}
-  <li>
-    <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a> ({{ .Count }})
-  </li>
-  {{ end }}
-</ul>
+    <div class="tags-grid">
+        {{ range sort .Data.Terms "Count" "desc" }}
+        <a href="{{ .Page.RelPermalink }}" class="tag-item">
+            <span class="tag-name">#{{ .Page.Title }}</span>
+            <span class="tag-count">{{ .Count }}</span>
+        </a>
+        {{ end }}
+    </div>
+
+    <div class="hud-frame bottom">
+        <div class="hud-corner bottom-left">└─</div>
+        <div class="hud-corner bottom-right">─┘</div>
+    </div>
+</section>
 
 {{ end }}

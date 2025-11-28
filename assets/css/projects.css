@@ -1,10 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   PHOSPHOR TERMINAL - Projects Page
-   A vintage CRT monitor aesthetic with glowing phosphor text
-   Supports both dark and light modes
+   HUD DIRECTORY - Projects Page
+   Unified with site-wide HUD aesthetic using Departure Mono and amber accents
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Departure Mono - a lo-fi pixel font (best at 11px increments) */
+/* Departure Mono - pixel font for HUD elements */
 @font-face {
     font-family: 'Departure Mono';
     font-style: normal;
@@ -14,116 +13,82 @@
          url('/fonts/DepartureMono-Regular.woff') format('woff');
 }
 
-/* ─── CSS Variables (Dark Mode - Default) ───────────────────────────────────── */
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
 .projects-container {
-    --phosphor-green: #39ff14;
-    --phosphor-green-dim: #1a7a0a;
-    --phosphor-green-glow: rgba(57, 255, 20, 0.4);
-    --phosphor-cyan: #00ffff;
-    --phosphor-amber: #ffb000;
-    --terminal-bg: #0a0a0a;
-    --terminal-bg-lighter: #141414;
-    --scanline-opacity: 0.03;
-    --crt-curve: 2px;
-    --glow-intensity: 0 0 10px var(--phosphor-green-glow), 0 0 20px rgba(57, 255, 20, 0.2);
-    --border-color: var(--phosphor-green-dim);
-    --box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5), 0 0 20px rgba(57, 255, 20, 0.1);
-    --description-color: rgba(57, 255, 20, 0.7);
-    --cyan-glow: 0 0 10px rgba(0, 255, 255, 0.4);
-    --cyan-text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
-    --amber-text-shadow: 0 0 8px rgba(255, 176, 0, 0.3);
-    --tag-hover-bg: rgba(255, 176, 0, 0.1);
-    --flicker-color: rgba(57, 255, 20, 0.02);
+    --hud-accent: #8b5a00;
+    --hud-accent-dim: rgba(139, 90, 0, 0.5);
+    --hud-text: #333;
+    --hud-text-dim: #666;
+    --hud-hover-bg: rgba(139, 90, 0, 0.05);
+    --hud-border: rgba(139, 90, 0, 0.3);
 }
 
-/* ─── CSS Variables (Light Mode) ────────────────────────────────────────────── */
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
     .projects-container {
-        --phosphor-green: #0d5c00;
-        --phosphor-green-dim: #2d8c1a;
-        --phosphor-green-glow: rgba(13, 92, 0, 0.15);
-        --phosphor-cyan: #006d6d;
-        --phosphor-amber: #8b5a00;
-        --terminal-bg: #fafafa;
-        --terminal-bg-lighter: #f0f0f0;
-        --scanline-opacity: 0.02;
-        --glow-intensity: 0 1px 2px rgba(0, 0, 0, 0.1);
-        --border-color: #2d8c1a;
-        --box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.08);
-        --description-color: rgba(13, 92, 0, 0.75);
-        --cyan-glow: 0 1px 2px rgba(0, 109, 109, 0.2);
-        --cyan-text-shadow: 0 1px 1px rgba(0, 109, 109, 0.15);
-        --amber-text-shadow: 0 1px 1px rgba(139, 90, 0, 0.15);
-        --tag-hover-bg: rgba(139, 90, 0, 0.08);
-        --flicker-color: rgba(13, 92, 0, 0.01);
+        --hud-accent: #80580a;
+        --hud-accent-dim: rgba(128, 88, 10, 0.5);
+        --hud-text: #e0e0e0;
+        --hud-text-dim: #888;
+        --hud-hover-bg: rgba(128, 88, 10, 0.1);
+        --hud-border: rgba(128, 88, 10, 0.4);
     }
 }
 
-/* ─── Container with CRT effect ─────────────────────────────────────────────── */
+/* ─── Container ─────────────────────────────────────────────────────────────── */
 .projects-container {
     position: relative;
-    background: var(--terminal-bg);
-    border-radius: var(--crt-curve);
-    padding: 2rem 1.5rem;
+    padding: 1rem 0;
     margin: 2rem 0;
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
 }
 
-/* Scanline overlay */
-.projects-container::before {
+/* ─── HUD Frame ─────────────────────────────────────────────────────────────── */
+.hud-frame {
+    display: flex;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    color: var(--hud-accent);
+    font-size: 0.85rem;
+    user-select: none;
+}
+
+.hud-frame.bottom {
+    margin-top: 0.5rem;
+}
+
+.hud-corner {
+    white-space: pre;
+}
+
+.hud-corner.top-left::after,
+.hud-corner.bottom-left::after {
     content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, var(--scanline-opacity)) 2px,
-        rgba(0, 0, 0, var(--scanline-opacity)) 4px
-    );
-    pointer-events: none;
-    z-index: 10;
+    flex: 1;
+    height: 1px;
+    background: var(--hud-border);
+    margin: 0 0.5rem;
 }
 
-/* CRT flicker animation */
-.projects-container::after {
+.hud-corner.top-right::before,
+.hud-corner.bottom-right::before {
     content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        var(--flicker-color) 50%,
-        transparent 100%
-    );
-    animation: crt-flicker 0.15s infinite;
-    pointer-events: none;
-    z-index: 9;
-    opacity: 0.5;
+    flex: 1;
+    height: 1px;
+    background: var(--hud-border);
+    margin: 0 0.5rem;
 }
 
-@keyframes crt-flicker {
-    0% { opacity: 0.5; }
-    50% { opacity: 0.52; }
-    100% { opacity: 0.5; }
+.hud-label {
+    padding: 0 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
 }
 
 /* ─── Terminal Header ───────────────────────────────────────────────────────── */
 .terminal-header {
-    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
-    color: var(--phosphor-green);
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--phosphor-green-dim);
-    text-shadow: var(--glow-intensity);
+    font-family: 'Departure Mono', monospace;
+    color: var(--hud-accent);
+    font-size: 0.9rem;
+    padding: 1rem 0;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -134,7 +99,7 @@
 }
 
 .terminal-header::before {
-    content: "█";
+    content: "░";
     animation: cursor-blink 1s step-end infinite;
 }
 
@@ -143,36 +108,39 @@
     51%, 100% { opacity: 0; }
 }
 
-.terminal-path {
-    color: var(--phosphor-cyan);
-    text-shadow: var(--cyan-glow);
+.terminal-prompt {
+    color: var(--hud-text-dim);
 }
 
-/* ─── Project List (ls -la style) ───────────────────────────────────────────── */
+.terminal-path {
+    color: var(--hud-accent);
+}
+
+/* ─── Project List ──────────────────────────────────────────────────────────── */
 .project-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
 }
 
 .project-item {
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: 1rem;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.5rem;
     margin: 0;
-    color: var(--phosphor-green);
+    color: var(--hud-text);
     text-decoration: none;
-    border-left: 3px solid transparent;
+    border-left: 2px solid transparent;
     transition: all 0.2s ease;
     position: relative;
     cursor: pointer;
     align-items: start;
-    font-size: 0.95rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
     opacity: 0;
-    transform: translateX(-10px);
-    animation: fade-slide-in 0.4s ease forwards;
+    transform: translateX(-5px);
+    animation: fade-slide-in 0.3s ease forwards;
 }
 
 /* Staggered animation delays */
@@ -184,13 +152,6 @@
 .project-item:nth-child(6) { animation-delay: 0.3s; }
 .project-item:nth-child(7) { animation-delay: 0.35s; }
 .project-item:nth-child(8) { animation-delay: 0.4s; }
-.project-item:nth-child(9) { animation-delay: 0.45s; }
-.project-item:nth-child(10) { animation-delay: 0.5s; }
-.project-item:nth-child(11) { animation-delay: 0.55s; }
-.project-item:nth-child(12) { animation-delay: 0.6s; }
-.project-item:nth-child(13) { animation-delay: 0.65s; }
-.project-item:nth-child(14) { animation-delay: 0.7s; }
-.project-item:nth-child(15) { animation-delay: 0.75s; }
 
 @keyframes fade-slide-in {
     to {
@@ -200,36 +161,21 @@
 }
 
 .project-item:hover {
-    background: var(--terminal-bg-lighter);
-    border-left-color: var(--phosphor-green);
-    text-shadow: var(--glow-intensity);
-}
-
-/* Glitch effect on hover */
-.project-item:hover .project-name {
-    animation: glitch-text 0.3s ease;
-}
-
-@keyframes glitch-text {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 1px); }
-    40% { transform: translate(2px, -1px); }
-    60% { transform: translate(-1px, -1px); }
-    80% { transform: translate(1px, 1px); }
-    100% { transform: translate(0); }
+    background: var(--hud-hover-bg);
+    border-left-color: var(--hud-accent);
 }
 
 /* ─── Project Components ────────────────────────────────────────────────────── */
 .project-prefix {
-    color: var(--phosphor-green-dim);
-    font-size: 0.85em;
+    font-family: 'Departure Mono', monospace;
+    color: var(--hud-accent-dim);
+    font-size: 0.8em;
     white-space: nowrap;
 }
 
 .project-name {
-    color: var(--phosphor-cyan);
-    font-weight: normal;
-    text-shadow: var(--cyan-text-shadow);
+    color: var(--hud-accent);
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -243,15 +189,15 @@
 }
 
 .project-description {
-    color: var(--description-color);
+    color: var(--hud-text-dim);
     font-size: 0.85em;
     grid-column: 1 / -1;
     padding-left: calc(3ch + 1rem);
     margin-top: 0.25rem;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
-/* ─── Tags as chmod-style permissions ───────────────────────────────────────── */
+/* ─── Tags ──────────────────────────────────────────────────────────────────── */
 .project-tags {
     display: flex;
     flex-wrap: wrap;
@@ -267,40 +213,39 @@
 .project-tag {
     display: inline-flex;
     align-items: center;
-    height: 1.5em;
+    height: 1.4em;
     background: transparent;
-    border: 1px solid var(--phosphor-green-dim);
-    color: var(--phosphor-amber);
+    border: 1px solid var(--hud-border);
+    color: var(--hud-text-dim);
     padding: 0 0.5rem;
-    font-size: 0.75em;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.7em;
     line-height: 1;
-    text-shadow: var(--amber-text-shadow);
     transition: all 0.2s ease;
     margin: 0;
 }
 
 .project-tag:hover {
-    border-color: var(--phosphor-amber);
-    background: var(--tag-hover-bg);
+    border-color: var(--hud-accent);
+    color: var(--hud-accent);
 }
 
 .contributor-badge {
-    color: var(--phosphor-green);
-    border-color: var(--phosphor-green);
+    color: var(--hud-accent);
+    border-color: var(--hud-accent);
 }
 
 .contributor-badge::before {
-    content: "◆ ";
+    content: "► ";
 }
 
 /* ─── Footer Stats ──────────────────────────────────────────────────────────── */
 .terminal-footer {
     margin-top: 1.5rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--phosphor-green-dim);
-    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
-    color: var(--phosphor-green-dim);
-    font-size: 0.85rem;
+    font-family: 'Departure Mono', monospace;
+    color: var(--hud-text-dim);
+    font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -314,21 +259,20 @@
 }
 
 .stat-value {
-    color: var(--phosphor-green);
-    text-shadow: var(--glow-intensity);
+    color: var(--hud-accent);
 }
 
 /* ─── Responsive Design ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .projects-container {
-        padding: 1.5rem 1rem;
+        padding: 1rem 0;
         margin: 1rem 0;
     }
 
     .project-item {
         grid-template-columns: 1fr;
         gap: 0.5rem;
-        padding: 1rem 0.75rem;
+        padding: 0.75rem 0.5rem;
     }
 
     .project-prefix {
@@ -355,13 +299,8 @@
     }
 }
 
-
 /* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .projects-container::after {
-        animation: none;
-    }
-
     .terminal-header::before {
         animation: none;
         opacity: 1;
@@ -371,9 +310,5 @@
         animation: none;
         opacity: 1;
         transform: none;
-    }
-
-    .project-item:hover .project-name {
-        animation: none;
     }
 }
