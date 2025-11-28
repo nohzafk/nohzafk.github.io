@@ -1,0 +1,283 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MISSION LOG - Posts Page
+   HUD-style design using Departure Mono box drawing characters
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+    --log-accent: #80580a;
+    --log-accent-dim: rgba(128, 88, 10, 0.5);
+    --log-date-color: #80580a;
+    --log-title-color: var(--text-color);
+    --log-tag-color: #666;
+    --log-divider-color: rgba(128, 88, 10, 0.4);
+    --log-hover-bg: rgba(128, 88, 10, 0.05);
+    --log-border-accent: #80580a;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --log-tag-color: #888;
+        --log-hover-bg: rgba(128, 88, 10, 0.08);
+    }
+}
+
+/* ─── Mission Log Container ─────────────────────────────────────────────────── */
+.mission-log {
+    margin: 2rem 0;
+}
+
+.mission-log > * {
+    margin: 0;
+}
+
+/* ─── HUD Frame Header ──────────────────────────────────────────────────────── */
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--log-accent);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--log-accent-dim);
+    margin-bottom: 1.5rem;
+}
+
+.log-header > * {
+    margin: 0;
+}
+
+.log-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.log-header-left::before {
+    content: "░";
+    opacity: 0.8;
+}
+
+.log-title {
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.log-count {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* ─── Year Divider ──────────────────────────────────────────────────────────── */
+.year-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem 0;
+    font-family: 'Departure Mono', monospace;
+    color: var(--log-divider-color);
+}
+
+.year-divider > * {
+    margin: 0;
+}
+
+.year-divider:first-child {
+    margin-top: 0;
+}
+
+.year-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        var(--log-divider-color),
+        transparent
+    );
+}
+
+.year-divider-line.right {
+    background: linear-gradient(
+        to left,
+        var(--log-divider-color),
+        transparent
+    );
+}
+
+.year-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    color: var(--log-accent);
+    padding: 0.25rem 1rem;
+    border: 1px solid var(--log-accent-dim);
+}
+
+/* ─── Post Entry ────────────────────────────────────────────────────────────── */
+.log-entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.log-entry {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: log-fade-in 0.4s ease forwards;
+}
+
+.log-entry:hover {
+    background: var(--log-hover-bg);
+    border-left-color: var(--log-border-accent);
+}
+
+/* Staggered animation - will be set via CSS counters or inline styles */
+.log-entry:nth-child(1) { animation-delay: 0.02s; }
+.log-entry:nth-child(2) { animation-delay: 0.04s; }
+.log-entry:nth-child(3) { animation-delay: 0.06s; }
+.log-entry:nth-child(4) { animation-delay: 0.08s; }
+.log-entry:nth-child(5) { animation-delay: 0.1s; }
+.log-entry:nth-child(6) { animation-delay: 0.12s; }
+.log-entry:nth-child(7) { animation-delay: 0.14s; }
+.log-entry:nth-child(8) { animation-delay: 0.16s; }
+.log-entry:nth-child(9) { animation-delay: 0.18s; }
+.log-entry:nth-child(10) { animation-delay: 0.2s; }
+.log-entry:nth-child(n+11) { animation-delay: 0.22s; }
+
+@keyframes log-fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Entry Components ──────────────────────────────────────────────────────── */
+.entry-main {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 0;
+}
+
+.entry-main > * {
+    margin: 0;
+}
+
+.entry-date {
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--log-date-color);
+    white-space: nowrap;
+    min-width: 5ch;
+}
+
+.entry-title {
+    color: var(--log-title-color);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.log-entry:hover .entry-title {
+    color: var(--log-accent);
+}
+
+/* ─── Tags ──────────────────────────────────────────────────────────────────── */
+.entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+    margin-left: calc(5ch + 1rem);
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.75rem;
+}
+
+.entry-tags > * {
+    margin: 0;
+}
+
+.entry-tag {
+    color: var(--log-tag-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.entry-tag::before {
+    content: "#";
+    opacity: 0.6;
+}
+
+.entry-tag:hover {
+    color: var(--log-accent);
+}
+
+/* ─── Log Footer ────────────────────────────────────────────────────────────── */
+.log-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--log-accent-dim);
+    padding: 1rem 0;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--log-accent-dim);
+}
+
+.log-footer > * {
+    margin: 0;
+}
+
+.log-eof::before {
+    content: "─── ";
+}
+
+.log-eof::after {
+    content: " ───";
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .log-header {
+        font-size: 0.75rem;
+    }
+
+    .log-entry {
+        padding: 0.6rem 0.5rem;
+    }
+
+    .entry-main {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .entry-date {
+        font-size: 0.75rem;
+    }
+
+    .entry-tags {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .year-label {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.75rem;
+    }
+}
+
+/* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .log-entry {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}

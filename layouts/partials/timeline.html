@@ -1,32 +1,51 @@
-<div class="timeline">
-    {{ range where .Pages "Type" "posts" }}
-    <div class="article">
-        <div class="ayear text-mono">{{ .Date.Year}}</div>
-        <div class="amonth text-mono">{{ printf "%02d" (.Date.Month) }}</div>
-        <div class="atitle">
-            <a class="nolink" href="{{ .RelPermalink }}">{{ .Title }}</a>
+{{- $posts := where .Pages "Type" "posts" -}}
+{{- $postCount := len $posts -}}
+
+<div class="mission-log">
+    <div class="log-header">
+        <div class="log-header-left">
+            <span class="log-title">Mission Log</span>
         </div>
+        <span class="log-count">[{{ $postCount }} ENTRIES]</span>
     </div>
-    {{ end }}
+
+    {{- $currentYear := "" -}}
+    {{- range $posts -}}
+        {{- $year := .Date.Year | string -}}
+
+        {{- if ne $year $currentYear -}}
+            {{- if ne $currentYear "" -}}
+                </ul>
+            {{- end -}}
+            <div class="year-divider">
+                <div class="year-divider-line"></div>
+                <span class="year-label">{{ $year }}</span>
+                <div class="year-divider-line right"></div>
+            </div>
+            <ul class="log-entries">
+            {{- $currentYear = $year -}}
+        {{- end -}}
+
+        <li>
+            <a href="{{ .RelPermalink }}" class="log-entry">
+                <div class="entry-main">
+                    <span class="entry-date">{{ .Date.Format "01-02" }}</span>
+                    <span class="entry-title">{{ .Title }}</span>
+                </div>
+                {{- with .Params.tags -}}
+                <div class="entry-tags">
+                    {{- range . -}}
+                    <span class="entry-tag">{{ . }}</span>
+                    {{- end -}}
+                </div>
+                {{- end -}}
+            </a>
+        </li>
+    {{- end -}}
+    </ul>
+
+    <div class="log-footer">
+        <span class="log-eof">EOF</span>
+        <span class="log-scroll">▲ ▼</span>
+    </div>
 </div>
-<script>
-    let previousYear = null;
-    let previousMonth = null;
-
-    document.querySelectorAll('.article').forEach((article) => {
-        const year = article.querySelector('.ayear');
-        const month = article.querySelector('.amonth');
-
-        if (year.textContent === previousYear) {
-            year.style.visibility = 'hidden';
-        } else {
-            previousYear = year.textContent;
-        }
-
-        if (month.textContent === previousMonth) {
-            month.style.visibility = 'hidden';
-        } else {
-            previousMonth = month.textContent;
-        }
-    });
-</script>
