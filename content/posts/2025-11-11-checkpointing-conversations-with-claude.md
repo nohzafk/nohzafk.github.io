@@ -2,7 +2,7 @@
 title: Checkpointing Conversations with Claude
 post: 2025-11-11-checkpointing-conversations-with-claude.md
 date: 2025-11-11T13:35:25+0800
-tags: [branching, checkpoint, claude]
+tags: [git, claude]
 ---
 # 2025-11-11-checkpointing-conversations-with-claude
 When I'm deep in a long Claude session, I use what I call a checkpoint strategy. It's basically a conversational anchor.

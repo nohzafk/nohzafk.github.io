@@ -2,7 +2,7 @@
 title: build your own workflow
 post: 2024-10-22-build-your-own-workflow.md
 date: 2024-10-22T07:06:26+0800
-tags: [django, emacs, selenium]
+tags: [django, emacs, automation]
 ---
 # Build Your Own Workflow: Automating Tasks for Efficiency
 

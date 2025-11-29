@@ -2,7 +2,7 @@
 title: Prompt caching with Anthropic API
 post: 2024-08-15-prompt-caching-with-anthropic-api.md
 date: 2024-08-14T18:51:32+0800
-tags: [api_calls, in-context_learning, prompt_caching]
+tags: [llm]
 ---
 Anthropic AI just announced [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
 

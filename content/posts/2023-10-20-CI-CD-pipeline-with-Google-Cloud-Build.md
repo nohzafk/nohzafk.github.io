@@ -2,7 +2,7 @@
 title: Setting up a CI/CD Pipeline with Google Cloud Build and GitHub
 date: 2023-10-20
 images: ["/images/20231020_583856.jpg"]
-tags: [ci/cd, google cloud build, github]
+tags: [devops, git]
 ---
 
 ## Enabling APIs

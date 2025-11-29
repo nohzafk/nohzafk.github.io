@@ -2,7 +2,7 @@
 title: django-migration-notes
 post: 2025-03-24-django-migration-notes.md
 date: 2025-03-24T16:57:53+0800
-tags: [django, pytest-django, sql]
+tags: [django, programming]
 ---
 # Notes about Django migration generated SQL
 

@@ -2,7 +2,7 @@
 title: programming concepts in SQL
 post: 2024-10-28-programming-concepts-in-sql.md
 date: 2024-10-28T00:11:22+0800
-tags: [cte, group_by, sql]
+tags: [programming]
 ---
 # Programming concepts in SQL
 

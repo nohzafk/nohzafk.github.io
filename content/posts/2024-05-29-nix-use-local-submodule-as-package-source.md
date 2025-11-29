@@ -1,6 +1,6 @@
 ---
 title: nix use local submodule as package source
-tags: [flake, nix, submodule]
+tags: [nix, git]
 date: 2024-05-29T10:13:23+0800
 ---
 Found a hacked way to use local submodule directory as nix package source, so that I might separate different configuration using different git repos.

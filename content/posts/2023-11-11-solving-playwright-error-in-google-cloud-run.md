@@ -1,7 +1,7 @@
 ---
 title: Solving Playwright Error in Google cloud run container
 date: 2023-11-10T21:01:15+0800
-tags: [cloud run, docker, playwright, python]
+tags: [devops, automation, python]
 ---
 
 I recently ventured into deploying a service on Google Cloud Run. My goal was straightforward: create a service that fetches webpage titles and captures screenshots of URLs. However, the journey led me into a peculiar bug when I actually used it on Goole Cloud Run.

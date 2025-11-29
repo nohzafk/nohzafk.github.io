@@ -2,7 +2,7 @@
 title: easy config for org-mode preview latex
 post: 2024-08-26-easy-config-for-org-mode-preview-latex.md
 date: 2024-08-26T09:19:35+0800
-tags: [emacs, latex, nix]
+tags: [emacs, tex, nix]
 ---
 It's so pleasant to use [[nix]] to install and config complex software packages.
 

@@ -2,7 +2,7 @@
 title: teaching claude code to use ast-grep
 post: 2025-11-08-teaching-claude-code-to-use-ast-grep.md
 date: 2025-11-26T15:34:00+0800
-tags: [ast-grep, claude_code, mcp, ripgrep]
+tags: [tools, claude]
 ---
 # Teaching Claude Code to Use ast-grep
 

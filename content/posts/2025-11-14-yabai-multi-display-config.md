@@ -2,7 +2,7 @@
 title: Per-Display Layout Configuration in Yabai Using spacespy
 post: 2025-11-14-yabai-multi-display-config.md
 date: 2025-11-14T22:20:02+0800
-tags: [macos, spacespy, tiling_window_manager, yabai]
+tags: [macos]
 ---
 # Per-Display Layout Configuration in Yabai Using spacespy
 

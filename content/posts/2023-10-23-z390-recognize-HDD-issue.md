@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting HDD Recognition in Gigabyte Z390 Motherboard BIOS
 date: 2023-10-23
-tags: [hardware, bios, troubleshooting, sata, gigabyte z390]
+tags: [hardware]
 ---
 
 ## Problem

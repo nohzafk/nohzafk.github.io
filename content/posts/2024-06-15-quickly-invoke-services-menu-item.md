@@ -2,7 +2,7 @@
 title: quickly invoke services menu item
 post: 2024-06-15-quickly-invoke-services-menu-item.md
 date: 2024-06-14T18:41:50+0800
-tags: [applescript, macos, services]
+tags: [macos]
 ---
 In macOS, I've configured a variety of **shortcuts** to automate tasks, for example:
 - Appending selected text to a specified Obsidian note.

@@ -2,7 +2,7 @@
 title: Minimum Probability and Temperature
 post: 2024-08-18-min-p-and-temperature.md
 date: 2024-08-18T00:34:16+0800
-tags: [llm, min_p, temperature]
+tags: [llm]
 ---
 # LLM Sampling Techniques: Minimum Probability and Temperature
 

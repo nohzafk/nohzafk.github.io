@@ -1,7 +1,7 @@
 ---
 title: use Obsidian on iOS
 date: 2024-05-13T01:31:21+0800
-tags: [ios, obisidian]
+tags: [ios, note-taking]
 ---
 [[Obsidian]] works amazingly well on iOS, it is really satisfying to write notes on mobile with it. Along with iOS shortcuts and automation, using Obsidian streamlines your mobile note-taking experience like never before.
 

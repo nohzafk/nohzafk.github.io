@@ -2,7 +2,7 @@
 title: read file content in Gleam
 post: 2025-03-23-read-file-content-in-gleam.md
 date: 2025-03-24T03:30:39+0800
-tags: [beam, erlang, gleam]
+tags: [erlang, gleam]
 ---
 To my surprise when you search for `gleam read file` in google, they are not much helpful information in the first page and no code example.
 

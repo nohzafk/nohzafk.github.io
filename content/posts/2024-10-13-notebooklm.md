@@ -2,7 +2,7 @@
 title: NotebookLM
 post: 2024-10-13-notebooklm.md
 date: 2024-10-18T17:34:08+0800
-tags: [notebooklm, passive_learning, podcasts]
+tags: [llm]
 ---
 # NotebookLM: A Helpful Tool for Passive Learning
 

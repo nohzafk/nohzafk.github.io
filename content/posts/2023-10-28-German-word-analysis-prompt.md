@@ -2,7 +2,7 @@
 title: "ChatGPT prompt for Comprehensive Analysis of German Words"
 date: '2023-11-01T11:40:28+0800'
 images: ["/images/20231028_65de83.jpg"]
-tags: [chatgpt, prompt, german, linguistics]
+tags: [llm, german]
 ---
 
 

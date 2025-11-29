@@ -2,7 +2,7 @@
 title: disable vertico-posframe during search
 post: 2024-06-04-disable-vertico-posframe-during-search.md
 date: 2024-06-04T09:50:06+0800
-tags: [emacs, lisp, vertico-posframe]
+tags: [emacs, lisp]
 ---
 I use [vertico-postframe](https://github.com/tumashu/vertico-posframe) to place my completion window at the center of screen, however when doing incremental search like doom-emacs `SPC s s`, it will block the man window.
 

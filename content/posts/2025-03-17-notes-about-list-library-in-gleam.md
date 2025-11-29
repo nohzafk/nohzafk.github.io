@@ -2,7 +2,7 @@
 title: Notes about list library in Gleam
 post: 2025-03-17-notes-about-list-library-in-gleam.md
 date: 2025-03-17T00:36:27+0800
-tags: [gleam, list.max, order.negate]
+tags: [gleam]
 ---
 # Gleam language: how to find the min element in a list
 

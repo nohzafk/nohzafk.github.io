@@ -1,7 +1,7 @@
 ---
 title: kündigen and ankündigen
 date: 2024-04-14T12:07:31+0800
-tags: [chatgpt, german]
+tags: [llm, german]
 ---
 # kündigen and ankündigen 
 

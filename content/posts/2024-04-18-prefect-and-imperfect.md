@@ -1,7 +1,7 @@
 ---
 title: imperfect and perfect in grammatical tenses
 date: 2024-04-18T08:06:11+0800
-tags: [chatgpt, german]
+tags: [llm, german]
 ---
 The terms "imperfect" and "perfect" in grammatical tenses refer to specific aspects of actions in terms of their time frames and completeness, and these terms can be somewhat confusing because they don't align with the everyday meanings of "perfect" and "imperfect."
 

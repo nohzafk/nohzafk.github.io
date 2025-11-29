@@ -2,7 +2,7 @@
 title: The Dead Ends That Shaped My Obsidian System
 post: 2025-11-13-the-dead-ends-that-shaped-my-obsidian-system.md
 date: 2025-11-26T04:03:59+0800
-tags: [capture_workflow, knowledge_management, note-taking, obsidian]
+tags: [note-taking]
 ---
 Before arriving at a clean, stable setup in #Obsidian, I went through a long phase of experimentation. I tried to make it everything at once — a note-taking tool, an archive library, a task tracker, a project manager, even a reading queue.
 

@@ -2,7 +2,7 @@
 title: focus on concrete problem
 post: 2024-07-26-focus-on-concrete-problem.md
 date: 2024-07-25T17:47:44+0800
-tags: [functional, gleam, racket]
+tags: [gleam, programming]
 ---
 I want to share what I've learned while  [porting The Little Learner from Racket to Gleam](https://github.com/nohzafk/the_gleam_learner).  I will compare some Racket code with Gleam.
 

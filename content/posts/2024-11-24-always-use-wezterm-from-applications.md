@@ -2,7 +2,7 @@
 title: Always use Wezterm from Applications
 post: 2024-11-24-always-use-wezterm-from-applications.md
 date: 2024-11-24T03:24:42+0800
-tags: [homebrew, raycast, wezterm]
+tags: [macos]
 ---
 # A raycast script command to start lowfi
 I recently create a Raycast script command to start the [lowfi](https://github.com/talwat/lowfi) command effortlessly, so I can enjoy the lowfi music in no time and control it just using keyboard.

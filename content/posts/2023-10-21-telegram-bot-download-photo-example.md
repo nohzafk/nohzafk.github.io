@@ -1,7 +1,7 @@
 ---
 title: Using Flask and python-telegram-bot to Build a Webhook for Telegram Bots
 date: 2023-10-21
-tags: [python, flask, telegram, webhook, cloud run]
+tags: [python, telegram, devops]
 ---
 
 ## Introduction

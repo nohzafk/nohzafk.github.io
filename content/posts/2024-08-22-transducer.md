@@ -2,7 +2,7 @@
 title: transducer
 post: 2024-08-22-transducer.md
 date: 2024-08-21T22:55:47+0800
-tags: [gleam, python, transducers]
+tags: [gleam, python, programming]
 ---
 # Introducing Transducers: A Powerful Tool for Functional Programming
 

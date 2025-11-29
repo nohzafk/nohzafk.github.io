@@ -2,7 +2,7 @@
 title: Note Taking Philosophy
 post: 2025-11-14-note-taking-philosophy.md
 date: 2025-11-14T23:00:13+0800
-tags: [atomic_note, links_and_tags, note-taking, obsidian]
+tags: [note-taking]
 ---
 # Note
 Note format is important, use proper template to provide insights.

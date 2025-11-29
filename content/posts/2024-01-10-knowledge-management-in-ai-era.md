@@ -1,7 +1,7 @@
 ---
 title: AI时代下的知识管理演进：从搜索引擎到LLM问答，再到全面的自动化
 date: 2024-01-09T17:33:13+0800
-tags: [ai, llm, note]
+tags: [llm, note-taking]
 ---
 
 {{% panguSpacing %}}

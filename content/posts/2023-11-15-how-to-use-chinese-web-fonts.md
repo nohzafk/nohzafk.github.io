@@ -1,7 +1,7 @@
 ---
 title: "如何在网站中正确使用中文字体"
 date: 2023-11-14T15:47:20+0800
-tags: [fonts, design]
+tags: [web]
 ---
 
 {{% panguSpacing %}}

@@ -2,7 +2,7 @@
 title: my emacs vterm config
 post: 2024-06-23-my-emacs-vterm-config.md
 date: 2024-06-22T21:04:30+0800
-tags: [emacs, fish, vterm]
+tags: [emacs, tools]
 ---
 Here is the most valuable part of my emacs [vTerm](https://github.com/akermu/emacs-libvterm) config with **fish shell**.
 

@@ -1,7 +1,7 @@
 ---
 title: use yt-dlp to download youtube subtitle as plain text
 date: 2024-05-22T14:07:19+0800
-tags: [tool, youtube]
+tags: [tools, youtube]
 ---
 
 ```shell

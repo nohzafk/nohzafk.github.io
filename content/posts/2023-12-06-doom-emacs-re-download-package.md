@@ -1,7 +1,7 @@
 ---
 title: Doom emacs re-download package
 date: 2023-12-06T10:00:11+0800
-tags: [emacs, doom-emacs, straight]
+tags: [emacs]
 ---
 If you are experiencing issues with a Doom Emacs package that has been cloned from GitHub, and you want to force a re-download or re-clone of the package, you can use the following steps to address the issue:
 

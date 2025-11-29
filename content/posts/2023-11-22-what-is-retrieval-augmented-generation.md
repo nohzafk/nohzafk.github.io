@@ -1,7 +1,7 @@
 ---
 title: what is retrieval augmented generation
 date: 2023-11-22T10:33:40+0800
-tags: [llm, machine learning, rag]
+tags: [llm, machine-learning]
 ---
 This video gives an easy explanation about RAG(retrieval augmented generation)
 

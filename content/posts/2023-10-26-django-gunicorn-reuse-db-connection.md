@@ -1,7 +1,7 @@
 ---
 title: Django and Gunicorn - Reuse Database Connections
 date: 2023-10-26
-tags: [django, gunicorn]
+tags: [django]
 ---
 
 ## Introduction

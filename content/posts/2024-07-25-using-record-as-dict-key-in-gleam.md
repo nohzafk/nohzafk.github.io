@@ -2,7 +2,7 @@
 title: using record as dict key in Gleam
 post: 2024-07-25-using-record-as-dict-key-in-gleam.md
 date: 2024-07-24T17:55:52+0800
-tags: [erlang, gleam, uuid]
+tags: [erlang, gleam, programming]
 ---
 # Records in Gleam: Comparison and Uniqueness
 

@@ -1,6 +1,6 @@
 ---
 title: Integration Obsidian with Emacs
-tags: [emacs, emacsclient, obsidian]
+tags: [emacs, note-taking]
 date: 2024-05-31T21:12:02+0800
 ---
 ## [Emacs-obsidian](https://github.com/licht1stein/obsidian.el)

@@ -2,7 +2,7 @@
 title: Layers of Computation in Machine Learning
 post: 2024-07-24-layers-of-computation-in-machine-learning.md
 date: 2024-07-24T12:33:33+0800
-tags: [automatic_differentiation, machine_learning, tensors]
+tags: [machine-learning]
 ---
 This is my thought about the layers of computation in Machine Learning while [porting The Little Learner to Gleam](https://github.com/nohzafk/the_gleam_learner).
 

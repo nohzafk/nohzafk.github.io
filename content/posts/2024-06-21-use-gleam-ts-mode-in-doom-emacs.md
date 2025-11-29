@@ -2,7 +2,7 @@
 title: use gleam-ts-mode in doom-emacs
 post: 2024-06-21-use-gleam-ts-mode-in-doom-emacs.md
 date: 2024-06-21T19:19:10+0800
-tags: [emacs, gleam, treesitter]
+tags: [emacs, gleam, tree-sitter]
 ---
 Recently discovered [Gleam](https://gleam.run) language, and totally fell in love with it shortly!
 

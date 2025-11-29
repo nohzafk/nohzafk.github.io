@@ -1,7 +1,7 @@
 ---
 title: Goto in C programming language
 date: 2023-11-23T02:46:01+0800
-tags: [c, goto, linux]
+tags: [programming, linux]
 ---
 I have very limited experience about goto statement except that I know it is not encouraged in high level language. Today I learn from a comment of [why is it illegal to use “goto”](https://youtu.be/AKJhThyTmQw?si=VNvB5j_euTgwLRQa) that `goto` statement are commonly used in Linux kernel in resource acquisition/release pattern. 
 

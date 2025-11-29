@@ -1,7 +1,7 @@
 ---
 title: Installing and Enabling Content Caching for a macOS VM in Proxmox
 date: 2023-10-25
-tags: [proxmox, macos, content-caching, virtual machine]
+tags: [devops, macos]
 ---
 
 ## Overview

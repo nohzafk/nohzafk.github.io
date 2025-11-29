@@ -1,7 +1,7 @@
 ---
 title: Fixing the "disk lvmid not found" Error in Proxmox 7.4.6
 date: 2023-10-21
-tags: [proxmox, grub, lvm]
+tags: [devops, linux]
 ---
 
 ## Problem: Unable to Boot System After Upgrading to Proxmox 7.4.6

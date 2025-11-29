@@ -1,7 +1,7 @@
 ---
 date: '2023-12-18T00:48:57+08:00'
 title: 'Integrating Tree-Sitter with Emacs29 in nix-darwin'
-tags: [emacs, nix, nix-darwin, tree-sitter]
+tags: [emacs, nix, tree-sitter]
 ---
 
 I've been searching for a good solution to use Emacs29 with tree-sitter config in `nix-darwin` for quite some time.

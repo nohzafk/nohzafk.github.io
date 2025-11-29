@@ -2,7 +2,7 @@
 title: "why I go back to Apple Notes"
 date: 2023-11-16T13:35:31+0800
 images: ["/images/20231116_77398e.jpg"]
-tags: [ios, tool, notion, apple]
+tags: [ios, tools, note-taking]
 ---
 
 Jotting down thoughts helps clarify the mind. The end goal is simple: just write without fretting over tools. That's why I've always found that starting to write with pen and paper is the easiest approach. However, these days, since everyone carries their mobile phone, the trend has shifted towards writing on phones.

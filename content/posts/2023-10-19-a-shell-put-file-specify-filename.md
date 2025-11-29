@@ -2,7 +2,7 @@
 title: Specify filename for 'put file' shortcut action of A-Shell on iOS
 date: 2023-10-20
 images: ["/images/20231020_2d7567.jpg"]
-tags: [a-shell, ios, automation, scripting]
+tags: [ios, automation]
 ---
 
 As of the time of writing, the current version of A-Shell is **1.12.1**.

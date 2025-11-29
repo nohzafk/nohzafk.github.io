@@ -1,7 +1,7 @@
 ---
 date: '2023-11-17T23:04:59+08:00'
 title: 'Setup Development Environment for Macbook'
-tags: [macos, shell, python, fish, brew]
+tags: [macos, tools, python]
 ---
 ## display
 

@@ -1,7 +1,7 @@
 ---
 date: '2023-12-10T01:23:54+08:00'
 title: 'Nix Use Git Submodule'
-tags: [git, nix, flakes, darwin-rebuild]
+tags: [git, nix]
 ---
 
 ## Issue

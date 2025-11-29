@@ -2,7 +2,7 @@
 title: emacs auto completion in devcontainer
 post: 2024-06-14-emacs-auto-completion-in-devcontainer.md
 date: 2024-06-13T17:22:09+0800
-tags: [devcontainer, emacs, lsp-bridge]
+tags: [devops, emacs]
 ---
 # Using `lsp-bridge` for Language Server Protocol in Emacs
 

@@ -2,7 +2,7 @@
 title: Merge into main, but rebase feature branches
 post: 2025-01-23-merge-into-main-but-rebase-feat.md
 date: 2025-01-23T01:29:19+0800
-tags: [git, merge, rebase]
+tags: [git]
 ---
 This **git** principle advocates for a workflow that balances a clear main branch history with efficient feature development.
 

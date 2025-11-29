@@ -1,6 +1,6 @@
 ---
 title: Notes on Modern Emacs
-tags: [emacs, native_compilation, tree-sitter]
+tags: [emacs, tree-sitter]
 date: 2024-05-29T16:02:48+0800
 ---
 [Modern Emacs: all those new tools that make Emacs better and faster - YouTube](https://youtu.be/SOxlQ7ogplA?si=BgBfvShIFLtuqt0H)

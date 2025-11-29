@@ -2,7 +2,7 @@
 title: Persisting Git Configurations in Docker Containers
 date: 2023-10-20
 images: ["/images/20231020_822f1c.jpg"]
-tags: [docker, git, configuration]
+tags: [devops, git]
 ---
 
 When building Docker images, it is common to configure Git within the image using commands like `git config --global user.name` and `git config --global user.email`. These commands update the global Git configuration for the user during the image build process. However, when running `git commit` inside a container that is spawned from the image, you may encounter a "please tell me who you are" error. This error occurs because the Git configuration set during the build process does not persist in the container.

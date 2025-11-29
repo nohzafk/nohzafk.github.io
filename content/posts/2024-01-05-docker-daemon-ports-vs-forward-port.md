@@ -1,7 +1,7 @@
 ---
 title: Docker daemon ports vs forward container ports
 date: 2024-01-04T19:38:44+0800
-tags: [docker]
+tags: [devops]
 ---
 Docker daemon ports vs forward container ports 
 
