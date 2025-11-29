@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TERMINAL STYLES - Shared terminal/console UI components
+   Used across posts, projects, tags, taxonomy, and about pages
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+    --terminal-accent: #8b5a00;
+    --terminal-accent-dim: rgba(139, 90, 0, 0.5);
+    --terminal-text-dim: #666;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --terminal-accent: #80580a;
+        --terminal-accent-dim: rgba(128, 88, 10, 0.5);
+        --terminal-text-dim: #888;
+    }
+}
+
+/* ─── Terminal Header ──────────────────────────────────────────────────────── */
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--terminal-accent);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--terminal-accent-dim);
+    margin-bottom: 1.5rem;
+}
+
+.terminal-header > * {
+    margin: 0;
+}
+
+.terminal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.terminal-header-left > * {
+    margin-top: 0;
+}
+
+/* ─── Terminal Cursor ──────────────────────────────────────────────────────── */
+.terminal-cursor {
+    display: inline-block;
+    flex-shrink: 0;
+    animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ─── Terminal Command Parts ───────────────────────────────────────────────── */
+.terminal-prompt {
+    color: var(--terminal-text-dim);
+}
+
+.terminal-path {
+    color: var(--terminal-accent);
+}
+
+/* ─── Terminal Count ───────────────────────────────────────────────────────── */
+.terminal-count {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* ─── Terminal Footer ──────────────────────────────────────────────────────── */
+.terminal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Departure Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--terminal-accent-dim);
+    padding: 1rem 0;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--terminal-accent-dim);
+}
+
+.terminal-footer > * {
+    margin: 0;
+}
+
+.terminal-eof::before {
+    content: "─── ";
+}
+
+.terminal-eof::after {
+    content: " ───";
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .terminal-header {
+        font-size: 0.75rem;
+    }
+}
+
+/* ─── Accessibility: Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .terminal-cursor {
+        animation: none;
+        opacity: 1;
+    }
+}

@@ -8,6 +8,9 @@
     {{ $sccss := resources.Get "css/noto-sans-sc.css" | resources.Minify }}
     <link rel="stylesheet" href="{{ $sccss.RelPermalink }}" />
 
+    {{ $terminalCSS := resources.Get "css/terminal.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $terminalCSS.RelPermalink }}">
+
     {{ $projectsCSS := resources.Get "css/projects.css" | resources.Minify }}
     <link rel="stylesheet" href="{{ $projectsCSS.RelPermalink }}">
 

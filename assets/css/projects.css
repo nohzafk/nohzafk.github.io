@@ -37,83 +37,11 @@
 /* ─── Container ─────────────────────────────────────────────────────────────── */
 .projects-container {
     position: relative;
-    padding: 1rem 0;
     margin: 2rem 0;
 }
 
-/* ─── HUD Frame ─────────────────────────────────────────────────────────────── */
-.hud-frame {
-    display: flex;
-    align-items: center;
-    font-family: 'Departure Mono', monospace;
-    color: var(--hud-accent);
-    font-size: 0.85rem;
-    user-select: none;
-}
-
-.hud-frame.bottom {
-    margin-top: 0.5rem;
-}
-
-.hud-corner {
-    white-space: pre;
-}
-
-.hud-corner.top-left::after,
-.hud-corner.bottom-left::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--hud-border);
-    margin: 0 0.5rem;
-}
-
-.hud-corner.top-right::before,
-.hud-corner.bottom-right::before {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--hud-border);
-    margin: 0 0.5rem;
-}
-
-.hud-label {
-    padding: 0 1rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
-
-/* ─── Terminal Header ───────────────────────────────────────────────────────── */
-.terminal-header {
-    font-family: 'Departure Mono', monospace;
-    color: var(--hud-accent);
-    font-size: 0.9rem;
-    padding: 1rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.terminal-header > * {
+.projects-container > * {
     margin: 0;
-}
-
-.terminal-header::before {
-    content: "░";
-    animation: cursor-blink 1s step-end infinite;
-}
-
-@keyframes cursor-blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-.terminal-prompt {
-    color: var(--hud-text-dim);
-}
-
-.terminal-path {
-    color: var(--hud-accent);
 }
 
 /* ─── Project List ──────────────────────────────────────────────────────────── */
@@ -239,29 +167,6 @@
     content: "► ";
 }
 
-/* ─── Footer Stats ──────────────────────────────────────────────────────────── */
-.terminal-footer {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    font-family: 'Departure Mono', monospace;
-    color: var(--hud-text-dim);
-    font-size: 0.8rem;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.stat-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.stat-value {
-    color: var(--hud-accent);
-}
-
 /* ─── Responsive Design ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .projects-container {
@@ -292,20 +197,10 @@
     .project-tags {
         justify-content: flex-start;
     }
-
-    .terminal-footer {
-        flex-direction: column;
-        gap: 0.25rem;
-    }
 }
 
 /* ─── Accessibility: Reduced motion ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .terminal-header::before {
-        animation: none;
-        opacity: 1;
-    }
-
     .project-item {
         animation: none;
         opacity: 1;

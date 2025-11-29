@@ -1,30 +1,32 @@
 {{ define "main" }}
+{{- $posts := where .Pages "Type" "eq" "posts" -}}
 
 <section class="taxonomy-section">
-    <div class="hud-frame">
-        <div class="hud-corner top-left">┌─</div>
-        <div class="hud-label">#{{ .Title }}</div>
-        <div class="hud-corner top-right">─┐</div>
+    <div class="terminal-header">
+        <div class="terminal-header-left">
+            <span class="terminal-cursor">░</span>
+            <span class="terminal-prompt">cat</span>
+            <span class="terminal-path">~/tags/{{ .Title }}</span>
+        </div>
+        <span class="terminal-count">[{{ len $posts }} {{ if eq (len $posts) 1 }}POST{{ else }}POSTS{{ end }}]</span>
     </div>
 
-    <div class="taxonomy-count">
-        {{ len .Pages }} {{ if eq (len .Pages) 1 }}post{{ else }}posts{{ end }}
-    </div>
-
-    <ul class="taxonomy-list">
-        {{ range where .Pages "Type" "eq" "posts" }}
-        <li class="taxonomy-item">
-            <a href="{{ .RelPermalink }}" class="taxonomy-link">
-                <span class="taxonomy-title">{{ .Title }}</span>
-                <span class="taxonomy-date">{{ .Date.Format "2006/01/02" }}</span>
+    <ul class="log-entries">
+        {{- range $posts -}}
+        <li>
+            <a href="{{ .RelPermalink }}" class="log-entry">
+                <div class="entry-main">
+                    <span class="entry-date">{{ .Date.Format "2006/01/02" }}</span>
+                    <span class="entry-title">{{ .Title }}</span>
+                </div>
             </a>
         </li>
-        {{ end }}
+        {{- end -}}
     </ul>
 
-    <div class="hud-frame bottom">
-        <div class="hud-corner bottom-left">└─</div>
-        <div class="hud-corner bottom-right">─┘</div>
+    <div class="terminal-footer">
+        <span class="terminal-eof">EOF</span>
+        <span class="terminal-scroll">▲ ▼</span>
     </div>
 </section>
 

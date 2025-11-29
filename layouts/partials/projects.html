@@ -14,15 +14,13 @@
 {{- end -}}
 
 <div class="projects-container">
-    <div class="hud-frame">
-        <div class="hud-corner top-left">┌─</div>
-        <div class="hud-label">Projects</div>
-        <div class="hud-corner top-right">─┐</div>
-    </div>
-
     <div class="terminal-header">
-        <span class="terminal-prompt">ls -la</span>
-        <span class="terminal-path">~/projects/</span>
+        <div class="terminal-header-left">
+            <span class="terminal-cursor">░</span>
+            <span class="terminal-prompt">ls -la</span>
+            <span class="terminal-path">~/projects/</span>
+        </div>
+        <span class="terminal-count">[{{ $totalProjects }} ENTRIES]</span>
     </div>
 
     <ul class="project-list">
@@ -46,19 +44,7 @@
     </ul>
 
     <div class="terminal-footer">
-        <span class="stat-item">
-            total <span class="stat-value">{{ $totalProjects }}</span> projects
-        </span>
-        <span class="stat-item">
-            <span class="stat-value">{{ $contributorCount }}</span> contributions
-        </span>
-        <span class="stat-item">
-            <span class="stat-value">{{ len $uniqueTags }}</span> tags
-        </span>
-    </div>
-
-    <div class="hud-frame bottom">
-        <div class="hud-corner bottom-left">└─</div>
-        <div class="hud-corner bottom-right">─┘</div>
+        <span class="terminal-eof">EOF</span>
+        <span class="terminal-scroll">▲ ▼</span>
     </div>
 </div>

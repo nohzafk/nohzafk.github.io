@@ -2,11 +2,13 @@
 {{- $postCount := len $posts -}}
 
 <div class="mission-log">
-    <div class="log-header">
-        <div class="log-header-left">
-            <span class="log-title">Mission Log</span>
+    <div class="terminal-header">
+        <div class="terminal-header-left">
+            <span class="terminal-cursor">░</span>
+            <span class="terminal-prompt">tail -f</span>
+            <span class="terminal-path">~/mission.log</span>
         </div>
-        <span class="log-count">[{{ $postCount }} ENTRIES]</span>
+        <span class="terminal-count">[{{ $postCount }} ENTRIES]</span>
     </div>
 
     {{- $currentYear := "" -}}
@@ -44,8 +46,8 @@
     {{- end -}}
     </ul>
 
-    <div class="log-footer">
-        <span class="log-eof">EOF</span>
-        <span class="log-scroll">▲ ▼</span>
+    <div class="terminal-footer">
+        <span class="terminal-eof">EOF</span>
+        <span class="terminal-scroll">▲ ▼</span>
     </div>
 </div>

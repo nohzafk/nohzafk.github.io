@@ -1,19 +1,20 @@
 {{ define "main" }}
 
 <section class="about-section">
-    <div class="hud-frame">
-        <div class="hud-corner top-left">┌─</div>
-        <div class="hud-label">PROFILE</div>
-        <div class="hud-corner top-right">─┐</div>
+    <div class="terminal-header">
+        <div class="terminal-header-left">
+            <span class="terminal-cursor">░</span>
+            <span class="terminal-prompt">whoami</span>
+        </div>
     </div>
 
     <div class="about-content">
         {{ .Content }}
     </div>
 
-    <div class="hud-frame bottom">
-        <div class="hud-corner bottom-left">└─</div>
-        <div class="hud-corner bottom-right">─┘</div>
+    <div class="terminal-footer">
+        <span class="terminal-eof">EOF</span>
+        <span class="terminal-scroll">▲ ▼</span>
     </div>
 </section>
 
