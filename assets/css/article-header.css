@@ -151,6 +151,16 @@
     font-family: 'Departure Mono', monospace;
 }
 
+.about-content .dimmed {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 2rem;
+}
+
+.about-content .dimmed a {
+    color: inherit;
+}
+
 /* ─── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .article-title {

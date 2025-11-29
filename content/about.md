@@ -2,11 +2,10 @@
 layout: about
 ---
 
-Welcome, this is **nohz.afk**, I am mainly a Python programmer and have been a long time **Emacs** user. My areas of interest include Cloud Computing, DevOps, and Machine Learning.
+**[nohz.afk](https://github.com/nohzafk)** — Python programmer, long-time **Emacs** user.
 
-Here is my weblog where i jot down my thoughts about programming, share excerpts, tools, articles that I've collected.
+Interests: Cloud Computing, DevOps, Machine Learning.
 
+This is where I log thoughts on programming, collect useful tools, and share things worth remembering.
 
-### blog theme
-
-[the-monospace-web](https://github.com/owickstrom/the-monospace-web)
+<p class="dimmed">blog style inspired by <a href="https://github.com/owickstrom/the-monospace-web">the-monospace-web</a></p>
