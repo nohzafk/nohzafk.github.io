@@ -1,7 +1,7 @@
 ---
 title: Django gRPC workflow
 post: 2025-02-19-django-grpc-workflow.md
-tags: [[post]]
+tags: [django, drf, grpc]
 date: 2025-03-21T16:20:24+0800
 ---
 # 2025-02-19-django-grpc-workflow
