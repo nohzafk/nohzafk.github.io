@@ -1,11 +1,9 @@
 ---
 title: "Previewing Markdown in Emacs: From xwidget-webkit to Obsidian"
 post: 2025-12-08-previewing-markdown-in-emacs.md
-date: 2025-12-08T18:08:32+0800
+date: 2025-12-08T18:21:58+0800
 tags: [emacs, macos, note-taking]
 ---
-reviewing Markdown in Emacs: From xwidget-webkit to Obsidian
-
 Emacs's markdown-mode offers several preview options, but finding one that "just works" took some exploration.
 
 ## The xwidget-webkit Approach
