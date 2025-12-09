@@ -37,7 +37,7 @@ go install github.com/chrishrb/go-grip@latest
 
 Configure Emacs:
 
-```elisp
+```lisp
 (use-package grip-mode
   :config
   (setopt grip-command 'go-grip)
