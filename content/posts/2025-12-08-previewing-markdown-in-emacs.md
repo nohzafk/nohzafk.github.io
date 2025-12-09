@@ -1,16 +1,16 @@
 ---
-title: "Previewing Markdown in Emacs: From xwidget-webkit to Obsidian"
+title: "Previewing Markdown in Emacs with grip-mode"
 post: 2025-12-08-previewing-markdown-in-emacs.md
-date: 2025-12-08T18:21:58+0800
-tags: [emacs, macos, note-taking]
+date: 2025-12-09T22:24:07+0800
+tags: [emacs, tools]
 ---
 Emacs's markdown-mode offers several preview options, but finding one that "just works" took some exploration.
 
 ## The xwidget-webkit Approach
 
-My first attempt used markdown-live-preview-window-function with xwidget-webkit—Emacs's embedded WebKit browser. The idea: render markdown to HTML and display it in a split window.
+My first attempt used `markdown-live-preview-window-function` with xwidget-webkit—Emacs's embedded WebKit browser. The idea: render markdown to HTML and display it in a split window.
 
-```lisp
+```elisp
 (defun my/markdown-live-preview-window-xwidget (file)
   (xwidget-webkit-browse-url (concat "file://" file))
   (xwidget-webkit-buffer))
@@ -18,48 +18,51 @@ My first attempt used markdown-live-preview-window-function with xwidget-webkit�
 
 Four problems killed this approach:
 
-1. External dependency — HTML generation requires markdown (default) or pandoc binary
-2. Emacs build requirement — xwidget support must be compiled in (--with-xwidgets), which isn't universal
-3. Temp file pollution — Live preview generates HTML files that require cleanup
-4. Complexity — Managing the xwidget buffer lifecycle adds code I'd rather not maintain
+1. **External dependency** — HTML generation requires `markdown` (default) or `pandoc` binary
+2. **Emacs build requirement** — xwidget support must be compiled in (`--with-xwidgets`), which isn't universal
+3. **Temp file pollution** — Live preview generates HTML files that require cleanup
+4. **Complexity** — Managing the xwidget buffer lifecycle adds code I'd rather not maintain
 
-## The Obsidian Solution
+## The grip-mode Solution
 
-Obsidian is primarily a note-taking app, but it's also an excellent free markdown renderer with real-time preview. Using it as an external viewer sidesteps all the complexity.
+[grip-mode](https://github.com/seagle0128/grip-mode) provides GitHub-flavored markdown preview using a local server. The key insight: use [go-grip](https://github.com/chrishrb/go-grip) instead of Python's grip to avoid GitHub API rate limits and work fully offline.
 
-The key discovery: Use custom URI scheme to open a file directly in Obsidian:
+### Setup
 
-```text
-obsidian://open?path=/path/to/file.md
+Install go-grip:
+
+```bash
+go install github.com/chrishrb/go-grip@latest
 ```
 
-## Final Configuration
+Configure Emacs:
 
-```lisp
-(setopt markdown-open-command
-        (lambda ()
-          (let ((uri (concat "obsidian://open?path="
-                             (url-hexify-string (buffer-file-name)))))
-            (start-process "obsidian" nil "open" uri))))
+```elisp
+(use-package grip-mode
+  :config
+  (setopt grip-command 'go-grip)
+  (setopt grip-preview-use-webkit nil)
+  (setopt grip-update-after-change nil)
+  :bind (:map markdown-mode-map
+         ("C-c C-c p" . grip-mode)))
 ```
 
-Now `C-c C-c o` opens the current markdown file in Obsidian instantly.
+Now `C-c C-c p` launches a local server and opens the preview in your default browser. The preview updates on save.
 
-Implementation Notes
+## Why go-grip Over Python grip
 
-- markdown-open-command accepts either an executable path (string) or a function
-- When using a function, it receives no arguments—access the file via (buffer-file-name)
-- url-hexify-string handles paths with spaces or special characters
-- macOS open command launches URI schemes directly
+The original Python [grip](https://github.com/joeyespo/grip) uses GitHub's Markdown API, which has rate limits (60 requests/hour unauthenticated). You can add a GitHub token, but that's extra configuration.
 
-Why This Works
+go-grip renders locally using a Go markdown library—no network requests, no rate limits, no authentication.
 
-| Concern           | xwidget-webkit                   | Obsidian             |
-|-------------------|----------------------------------|----------------------|
-| External binary   | Requires markdown or pandoc      | None                 |
-| Emacs build       | Requires --with-xwidgets         | Works with any build |
-| Temp files        | Generates HTML requiring cleanup | None                 |
-| Setup complexity  | Custom buffer management         | Single variable      |
-| Rendering quality | Basic HTML                       | Full GFM support     |
+## Comparison
 
-Sometimes the best solution is delegating to a tool that already does the job well.
+| Concern         | xwidget-webkit           | grip-mode + go-grip     |
+| --------------- | ------------------------ | ----------------------- |
+| External binary | Requires pandoc          | go-grip (single binary) |
+| Emacs build     | Requires --with-xwidgets | Any build               |
+| Temp files      | Generates HTML           | None                    |
+| Rendering       | Basic HTML               | Full GFM                |
+| Offline         | Yes                      | Yes                     |
+
+Sometimes the best solution is a small, focused tool that does exactly one thing well.
