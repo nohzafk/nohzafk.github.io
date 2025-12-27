@@ -1,5 +1,6 @@
 /* shiki syntax highlighting */
-pre.shiki {
+pre.shiki,
+pre.shiki.shiki-themes {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-normal);
     font-size: 0.85rem;
@@ -7,22 +8,18 @@ pre.shiki {
     padding: 1em;
     margin-left: 0px;
     overflow-x: auto;
-    background-color: var(--background-color) !important;
+    background: var(--background-color) !important;
 }
 
 pre.shiki code {
     font-family: inherit;
-    background: none;
+    background: none !important;
 }
 
 /* Shiki dual theme - use CSS variables for dark mode */
 @media (prefers-color-scheme: dark) {
-    .shiki,
     .shiki span {
         color: var(--shiki-dark) !important;
-    }
-    .shiki {
-        background-color: var(--background-color) !important;
     }
 }
 

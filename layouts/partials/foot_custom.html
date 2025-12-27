@@ -69,7 +69,7 @@ import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
 
     // Create highlighter with themes and all languages
     const highlighter = await createHighlighter({
-        themes: ['min-light', 'nord'],
+        themes: ['github-light', 'nord'],
         langs: [
             ...langsToLoad.filter(l => l !== 'gleam'),
             ...customLangs
@@ -87,7 +87,7 @@ import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
         try {
             const html = highlighter.codeToHtml(code, {
                 lang: lang,
-                themes: { light: 'min-light', dark: 'nord' }
+                themes: { light: 'github-light', dark: 'nord' }
             });
             block.parentElement.outerHTML = html;
         } catch (e) {
