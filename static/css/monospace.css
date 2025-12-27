@@ -8,6 +8,14 @@
     src: url('/fonts/fira-code-v22-latin-regular.woff2') format('woff2');
 }
 
+@font-face {
+    font-display: swap;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
 /* Reset CSS */
 html,
 body,
@@ -141,7 +149,7 @@ table {
 /* Main Styles */
 :root {
     --font-family: "IBM Plex Mono", "Fira Code", "Noto Sans SC", monospace;
-    --code-font-family: "Departure Mono", "Fira Code", "Lucida Console", Monaco, monospace;
+    --code-font-family: "JetBrains Mono", "Fira Code", "Lucida Console", Monaco, monospace;
     --line-height: 1.20rem;
     --border-thickness: 2px;
     --text-color: #000;
@@ -401,7 +409,7 @@ figure pre {
 
 pre,
 code {
-    font-family: var(--font-family);
+    font-family: var(--code-font-family);
 }
 
 code {
