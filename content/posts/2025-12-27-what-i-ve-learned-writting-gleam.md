@@ -10,7 +10,7 @@ Coming from Python, picking up Gleam required a fundamental shift in how I appro
 
 In Python, I often dive straight into implementation. I'll start typing the function body and figure out the types as I go. Gleam pushed me toward a different workflow: define the function signature first, compose the overall flow, then implement the details.
 
-```rust
+```gleam
 // Step 1: Define the signatures
 fn parse_config(raw: String) -> Result(Config, ParseError)
 
@@ -37,7 +37,7 @@ Nested code is harder to read. In imperative languages, we use early returns to 
 
 Instead of nesting Results:
 
-```rust
+```gleam
 // Nested and hard to follow
 fn process_user(id: String) -> Result(User, Error) {
   case fetch_user(id) {
@@ -59,7 +59,7 @@ fn process_user(id: String) -> Result(User, Error) {
 
 Use `result.try` for flat, readable code:
 
-```rust
+```gleam
 // Flat and clear
 fn process_user(id: String) -> Result(User, Error) {
   use user <- result.try(fetch_user(id))
@@ -75,7 +75,7 @@ Each `use` line acts like an early return. If any step fails, the function retur
 
 When a failure isn't fatal and you have a sensible default, `result.unwrap` keeps things simple:
 
-```rust
+```gleam
 import gleam/result
 
 // Instead of pattern matching for a default
@@ -97,7 +97,7 @@ let cache_size = result.lazy_unwrap(parse_cache_size(config), fn() {
 
 `bool.guard` and `bool.lazy_guard` replace simple if-else patterns with a more functional style:
 
-```rust
+```gleam
 import gleam/bool
 
 fn divide(a: Int, b: Int) -> Result(Int, String) {
@@ -108,7 +108,7 @@ fn divide(a: Int, b: Int) -> Result(Int, String) {
 
 The guard checks the condition. If true, it returns the second argument immediately. Otherwise, execution continues. `lazy_guard` delays evaluation of the fallback value:
 
-```rust
+```gleam
 fn get_cached_or_fetch(key: String) -> Data {
   use <- bool.lazy_guard(cache_has(key), fn() { cache_get(key) })
   // Only runs if cache miss
@@ -122,7 +122,7 @@ fn get_cached_or_fetch(key: String) -> Data {
 
 Gleam lets you match on tuples to handle combinations of values cleanly:
 
-```rust
+```gleam
 fn handle_response(status: Status, body: Option(String)) -> String {
   case status, body {
     Success, Some(data) -> "Got: " <> data
@@ -146,7 +146,7 @@ The biggest mental shift was learning to think about effect types upfront. In Py
 
 **Might the value be absent?** Then it returns `Option(T)`.
 
-```rust
+```gleam
 // Pure function - no effects
 fn calculate_total(items: List(Item)) -> Int {
   list.fold(items, 0, fn(acc, item) { acc + item.price })
@@ -168,7 +168,7 @@ fn get_user_total(user_id: String) -> Result(Int, DbError) {
 
 I've adopted a pattern: write the basic case inline first, then extract helper functions for complex logic.
 
-```rust
+```gleam
 fn format_name(user: User) -> String {
   // Start with the basic case
   case user.display_name {

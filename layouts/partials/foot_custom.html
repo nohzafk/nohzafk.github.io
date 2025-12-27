@@ -18,18 +18,85 @@
 {{/* scramble text effect */}}
 <script defer src="/js/scramble-text.js"></script>
 
-{{/* highlightjs */}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/ini.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/lisp.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/nix.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
-<script>hljs.highlightAll();</script>
+{{/* shiki syntax highlighting */}}
+<script type="module">
+import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
+
+(async () => {
+    // Find all code blocks first to determine which languages we need
+    const codeBlocks = document.querySelectorAll('pre code[class*="language-"]');
+    if (codeBlocks.length === 0) return;
+
+    // Collect unique languages from the page
+    const langsNeeded = new Set();
+    codeBlocks.forEach(block => {
+        const match = block.className.match(/language-(\w+)/);
+        if (match) langsNeeded.add(match[1]);
+    });
+
+    // Map common language aliases
+    const langAliases = {
+        'shell': 'bash',
+        'sh': 'bash',
+        'zsh': 'bash',
+        'js': 'javascript',
+        'ts': 'typescript',
+        'py': 'python',
+        'rb': 'ruby',
+        'yml': 'yaml',
+        'md': 'markdown'
+    };
+
+    // Resolve aliases and filter to supported languages
+    const langsToLoad = [...langsNeeded].map(l => langAliases[l] || l);
+
+    // Prepare custom languages (Gleam)
+    const customLangs = [];
+    if (langsNeeded.has('gleam')) {
+        try {
+            const gleamGrammar = await fetch(
+                'https://raw.githubusercontent.com/gleam-lang/vscode-gleam/main/syntaxes/gleam.tmLanguage.json'
+            ).then(r => r.json());
+            // Use the grammar's own name but register as 'gleam' for matching
+            customLangs.push({
+                ...gleamGrammar,
+                name: 'gleam'
+            });
+        } catch (e) {
+            console.warn('Failed to load Gleam grammar:', e);
+        }
+    }
+
+    // Create highlighter with themes and all languages
+    const highlighter = await createHighlighter({
+        themes: ['min-light', 'nord'],
+        langs: [
+            ...langsToLoad.filter(l => l !== 'gleam'),
+            ...customLangs
+        ]
+    });
+
+    // Highlight all code blocks
+    codeBlocks.forEach(block => {
+        const match = block.className.match(/language-(\w+)/);
+        let lang = match ? match[1] : 'text';
+        lang = langAliases[lang] || lang;
+
+        const code = block.textContent;
+
+        try {
+            const html = highlighter.codeToHtml(code, {
+                lang: lang,
+                themes: { light: 'min-light', dark: 'nord' }
+            });
+            block.parentElement.outerHTML = html;
+        } catch (e) {
+            // If language not supported, leave as-is
+            console.warn(`Shiki: language "${lang}" not supported`, e);
+        }
+    });
+})();
+</script>
 
 {{/* schemas SEO */}}
 <script type="application/ld+json">

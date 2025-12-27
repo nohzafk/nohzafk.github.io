@@ -1,16 +1,28 @@
-/* highlightjs */
-pre code.hljs {
+/* shiki syntax highlighting */
+pre.shiki {
     font-family: var(--code-font-family);
     font-weight: var(--font-weight-normal);
     font-size: 0.85rem;
-    background: none;
     white-space: pre-wrap;
+    padding: 1em;
+    margin-left: 0px;
+    overflow-x: auto;
+    background-color: var(--background-color) !important;
 }
 
+pre.shiki code {
+    font-family: inherit;
+    background: none;
+}
+
+/* Shiki dual theme - use CSS variables for dark mode */
 @media (prefers-color-scheme: dark) {
-    pre code.hljs {
-        color: #fff;
-        background-color: #000;
+    .shiki,
+    .shiki span {
+        color: var(--shiki-dark) !important;
+    }
+    .shiki {
+        background-color: var(--background-color) !important;
     }
 }
 
@@ -21,10 +33,7 @@ pre code.hljs {
     padding: 0 4px;
 }
 
-pre:not(.mermaid) {
-    padding: 1em;
-    margin-left: 0px;
-}
+/* pre padding now handled by pre.shiki */
 
 /* blockquote style */
 blockquote {
