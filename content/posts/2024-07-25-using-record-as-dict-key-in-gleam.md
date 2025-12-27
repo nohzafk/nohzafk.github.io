@@ -37,7 +37,7 @@ It's important to note that:
 
 ## Example
 
-```rust
+```gleam
 import gleam/erlang
 
 pub type TensorId =
@@ -68,7 +68,7 @@ pub fn tensor_equal(a: Tensor, b: Tensor) -> Bool {
 }
 ```
 
-```rust
+```gleam
 import gleam/dict
 
 pub type GradientMap =

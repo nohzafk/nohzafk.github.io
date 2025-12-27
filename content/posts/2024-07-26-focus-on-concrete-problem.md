@@ -32,7 +32,7 @@ however it is never called with more than three arguments in the code base.
 
 Translating this to Gleam result in a more understandable code, with not too much verbosity.
 
-```rust
+```gleam
 pub type Shape = List(Int)
 
 pub fn default_shape_fn_1(shape: Shape) -> Shape {

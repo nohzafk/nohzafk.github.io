@@ -10,14 +10,14 @@ There are a post in Erlang Forums where the author of Gleam language pointed to 
 
 It turns out that Gleam has excellent FFI that if you are running it on BEAM (which is the default option unless you compile Gleam to javascript), for a simple case you just need to import the function from erlang, in just two lines of code.
 
-```rust
+```gleam
 @external(erlang, "file", "read_file")
 fn read_file(file_path: String) -> Result(String, Nil)
 ```
 
 and you can use it as a normal function to read the file content into a string.
 
-```rust
+```gleam
 pub fn read_file_as_string(path: String) {
   use content <- result.try(
     read_file(path)

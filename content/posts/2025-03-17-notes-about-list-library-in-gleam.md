@@ -8,7 +8,7 @@ tags: [gleam]
 
 **Gleam** language standard library has a [list.max](https://hexdocs.pm/gleam_stdlib/gleam/list.html#max) to find the maximum element in a list, but to my surprise it doesn't provide a counterpart `list.min` function, in order to do that, you have to use compare function with `order.negate`
 
-```rust
+```gleam
 import gleam/list
 import gleam/int
 import gleam/order
@@ -28,7 +28,7 @@ pub fn main() {
 
 Another noteworthy aspect is that when a list contains multiple maximum values, `list.max` returns the last occurrence of the maximum value. This behavior contrasts significantly with Python's `list.max`, which returns the first occurrence in such cases. I observed this discrepancy while comparing different implementations in both languages.
 
-```rust
+```gleam
   partitions
   |> list.max(fn(a, b) {
     float.compare(a |> expected_entropy, b |> expected_entropy)
