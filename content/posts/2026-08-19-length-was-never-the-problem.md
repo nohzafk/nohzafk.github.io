@@ -1,5 +1,5 @@
 ---
-title: "Length Was Never the Problem — Why My "Concise" Output Style Failed"
+title: "Length Was Never the Problem — Why My 'Concise' Output Style Failed"
 post: 2026-08-19-length-was-never-the-problem.md
 date: 2026-08-21T02:15:41+0800
 tags: [claude, llm, tools]
