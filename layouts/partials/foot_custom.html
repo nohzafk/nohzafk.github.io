@@ -8,6 +8,25 @@
     }
 </script>
 
+{{/* KaTeX math rendering — enabled per-page via frontmatter `math: true` */}}
+{{ if .Params.math }}
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.renderMathInElement) {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false
+            });
+        }
+    });
+</script>
+{{ end }}
+
 {{/* https://cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.js */}}
 <script defer src="/js/center-img.min.js"></script>
 

@@ -61,6 +61,13 @@ noClasses = false # tells Hugo to use CSS classes instead of inline styles
 [markup.goldmark.renderer]
 unsafe = true
 
+# pass $$...$$ / $...$ through untouched so KaTeX can render math
+[markup.goldmark.extensions.passthrough]
+enable = true
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [["$$", "$$"]]
+inline = [["$", "$"]]
+
 # utterance support
 [module]
 [[module.imports]]

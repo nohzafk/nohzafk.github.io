@@ -1,3 +1,8 @@
 {{ partial "favicon.html" . }}
 
 {{ partial "gtag.html" . }}
+
+{{/* KaTeX styles — enabled per-page via frontmatter `math: true` */}}
+{{ if .Params.math }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+{{ end }}
