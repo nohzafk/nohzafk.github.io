@@ -1,7 +1,7 @@
 ---
 title: "Agent 的 grep 缺什么：排序远比匹配重要"
 post: 2026-09-08-pi-fff-grep-lessons.md
-date: 2026-09-08T08:44:51+0800
+date: 2026-09-08T09:08:50+0800
 tags: [llm, programming, tools]
 ---
 
