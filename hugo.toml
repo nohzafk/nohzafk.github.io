@@ -1,5 +1,5 @@
 baseurl = "/"
-languageCode = "en-us"
+locale = "en-us"
 title = "Away From Keyboard"
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
@@ -7,7 +7,7 @@ footnotereturnlinkcontents = "↩"
 enableRobotsTXT = true
 
 [permalinks]
-posts = "/posts/:filename/"
+posts = "/posts/:contentbasename/"
 
 [[menu.main]]
 name = "Home"

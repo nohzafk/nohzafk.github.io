@@ -73,9 +73,9 @@ tags: [tag1, tag2, tag3]
 
 - `hugo.toml` - Main config (menu, params, markup)
 - `config/production/hugo.toml` - Production overrides (Google Analytics)
-- Permalinks: `/posts/:filename/`
+- Permalinks: `/posts/:contentbasename/`
 - Goldmark: `unsafe = true` for raw HTML support
 
 ## Deployment
 
-GitHub Actions (`.github/workflows/hugo.yml`) deploys to GitHub Pages using Hugo Extended v0.136.4.
+GitHub Actions (`.github/workflows/hugo.yml`) deploys to GitHub Pages using Hugo Extended v0.161.1.
