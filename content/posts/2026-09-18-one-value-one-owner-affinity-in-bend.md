@@ -5,13 +5,13 @@ date: 2026-09-18T09:31:47+0800
 tags: [bend, programming, types]
 ---
 
-**Bend 2 is a new programming language.** Its syntax is Python-shaped, its semantics are closer to Haskell, and it sets out to combine three things that rarely sit together: proofs checked at compile time, C-like speed, and parallelism across CPU threads and GPUs from a single source. The implementation is TypeScript; the core theory underneath it is mechanized in Lean. The language's own guide states the ambition plainly — to give people "an ambiguity-free language to communicate their intents to AIs", with a compiler that can mechanically check the result. That is the bet, and it does not live in the syntax. I wrote a short book about Bend 2 while learning it — *Bend 2, from zero*, at **https://nohzafk.github.io/bend2-from-zero/** — where every claim comes with code you can run; this post is the one idea from it I keep coming back to.
+**Bend 2 is a new programming language.** Its syntax is Python-shaped, its semantics are closer to Haskell, and it sets out to combine three things that rarely sit together: proofs checked at compile time, C-like speed, and parallelism across CPU threads and GPUs from a single source. The language's own guide states the ambition plainly — to give people "an ambiguity-free language to communicate their intents to AIs", with a compiler that can mechanically check the result. That is the bet, and it does not live in the syntax. I wrote a short book about Bend 2 while learning it — *Bend 2, from zero*, at **https://nohzafk.github.io/bend2-from-zero/** — where every claim comes with code you can run; this post is the one idea from it I keep coming back to.
 
-One claim stood out above everything else:
+One claim of mine stood out above everything else — I wrote it down before I understood what it meant:
 
-> Affinity — this is the first key to understanding everything.
+> Affinity is the first key to understanding everything in Bend.
 
-It reads like marketing, and I wanted to know whether it survives contact with the language. So rather than read Bend top-down, I decided to learn what **affinity** actually is and then read Bend through it. I installed Bend 2.0.5 and ran nine small programs to find out what the rule really enforces.
+It reads like a slogan, and slogans are cheap. So rather than read Bend top-down, I decided to learn what **affinity** actually is and then read Bend through it. I installed Bend 2.0.5 and ran nine small programs to find out what the rule really enforces.
 
 It survives. **Affinity is not a feature of Bend; it is the mechanism the rest of Bend is derived from.** The three things Bend sells are:
 
@@ -77,12 +77,6 @@ def main() -> U32:
 ```
 
 It compiles. The checker counts uses **per execution path**, not per textual occurrence. A single run walks one of the two branches, so on every path `x` is used exactly once, and the program is legal. This is the precise reason the rule says "at most once" rather than "exactly once as written".
-
-It is also why the check can be cheap. There are no loop constructs in Bend to reason about: work is repeated by recursion, and termination is verified *structurally* — a recursive call has to pass a smaller part of its input, obtained by pattern matching:
-
-> The check reads the arguments of a recursive call from left to right: each must be passed unchanged until one is a smaller part of its parameter, and the ones after it are free. So, put the parameter that shrinks first.
-
-No fixpoint over a loop body, no termination oracle. Both ownership and termination are answered by looking at the shape of the source.
 
 The same rule is enforced elsewhere with a message that is refreshingly direct. Two uses on one path:
 
@@ -190,19 +184,7 @@ def main() -> Array<U32> & U32:
 
 The array half comes back with the write in it and the element half beside it — one value, delivered as a pair, because a function that returned only the element would have destroyed the array on the way.
 
-`Array<U32> & U32` is sugar for a `Sigma` — a dependent pair. The surprise is that you cannot take it apart with a local binding:
-
-```python
-  p = a[5] <- 42
-  (a2, b) = p      # rejected
-```
-
-```
-- message : a parameter or field scrutinee
-            (a match cannot scrutinize a local binder: give it its own def)
-```
-
-That message *is* the rule: a pair may be destructured where it is a parameter or a field, never at a local binder. So either give it its own def — literally what the error asks for — or use the two projections `Base` already ships:
+`Array<U32> & U32` is sugar for a `Sigma` — a dependent pair, and Bend opens one only where it was handed to you, as a parameter or a field, never at a local binder. So either give it its own def, or use the two projections `Base` already ships:
 
 ```python
 def main() -> U32:
@@ -216,7 +198,7 @@ def main() -> U32:
 42
 ```
 
-`Pair.fst` and `Pair.snd` are one-line defs in `Base` whose parameters are pairs — exactly the shape the rule demands. I would have liked to know this on day one: wherever a `Type` is read, something comes back beside the value, and a def parameter is where you take it apart.
+`Pair.fst` and `Pair.snd` are one-line defs in `Base` whose parameters are pairs — exactly the shape the rule demands. Wherever a `Type` is read, something comes back beside the value, and a parameter is where you take it apart.
 
 ## Three selling points, one mechanism
 
@@ -228,29 +210,39 @@ Bend advertises fast, parallel and provable. In the guide these are separate cha
 
 One owner means that when `match` opens a node, the act of reading it out is also the act of freeing it, because there is provably nobody else holding it — and `affine` (not `linear`) is what makes that free when nobody holds the value at all. This explains a Bend rule that otherwise looks like mere style: you destructure values with `match` rather than by reaching for fields. That is not idiom. It is the only memory management the language has.
 
-**Parallelism that needs no proof from you.** A parallel call in Bend is written `a b = f(x) g(y)`, and the guide frames it as a two-part promise:
+**Parallelism that needs no proof from you.** A parallel call is an ordinary assignment — two calls on the right of it, two names on the left. Here it is doing real work, in a function you can run:
+
+```python
+import Base
+
+def pow2(+n: Nat) -> U32:
+  match n:
+    case 0n:
+      1
+    case 1n+p:
+      a b = pow2(p) pow2(p)
+      (a + b : U32)
+
+def main() -> IO(Unit):
+  do IO<Unit>:
+    IO.print(U32.show(pow2(10n)))
+```
+
+```
+1024
+```
+
+Two calls, two tasks, joined by the assignment. `p` is the predecessor the `case 1n+p` pattern binds, and **both calls read it**, which is legal only because `+n` marks it reusable. Take the `+` away and the line is refused, with the message you met further up: `expected : p`, `observed : p (consumed more than once)`.
+
+The guide frames the rest of it as a two-part promise:
 
 > A parallel call promises the compiler two things: 1. The calls are independent. 2. They run in roughly the same time.
 >
 > **Since Bend is pure and affine, the first point always holds.** The second is yours to keep.
 
-Read that division of labour again, because it is the best thing in the language. Point 1 — that the two calls do not interfere — is not something you assert and not something you must prove. It follows from the type system: `x` has one owner, so a second simultaneous reference to it is not expressible, so there is no aliasing, so there is no data race. Point 2, load balancing, is the part that genuinely requires a human. You are left with the scheduling problem and relieved of the correctness proof.
+Read that division of labour again, because it is the best thing in the language. Point 1 — that the two calls do not interfere — is not something you assert and not something you must prove. It is the ownership rule, applied to a line that happens to run twice at once: no second reference to a value is expressible, so there is nothing to alias, so there is nothing to race — and so nothing you were asked to prove. Point 2, load balancing, is the part that genuinely requires a human. You are left with the scheduling problem and relieved of the correctness proof.
 
-The sharper form is the negative one: **in Bend you cannot write the racy program.** `Array` is a `Type`, so there is no syntax that hands the same array to two parallel calls. It is not that the compiler warns you. There is no program to warn about.
-
-The obvious question is whether that pays off. I ran the project's own mandelbrot benchmark — 4096×4096, 51 iterations per pixel — three ways, three times each, on an M3 Max:
-
-| mode | runs (s) |
-|---|---|
-| serial CPU | 5.062 · 5.067 · 5.047 |
-| parallel CPU (14 threads) | 0.729 · 0.728 · 0.737 |
-| GPU | 0.073 · 0.060 · 0.059 |
-
-Same `.bend` source, byte-identical generated C, one difference: the mode. Twelve times faster than the parallel CPU path.
-
-Then run the same three modes on work the guide says is *bad* for a GPU. On n-queens (17×17, limit 11730) the GPU is 1.5× **slower** than the parallel CPU — 1.352 s against 0.889 s. That is the conclusion the guide reaches, and it is the more useful half of the result. Affinity buys you the *correctness* of a parallel call. It says nothing about where the work should run. That part stays yours.
-
-One caveat, and it applies to every GPU number here: they are warm. A cold first run of the same binary costs 0.339 s against 0.060 s once warmed, so the fair comparison is the warmed one — which is also not the one you get on your first run. The seconds belong to one machine; the ratio is what transfers.
+The sharper form is the negative one: **in Bend you cannot write the racy program.** For both sides of a parallel call to touch one array, that array would have to be reusable — and you already watched that be refused, on the kind rather than the shape. It is not that the compiler warns you about the race. There is no program to warn about.
 
 **Proofs that vanish at runtime.** The `-x` quantity marks an *erased* variable:
 
@@ -303,7 +295,7 @@ def twice(~f: U32 -> U32, x: U32) -> U32:
   f(f(x))
 ```
 
-Each distinct `~` argument compiles to its own copy of `twice`, so `f` is not a value being passed — it is syntax being substituted. Inside the template it can be called as many times as you like:
+Inside the template, `f` is not a value being passed — it is syntax being substituted. The guide's own words:
 
 > Each distinct set of `~` arguments compiles to its own copy of `twice`, so `f` costs nothing at runtime and, unlike a closure, may be called as many times as you like.
 
