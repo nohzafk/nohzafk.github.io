@@ -39,7 +39,7 @@
 
 {{/* shiki syntax highlighting */}}
 <script type="module">
-import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
+import { createHighlighter, bundledLanguages } from 'https://esm.sh/shiki@3.0.0';
 
 (async () => {
     // Find all code blocks first to determine which languages we need
@@ -49,7 +49,7 @@ import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
     // Collect unique languages from the page
     const langsNeeded = new Set();
     codeBlocks.forEach(block => {
-        const match = block.className.match(/language-(\w+)/);
+        const match = block.className.match(/language-([\w+#-]+)/);
         if (match) langsNeeded.add(match[1]);
     });
 
@@ -66,8 +66,12 @@ import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
         'md': 'markdown'
     };
 
-    // Resolve aliases and filter to supported languages
-    const langsToLoad = [...langsNeeded].map(l => langAliases[l] || l);
+    // Resolve aliases and keep only languages this Shiki bundle knows.
+    // One unknown name (```template, ```quote) makes createHighlighter
+    // reject, which used to leave every block on the page unhighlighted.
+    const langsToLoad = [...new Set([...langsNeeded].map(l => langAliases[l] || l))]
+        .filter(l => l !== 'gleam' && l in bundledLanguages);
+    const loaded = new Set([...langsToLoad, 'gleam', 'text', 'plaintext', 'txt']);
 
     // Prepare custom languages (Gleam)
     const customLangs = [];
@@ -90,16 +94,17 @@ import { createHighlighter } from 'https://esm.sh/shiki@3.0.0';
     const highlighter = await createHighlighter({
         themes: ['github-light', 'nord'],
         langs: [
-            ...langsToLoad.filter(l => l !== 'gleam'),
+            ...langsToLoad,
             ...customLangs
         ]
     });
 
     // Highlight all code blocks
     codeBlocks.forEach(block => {
-        const match = block.className.match(/language-(\w+)/);
+        const match = block.className.match(/language-([\w+#-]+)/);
         let lang = match ? match[1] : 'text';
         lang = langAliases[lang] || lang;
+        if (!loaded.has(lang)) lang = 'text';
 
         const code = block.textContent;
 
