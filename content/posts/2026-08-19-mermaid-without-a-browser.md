@@ -92,6 +92,10 @@ I expected the tool running real Mermaid to have this problem and the Rust reimp
 
 This is the kind of thing that bites six months later. If you pick `merman`, write down that you must emit PNG, and why — otherwise switching to SVG looks like a free optimization and silently produces empty boxes.
 
+**Update (2026-09-28, `merman-cli` 0.7.0).** The table above is what `merman` does when nobody asks — and that last sentence is wrong for 0.7.0: `merman` *does* honor `htmlLabels: false`. Pass it as a config file (`-c mermaid.json`, containing `{"htmlLabels": false}`) and a 4-node `flowchart TD` comes back with **0 `foreignObject`** and native `<text>` (6 `<text>`, 11 `<tspan>` — the same measurement the table above was taken with, minus the flag), which opens correctly in librsvg. I did not re-measure `classDiagram` or `erDiagram`: the Mermaid docs say those use `foreignObject` regardless of this flag, which is the note above about `mermaidx`'s shim. So `mermaidx` is not the only tool here that emits portable SVG — it is the only one that does so *without being asked*. PNG remains the right output for a renderer that is `merman` itself; the flag is what makes SVG usable for a renderer that is not.
+
+One trap in that flag, and it is why a fix can look like it does nothing: `-c` takes a **path**, not JSON text. Handed inline JSON, `merman-cli` exits **0** and writes an empty SVG. Whatever consumes that SVG should check it is a complete SVG before showing it — and, if the consumer is not a browser, that it has no `foreignObject`.
+
 ## Surprise 3: Font Metrics Clip Text
 
 Approximating text measurement has a visible failure mode. Same class diagram, same flags, dark theme:
@@ -134,9 +138,9 @@ For comparison, the flowchart case where everything works. `mmdc`:
 - Pixel-identical layout to `mmdc` on both test diagrams
 - `themeVariables` honored, transparent PNG with a real alpha channel
 - A drop-in flag set: `-i`, `-o`, `-t`, `-b`, `--scale`, `--configFile`, and even `-p/--puppeteerConfigFile` accepted as a no-op, so existing `mmdc` command lines work unchanged
-- Clean failures: exit 1, no partial file written, and the diagram type plus the parse error named — for an unclosed node label it reports `Diagram parse error (flowchart-v2)` with `Unterminated node label`
+- Clean failures: exit 1, no partial file written, and the diagram type plus the parse error named — for an unclosed node label it reports `Diagram parse error (flowchart-v2)` with `Unterminated node label`. One hole in that: an inline `-c` JSON (instead of a path) exits 0 and writes an empty SVG — see the update in Surprise 2.
 
-Pick differently in two cases. If you need SVG that opens outside a browser, take `mermaidx` — it is the only one here that emits portable native `<text>`. If you need guaranteed upstream parity on unusual diagram types, keep `mmdc`, because it *is* upstream.
+Pick differently in two cases. If you need SVG that opens outside a browser, take `mermaidx`, which emits portable native `<text>` without being asked (`merman-cli` emits it too, with one config flag — see the update in Surprise 2). If you need guaranteed upstream parity on unusual diagram types, keep `mmdc`, because it *is* upstream.
 
 ## Caveats
 
