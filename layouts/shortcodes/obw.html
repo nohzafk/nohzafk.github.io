@@ -1,0 +1,172 @@
+{{- /* Interactive figures for the one-buffer-one-window post.
+
+       Usage:  {{< obw "tape" >}}Caption, markdown allowed.{{< /obw >}}
+       Kinds:  tape · keys · window · pixels · loop
+
+       Each figure is a small hand-driven model of one mechanism, not a
+       picture of an Emacs window: the reader presses the buttons and the
+       figure computes the answer the same way Emacs does. Styles live in
+       assets/css/one-buffer.css, behaviour in assets/js/one-buffer.js;
+       both are fingerprinted, so a browser never pairs new markup with a cached old stylesheet;
+       both are loaded once per page. Without JS each figure shows its
+       initial state. */ -}}
+
+{{- $kind := .Get 0 -}}
+{{- if not (.Page.Store.Get "obw-assets") -}}
+{{- .Page.Store.Set "obw-assets" true -}}
+{{- $css := resources.Get "css/one-buffer.css" | fingerprint -}}
+{{- $js := resources.Get "js/one-buffer.js" | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{- end }}
+<figure class="obw" data-obw="{{ $kind }}">
+{{- if eq $kind "layout" }}
+  <svg class="obw-layout" viewBox="0 0 700 300" role="img" aria-label="One Emacs window, top to bottom: agent output, the anchor, the configuration line, then the prompt and draft on the last row.">
+    <defs>
+      <marker id="obw-lay-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <!-- the window -->
+    <rect class="obw-lay-win" fill="none" stroke="currentColor" x="120" y="14" width="360" height="272"/>
+    <rect class="obw-lay-bar" fill="none" stroke="currentColor" x="120" y="264" width="360" height="22"/>
+    <text x="130" y="279" class="obw-lay-mode">mode line</text>
+    <!-- output -->
+    <text x="134" y="40" class="obw-lay-dim">… older output scrolls away upward …</text>
+    <text x="134" y="66">⏺ Read lisp/cordis-input.el</text>
+    <text x="134" y="88">The draft starts where output ends,</text>
+    <text x="134" y="110">so one marker serves both.</text>
+    <text x="134" y="136">⏺ Bash make test</text>
+    <text x="150" y="158" class="obw-lay-dim">42 passed</text>
+    <!-- anchor -->
+    <line class="obw-lay-anchor" stroke="#b07800" stroke-dasharray="6 4" x1="120" y1="172" x2="480" y2="172"/>
+    <!-- input area -->
+    <rect class="obw-lay-cfg" fill="#b0780022" x="122" y="176" width="356" height="34"/>
+    <text x="134" y="198" class="obw-lay-cfgtext">model · in plan · ctx 12%</text>
+    <rect class="obw-lay-draft" fill="#b0780044" x="122" y="212" width="356" height="50"/>
+    <text x="134" y="234"><tspan class="obw-lay-prompt">&gt; </tspan>fix the flaky test first,</text>
+    <text x="150" y="254">then rerun it<tspan class="obw-lay-caret">▌</tspan></text>
+    <!-- left: where output goes -->
+    <text x="10" y="148" class="obw-lay-note">new output is</text>
+    <text x="10" y="162" class="obw-lay-note">inserted here</text>
+    <line x1="96" y1="172" x2="116" y2="172" stroke="currentColor" stroke-width="1.5" marker-end="url(#obw-lay-arrow)"/>
+    <!-- right: brackets -->
+    <path class="obw-lay-brace" fill="none" stroke="currentColor" d="M492 22 h8 v146 h-8"/>
+    <text x="510" y="84">agent output</text>
+    <text x="510" y="102" class="obw-lay-note">read-only text;</text>
+    <text x="510" y="118" class="obw-lay-note">grows, and moves up</text>
+    <text x="510" y="176" class="obw-lay-anchortext">anchor</text>
+    <path class="obw-lay-brace obw-lay-brace-in" fill="none" stroke="#b07800" d="M492 178 h8 v84 h-8"/>
+    <text x="510" y="206" class="obw-lay-in">input area</text>
+    <text x="510" y="224" class="obw-lay-note">configuration line,</text>
+    <text x="510" y="240" class="obw-lay-note">prompt and draft;</text>
+    <text x="510" y="256" class="obw-lay-note">stays on the last rows</text>
+  </svg>
+{{- else if eq $kind "tape" }}
+  <div class="obw-controls">
+    <button type="button" data-act="type">type a key</button>
+    <button type="button" data-act="output">output arrives</button>
+    <button type="button" data-act="reset" class="obw-quiet">reset</button>
+  </div>
+  <div class="obw-tape" aria-live="polite"></div>
+  <div class="obw-legend">
+    <span><i class="obw-sw obw-sw-ro"></i><code>read-only</code></span>
+    <span><i class="obw-sw obw-sw-face"></i><code>face</code> (prompt)</span>
+    <span><i class="obw-sw obw-sw-km"></i><code>keymap</code> (input map)</span>
+    <span><i class="obw-sw obw-sw-ns"></i><code>rear-nonsticky</code> stops here</span>
+  </div>
+  <div class="obw-say">Press a button. Each cell is one character of the buffer; the bars under it are its text properties.</div>
+{{- else if eq $kind "keys" }}
+  <div class="obw-controls">
+    <span class="obw-label">point is in</span>
+    <button type="button" data-where="output">the output</button>
+    <button type="button" data-where="region" aria-pressed="true">the input area</button>
+    <span class="obw-sep"></span>
+    <label class="obw-check"><input type="checkbox" data-sweep checked> sweep</label>
+    <label class="obw-check"><input type="checkbox" data-remap checked> remap back</label>
+  </div>
+  <div class="obw-controls obw-keycaps">
+    <span class="obw-label">press</span>
+    <button type="button" class="obw-cap" data-key="q" aria-pressed="true">q</button>
+    <button type="button" class="obw-cap" data-key="5">5</button>
+    <button type="button" class="obw-cap" data-key="SPC">SPC</button>
+    <button type="button" class="obw-cap" data-key="a">a</button>
+    <button type="button" class="obw-cap" data-key="C-RET">C-RET</button>
+  </div>
+  <ol class="obw-layers"></ol>
+  <div class="obw-result"></div>
+{{- else if eq $kind "window" }}
+  <div class="obw-controls">
+    <label class="obw-range">lines of output <input type="range" min="0" max="34" value="3" data-n> <b data-nout>3</b></label>
+    <label class="obw-check"><input type="checkbox" data-pad checked> pad before the body</label>
+  </div>
+  <div class="obw-winwrap">
+    <div class="obw-screen" aria-hidden="true"></div>
+    <dl class="obw-readout"></dl>
+  </div>
+{{- else if eq $kind "pixels" }}
+  <div class="obw-controls">
+    <button type="button" data-act="line">+ a line of output</button>
+    <button type="button" data-act="head">+ a heading</button>
+    <button type="button" data-act="emoji">+ a line with ⚒</button>
+    <span class="obw-sep"></span>
+    <label class="obw-check"><input type="checkbox" data-spacer> spacer</label>
+  </div>
+  <div class="obw-winwrap">
+    <div class="obw-px" aria-hidden="true"></div>
+    <dl class="obw-readout"></dl>
+  </div>
+{{- else if eq $kind "loop" }}
+  <svg class="obw-loop" viewBox="0 0 680 236" role="img" aria-label="One turn of the Emacs command loop: command, post-command-hook, redisplay, then timers.">
+    <defs>
+      <marker id="obw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <line class="obw-loop-axis" x1="20" y1="70" x2="660" y2="70" marker-end="url(#obw-arrow)"/>
+    <g class="obw-loop-st">
+      <circle cx="60" cy="70" r="6"/>
+      <text x="60" y="44" text-anchor="middle">key</text>
+      <text x="60" y="98" text-anchor="middle" class="obw-sub">C-RET</text>
+    </g>
+    <g class="obw-loop-st">
+      <circle cx="190" cy="70" r="6"/>
+      <text x="190" y="44" text-anchor="middle">command</text>
+      <text x="190" y="98" text-anchor="middle" class="obw-sub">draft cleared,</text>
+      <text x="190" y="112" text-anchor="middle" class="obw-sub">region −4 rows</text>
+    </g>
+    <g class="obw-loop-st obw-loop-good">
+      <circle cx="330" cy="70" r="8"/>
+      <text x="330" y="44" text-anchor="middle">post-command-hook</text>
+      <text x="330" y="98" text-anchor="middle" class="obw-sub">pad 61 → 65</text>
+    </g>
+    <g class="obw-loop-st obw-loop-frame">
+      <rect x="440" y="56" width="60" height="28" rx="3" fill="none" stroke="currentColor"/>
+      <text x="470" y="44" text-anchor="middle">redisplay</text>
+      <text x="470" y="74" text-anchor="middle" class="obw-sub">frame</text>
+    </g>
+    <g class="obw-loop-st obw-loop-bad">
+      <circle cx="600" cy="70" r="6"/>
+      <text x="600" y="44" text-anchor="middle">timer, delay 0</text>
+      <text x="600" y="98" text-anchor="middle" class="obw-sub">one frame late</text>
+    </g>
+    <circle class="obw-loop-dot" cx="60" cy="70" r="4"/>
+    <g class="obw-loop-strip" transform="translate(0,138)">
+      <text x="330" y="0" text-anchor="middle" class="obw-sub">frame N</text>
+      <text x="400" y="0" text-anchor="middle" class="obw-sub">frame N+1</text>
+      <text x="20" y="22" class="obw-sub">pad set in the hook</text>
+      <rect x="300" y="10" width="60" height="16" class="obw-ok"/><rect x="370" y="10" width="60" height="16" class="obw-ok"/>
+      <text x="446" y="22" class="obw-sub">region stays on the last row</text>
+      <text x="20" y="52" class="obw-sub">pad set in a 0-delay timer</text>
+      <rect x="300" y="40" width="60" height="16" class="obw-bad"/><rect x="370" y="40" width="60" height="16" class="obw-ok"/>
+      <text x="446" y="52" class="obw-sub">one wrong frame: a flicker</text>
+      <text x="20" y="82" class="obw-sub">pad set only on output</text>
+      <rect x="300" y="70" width="60" height="16" class="obw-bad"/><rect x="370" y="70" width="60" height="16" class="obw-bad"/>
+      <text x="446" y="82" class="obw-sub">4-row gap until more output</text>
+    </g>
+  </svg>
+{{- else }}
+  <p>unknown figure: <code>{{ $kind }}</code></p>
+{{- end }}
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

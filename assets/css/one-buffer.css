@@ -1,0 +1,541 @@
+/* Figures for the one-buffer-one-window post. Everything is scoped under .obw.
+   Visual language: a lab bench, not a screenshot. Each figure is a model you
+   drive with real controls; colour means a text property or a role, never
+   decoration. */
+
+.obw {
+    --obw-fg: var(--text-color, #111);
+    --obw-dim: var(--text-color-alt, #666);
+    --obw-bg: var(--background-color, #fafafa);
+    --obw-bg2: var(--background-color-alt, #eee);
+    --obw-ro: #7a8699;       /* read-only */
+    --obw-face: #8e44ad;     /* prompt face */
+    --obw-km: #b07800;       /* keymap / the input area */
+    --obw-ok: #2b8a3e;
+    --obw-bad: #c0443f;
+    --obw-pad: rgba(122, 134, 153, 0.35);
+
+    margin: 2.2rem 0 !important;
+    padding: 14px 16px 12px;
+    border-left: 4px solid var(--obw-km);
+    background: var(--obw-bg2);
+    font-family: var(--code-font-family, monospace);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--obw-fg);
+}
+
+@media (prefers-color-scheme: dark) {
+    .obw {
+        --obw-ro: #8d99ad;
+        --obw-face: #c39bd3;
+        --obw-km: #f0b429;
+        --obw-ok: #69db7c;
+        --obw-bad: #ff7b72;
+        --obw-pad: rgba(141, 153, 173, 0.3);
+    }
+}
+
+/* the theme puts margin-top on every *+* */
+.obw *,
+.obw *+* {
+    margin-top: 0;
+    box-sizing: border-box;
+}
+
+.obw figcaption {
+    margin-top: 12px;
+    font-family: var(--font-family, monospace);
+    font-size: 13px;
+    color: var(--obw-dim);
+}
+
+.obw code {
+    font-size: inherit;
+}
+
+/* ── controls ─────────────────────────────────────────────── */
+
+.obw-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+    margin-bottom: 10px;
+}
+
+.obw button {
+    font: inherit;
+    font-weight: 600;
+    text-transform: none;
+    height: auto;
+    line-height: 1.4;
+    padding: 3px 10px;
+    border: 1.5px solid var(--obw-fg);
+    border-radius: 3px;
+    background: var(--obw-bg);
+    color: var(--obw-fg);
+    cursor: pointer;
+}
+
+.obw button:hover {
+    border-color: var(--obw-km);
+}
+
+.obw button[aria-pressed="true"] {
+    background: var(--obw-fg);
+    color: var(--obw-bg);
+}
+
+.obw button.obw-quiet {
+    border-style: dashed;
+    color: var(--obw-dim);
+}
+
+.obw-label,
+.obw-check,
+.obw-range {
+    color: var(--obw-dim);
+}
+
+.obw-check,
+.obw-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.obw input[type=range] {
+    -webkit-appearance: auto;
+    appearance: auto;
+    border: 0;
+    padding: 0;
+    height: auto;
+    background: none;
+    width: 160px;
+    accent-color: var(--obw-km);
+}
+
+.obw-check,
+.obw-range {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.obw input[type=checkbox] {
+    flex: 0 0 auto;
+    width: 2ch;
+    min-width: 0;
+}
+
+.obw-sep {
+    flex: 0 0 12px;
+}
+
+.obw-cap {
+    min-width: 34px;
+    box-shadow: 0 2px 0 var(--obw-fg);
+}
+
+.obw-cap:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.obw-say {
+    margin-top: 8px;
+    min-height: 2.8em;
+    color: var(--obw-fg);
+}
+
+/* ── tape: the buffer as a strip of characters ──────────────── */
+
+.obw-tape {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding: 18px 0 4px;
+}
+
+.obw-cell {
+    position: relative;
+    width: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.obw-ch {
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border: 1px solid var(--obw-dim);
+    border-right-width: 0;
+    background: var(--obw-bg);
+    font-size: 13px;
+}
+
+.obw-cell:last-child .obw-ch,
+.obw-cell.obw-anchor-before + .obw-cell .obw-ch {
+    border-right-width: 1px;
+}
+
+.obw-lane {
+    height: 4px;
+}
+
+.obw-lane.on.ro { background: var(--obw-ro); }
+.obw-lane.on.face { background: var(--obw-face); }
+.obw-lane.on.km { background: var(--obw-km); }
+
+.obw-cell.ns::after {
+    /* rear-nonsticky: a wall on the right edge of the character */
+    content: "";
+    position: absolute;
+    right: -2px;
+    top: 24px;
+    bottom: -3px;
+    width: 3px;
+    background: var(--obw-bad);
+}
+
+.obw-cell.anchor::before {
+    content: "anchor";
+    position: absolute;
+    left: -1px;
+    top: -17px;
+    font-size: 10px;
+    color: var(--obw-km);
+    border-left: 2px solid var(--obw-km);
+    padding-left: 3px;
+    height: 44px;
+    line-height: 12px;
+}
+
+.obw-cell.fresh .obw-ch {
+    animation: obw-pop 0.5s ease-out;
+}
+
+.obw-cell.point .obw-ch {
+    box-shadow: inset 0 -3px 0 var(--obw-fg);
+}
+
+.obw-ch.nl {
+    color: var(--obw-dim);
+    font-size: 10px;
+}
+
+@keyframes obw-pop {
+    from { background: var(--obw-km); color: var(--obw-bg); transform: translateY(-6px); }
+    to { transform: none; }
+}
+
+.obw-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 8px;
+    color: var(--obw-dim);
+    font-size: 11px;
+}
+
+.obw-sw {
+    display: inline-block;
+    width: 14px;
+    height: 4px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.obw-sw-ro { background: var(--obw-ro); }
+.obw-sw-face { background: var(--obw-face); }
+.obw-sw-km { background: var(--obw-km); }
+.obw-sw-ns { width: 3px; height: 12px; background: var(--obw-bad); }
+
+/* ── keys: the lookup cascade ──────────────────────────────── */
+
+.obw-layers {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    counter-reset: obw-layer;
+}
+
+.obw-layers li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 17em 1fr;
+    gap: 12px;
+    padding: 6px 10px;
+    margin-top: 4px;
+    border: 1.5px dashed var(--obw-dim);
+    background: var(--obw-bg);
+    color: var(--obw-dim);
+    transition: border-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.obw-layers li::before {
+    content: none;
+}
+
+.obw-layers li small {
+    font-size: 11px;
+}
+
+.obw-layers li.absent {
+    opacity: 0.35;
+}
+
+.obw-layers li.passed {
+    border-style: solid;
+}
+
+.obw-layers li.hit {
+    border: 1.5px solid var(--obw-km);
+    color: var(--obw-fg);
+    box-shadow: 4px 4px 0 var(--obw-km);
+}
+
+.obw-layers li.hit.bad {
+    border-color: var(--obw-bad);
+    box-shadow: 4px 4px 0 var(--obw-bad);
+}
+
+.obw-layers li b {
+    color: var(--obw-fg);
+    font-weight: 600;
+}
+
+.obw-result {
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.obw-result .ok { color: var(--obw-ok); }
+.obw-result .bad { color: var(--obw-bad); }
+
+/* ── window: rows as blocks ────────────────────────────────── */
+
+.obw-winwrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.obw-screen {
+    flex: 0 0 auto;
+    width: 230px;
+    padding: 4px;
+    border: 2px solid var(--obw-fg);
+    background: var(--obw-bg);
+    position: relative;
+}
+
+.obw-screen::before {
+    content: attr(data-above);
+    position: absolute;
+    top: -18px;
+    left: 0;
+    font-size: 10px;
+    color: var(--obw-dim);
+}
+
+.obw-r {
+    height: 9px;
+    margin-top: 2px !important;
+    position: relative;
+}
+
+.obw-r:first-child {
+    margin-top: 0 !important;
+}
+
+.obw-r.body i {
+    display: block;
+    height: 100%;
+    background: var(--obw-fg);
+    opacity: 0.55;
+    border-radius: 1px;
+}
+
+.obw-r.body.new i {
+    background: var(--obw-ok);
+    opacity: 1;
+}
+
+.obw-r.pad {
+    background: repeating-linear-gradient(135deg, var(--obw-pad) 0 3px, transparent 3px 6px);
+}
+
+.obw-r.reg {
+    background: var(--obw-km);
+}
+
+.obw-r.reg.cfg {
+    opacity: 0.55;
+}
+
+.obw-r.empty {
+    border-bottom: 1px dotted var(--obw-bg2);
+}
+
+.obw-r.reg::after {
+    content: "";
+    position: absolute;
+    right: -14px;
+    top: 0;
+    border: 5px solid transparent;
+    border-right-color: var(--obw-km);
+}
+
+.obw-screen.floating .obw-r.reg::after {
+    border-right-color: var(--obw-bad);
+}
+
+.obw-readout {
+    flex: 1 1 220px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px 12px;
+    align-content: start;
+}
+
+.obw-readout dt {
+    color: var(--obw-dim);
+}
+
+.obw-readout dd {
+    margin: 0;
+}
+
+.obw-readout .ok { color: var(--obw-ok); }
+.obw-readout .bad { color: var(--obw-bad); }
+
+/* ── pixels: 1:1 scale ─────────────────────────────────────── */
+
+.obw-px {
+    flex: 0 0 auto;
+    width: 300px;
+    height: 200px;
+    border: 2px solid var(--obw-fg);
+    border-top-style: dashed;
+    background: var(--obw-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.obw-pl {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 6px;
+    border-bottom: 1px solid var(--obw-bg2);
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 11px;
+    transition: height 0.35s ease;
+}
+
+.obw-pl .h {
+    flex: 0 0 34px;
+    color: var(--obw-dim);
+    font-size: 10px;
+    text-align: right;
+}
+
+.obw-pl.head { font-weight: 700; font-size: 12.5px; }
+.obw-pl.emoji { font-size: 11px; }
+.obw-pl.cfg { background: color-mix(in srgb, var(--obw-km) 25%, transparent); align-items: flex-start; padding-top: 3px; }
+.obw-pl.draft { background: color-mix(in srgb, var(--obw-km) 45%, transparent); }
+
+.obw-gap {
+    flex: 0 0 auto;
+    background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--obw-bad) 45%, transparent) 0 4px, transparent 4px 8px);
+    transition: height 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .obw *,
+    .obw *::before,
+    .obw *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ── loop: SVG timeline ────────────────────────────────────── */
+
+.obw-loop {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--obw-fg);
+    font-family: var(--code-font-family, monospace);
+    font-size: 12px;
+}
+
+.obw-loop text { fill: currentColor; }
+.obw-loop .obw-sub { fill: var(--obw-dim); font-size: 11px; }
+.obw-loop-axis { stroke: currentColor; stroke-width: 1.5; }
+.obw-loop-st circle { fill: var(--obw-bg); stroke: currentColor; stroke-width: 2; }
+.obw-loop-good circle { stroke: var(--obw-ok); fill: var(--obw-ok); }
+.obw-loop-bad circle { stroke: var(--obw-bad); }
+.obw-loop-frame rect { fill: var(--obw-bg); stroke: currentColor; stroke-width: 2; }
+.obw-loop .obw-ok { fill: var(--obw-ok); }
+.obw-loop .obw-bad { fill: var(--obw-bad); }
+
+.obw-loop-dot {
+    fill: var(--obw-km);
+    animation: obw-travel 4s linear infinite;
+}
+
+@keyframes obw-travel {
+    0% { transform: translateX(0); opacity: 0; }
+    5% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { transform: translateX(540px); opacity: 0; }
+}
+
+@media (max-width: 560px) {
+    .obw-layers li { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* ── layout: one window, top to bottom ─────────────────────── */
+
+.obw-layout {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--obw-fg);
+    font-family: var(--code-font-family, monospace);
+    font-size: 13px;
+}
+
+.obw-layout text { fill: currentColor; }
+.obw-layout .obw-lay-dim { fill: var(--obw-dim); }
+.obw-layout .obw-lay-note { fill: var(--obw-dim); font-size: 11.5px; }
+.obw-layout .obw-lay-mode { fill: var(--obw-dim); font-size: 11px; }
+.obw-lay-win { fill: var(--obw-bg); stroke: currentColor; stroke-width: 2; }
+.obw-lay-bar { fill: var(--obw-bg2); stroke: currentColor; stroke-width: 2; }
+.obw-lay-anchor { stroke: var(--obw-km); stroke-width: 2; stroke-dasharray: 6 4; }
+.obw-layout .obw-lay-anchortext { fill: var(--obw-km); font-weight: 600; }
+.obw-lay-cfg { fill: color-mix(in srgb, var(--obw-km) 18%, transparent); }
+.obw-lay-draft { fill: color-mix(in srgb, var(--obw-km) 34%, transparent); }
+.obw-layout .obw-lay-cfgtext { fill: var(--obw-dim); }
+.obw-layout .obw-lay-prompt { fill: var(--obw-face); font-weight: 700; }
+.obw-layout .obw-lay-caret { fill: var(--obw-fg); animation: obw-blink 1.1s steps(1) infinite; }
+.obw-lay-brace { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.obw-lay-brace-in { stroke: var(--obw-km); stroke-width: 2.5; }
+.obw-layout .obw-lay-in { fill: var(--obw-km); font-weight: 600; }
+
+@keyframes obw-blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .obw-layout .obw-lay-caret { animation: none; }
+}
