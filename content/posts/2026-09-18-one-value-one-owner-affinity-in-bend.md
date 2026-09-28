@@ -5,29 +5,27 @@ date: 2026-09-18T09:31:47+0800
 tags: [bend, programming, types]
 ---
 
-**Bend 2 is a new programming language.** Its syntax is Python-shaped, its semantics are closer to Haskell, and it sets out to combine three things that rarely sit together: proofs checked at compile time, C-like speed, and parallelism across CPU threads and GPUs from a single source. The language's own guide states the ambition plainly — to give people "an ambiguity-free language to communicate their intents to AIs", with a compiler that can mechanically check the result. That is the bet, and it does not live in the syntax. I wrote a short book about Bend 2 while learning it — *Bend 2, from zero*, at **https://nohzafk.github.io/bend2-from-zero/** — where every claim comes with code you can run; this post is the one idea from it I keep coming back to.
+Bend 2 is a new programming language. It looks like Python, behaves more like Haskell, and tries to combine three things that rarely go together: proofs checked at compile time, C-like speed, and parallelism across CPU threads and GPUs from one source. Its guide is candid about the goal: to give people "an ambiguity-free language to communicate their intents to AIs", with a compiler that checks the result mechanically.
 
-One claim of mine stood out above everything else — I wrote it down before I understood what it meant:
+While learning it I wrote a short book, *Bend 2, from zero* (<https://nohzafk.github.io/bend2-from-zero/>), where every claim comes with code you can run. Early on I wrote down a sentence I didn't yet understand:
 
 > Affinity is the first key to understanding everything in Bend.
 
-It reads like a slogan, and slogans are cheap. So rather than read Bend top-down, I decided to learn what **affinity** actually is and then read Bend through it. I installed Bend 2.0.5 and ran nine small programs to find out what the rule really enforces.
+That is the kind of line that sounds deep and means nothing, so I tested it. I installed Bend 2.0.5, wrote small programs to see what the rule actually enforces, and then reread the language through it.
 
-It survives. **Affinity is not a feature of Bend; it is the mechanism the rest of Bend is derived from.** The three things Bend sells are:
+The line held up. Bend advertises three things:
 
 - no garbage collector
 - parallelism without locks
 - proofs that cost nothing at runtime
 
-They are not three pieces of engineering. They are three consequences of one rule about who owns a value.
-
-But the interesting part is what the rule *costs*, and where it diverges from Rust, which is where most programmers will have met the word "affine" before.
+They look like three separate pieces of engineering. They turned out to be three consequences of one rule about who owns a value. This post is about that rule, what it costs, and where it parts ways with Rust, which is where most programmers have met the word "affine" before.
 
 ## Where the word comes from
 
-"Affine" is not a Bend coinage. It comes from logic, specifically from asking what you are allowed to do with an assumption once you have it.
+"Affine" isn't Bend's word. It comes from logic, from the question of what you may do with an assumption once you have it.
 
-In a proof, an assumption (a variable) can be treated in three ways, called the **structural rules**:
+A proof can treat an assumption (a variable) in three ways, known as the **structural rules**:
 
 | Rule | Meaning |
 |---|---|
@@ -35,9 +33,9 @@ In a proof, an assumption (a variable) can be treated in three ways, called the 
 | **contraction** | you may *duplicate* an assumption and use it twice |
 | **exchange** | you may *reorder* assumptions |
 
-Ordinary programming languages allow all three, which is why you never think about them. In 1987 Girard removed all three and got **linear logic**, where every assumption is used exactly once. The family is now called **substructural type systems** — the standard reference is David Walker's chapter of that name in *Advanced Topics in Types and Programming Languages* (MIT Press, 2005).
+Ordinary languages allow all three, which is why nobody thinks about them. In 1987 Girard removed weakening and contraction and got **linear logic**, where every assumption is used exactly once. Systems that drop some of these rules are called **substructural type systems**; the standard reference is David Walker's chapter of that name in *Advanced Topics in Types and Programming Languages* (MIT Press, 2005).
 
-Then people started putting rules back one at a time, and each combination got a name:
+Putting rules back one at a time gives a family, and each member has a name:
 
 ```
 exactly once   linear
@@ -46,17 +44,15 @@ at least once  relevant
 any number     unrestricted ordinary languages
 ```
 
-**Affine logic adds back weakening and nothing else.** That is the entire definition, and it is where the name comes from — an affine combination in geometry lets a coefficient go to zero, so a term can vanish, and "a term can vanish" is exactly the rule being added.
-
-So the one-sentence definition of Bend's default is:
+Affine is linear plus weakening, nothing more. So Bend's default fits in one sentence:
 
 > **A value may be used at most once.**
 
-The word doing the work in that sentence is **at most**, and it is not a rounding of "exactly once". It is the whole difference between affine and linear, and it is worth testing.
+"At most" is not a loose way of saying "exactly". It is the whole difference between affine and linear, and it can be tested.
 
-## The rule is about paths, not occurrences
+## The rule counts paths, not occurrences
 
-Here is the program that made it click for me. `x` appears twice in the source:
+This is the program that made it click for me. `x` appears twice in the source:
 
 ```python
 import Base
@@ -76,9 +72,9 @@ def main() -> U32:
 11
 ```
 
-It compiles. The checker counts uses **per execution path**, not per textual occurrence. A single run walks one of the two branches, so on every path `x` is used exactly once, and the program is legal. This is the precise reason the rule says "at most once" rather than "exactly once as written".
+It compiles, because the checker counts uses **per execution path**, not per occurrence in the text. Any run takes one branch, so on every path `x` is used once.
 
-The same rule is enforced elsewhere with a message that is refreshingly direct. Two uses on one path:
+Two uses on the same path are refused, with a refreshingly direct message:
 
 ```python
 import Base
@@ -94,7 +90,7 @@ Error:
 - observed : x (consumed more than once)
 ```
 
-And the complement, which is the part people get wrong: **unused is fine**.
+And the part people get wrong: **not using a value is fine.**
 
 ```python
 def main() -> U32:
@@ -106,11 +102,11 @@ def main() -> U32:
 7
 ```
 
-If Bend were linear rather than affine, this would be an error. Putting weakening back is what makes "declare a value and not use it" legal — and as you will see in a moment, it is also what makes a value's destruction free.
+In a linear language this would be an error. Weakening is what makes an unused value legal, and, as we'll see, it is also what makes destroying a value free.
 
-## Two levels: quantity on the term, kind on the type
+## Two annotations: quantity on the variable, kind on the type
 
-There are two annotations in play and confusing them cost me three failed experiments. One is written on the variable, the other on the type.
+Two different annotations are involved, and mixing them up cost me three failed experiments. One goes on the variable, the other on the type.
 
 **Quantity** goes on the variable:
 
@@ -127,7 +123,7 @@ Type = Kind(&1)    at most once  — things with identity
 Data = Kind(&2)    copyable      — things without
 ```
 
-`+` is the escape hatch, and it is not free: `+x` turns the value into a reference-counted one. But `+` is also not unconditional — **it requires the type to be `Data`**, because copying a value presupposes that the value can be copied. Ask for it on a `Type` and you get:
+`+` is the escape hatch. It isn't free, since `+x` makes the value reference-counted, and it isn't always available: **it requires the type to be `Data`**. You can only copy what can be copied. Ask for it on a `Type`:
 
 ```python
 def main() -> U32:
@@ -141,7 +137,7 @@ Error:
 - observed : Type
 ```
 
-`Array` is a `Type`, so it can never be `+`. But a `List` is `Data`, and the same shape of program passes:
+`Array` is a `Type`, so it can never be `+`. `List` is `Data`, and the same kind of program passes:
 
 ```python
 def main() -> Nat:
@@ -153,9 +149,9 @@ def main() -> Nat:
 6n
 ```
 
-(`&2` is the quantity being threaded through `List.length` explicitly; the count is in the type, not inferred.)
+(The `&2` passes the quantity to `List.length` explicitly. Bend puts the count in the type rather than inferring it.)
 
-So which types are `Type`? I counted the `Base` library: **13 are `Data`, and exactly 3 are `Type`.**
+Which types are `Type`, then? In the `Base` library, 13 types are `Data` and only 3 are `Type`:
 
 ```
 Array      a block of mutable memory
@@ -163,13 +159,11 @@ IO.OP      an I/O operation
 App        an application / window state
 ```
 
-All three are things with an identity. Copying a block of mutable memory would break the in-place-update guarantee that makes arrays usable in a pure language; copying an I/O handle would counterfeit a resource; copying an application state would fork a window. Copying a `List<U32>`, by contrast, just copies a structure, and the two halves cannot interfere.
+All three have an identity. Copying a block of mutable memory would break the in-place update that makes arrays usable in a pure language. Copying an I/O handle would counterfeit a resource. Copying an application state would fork a window. Copying a `List<U32>` just copies a structure, and the two copies can't interfere with each other. That is the entire reason `+List<U32>` is legal and `+Array<U32>` isn't.
 
-That, and nothing else, is why `+List<U32>` is legal and `+Array<U32>` is not.
+## What an array read returns
 
-## What an array read actually returns
-
-That in-place guarantee is worth looking at once, because it is where affinity stops being an abstraction and starts shaping syntax. A read cannot hand back the element alone — if it did, the array would be gone, since reading consumes it. So it returns both:
+The in-place guarantee is where affinity stops being abstract and starts shaping syntax. Reading an array consumes it, so a read can't return just the element; the array would be gone. It returns both:
 
 ```python
 def main() -> Array<U32> & U32:
@@ -182,9 +176,9 @@ def main() -> Array<U32> & U32:
 ([0, 0, 0, 0, 0, 42, 0, 0], 42)
 ```
 
-The array half comes back with the write in it and the element half beside it — one value, delivered as a pair, because a function that returned only the element would have destroyed the array on the way.
+You get the array back, with the write in it, and the element beside it.
 
-`Array<U32> & U32` is sugar for a `Sigma` — a dependent pair, and Bend opens one only where it was handed to you, as a parameter or a field, never at a local binder. So either give it its own def, or use the two projections `Base` already ships:
+`Array<U32> & U32` is sugar for a `Sigma`, a dependent pair. Bend only lets you open one where it was handed to you, as a parameter or a field, never at a local binding. So either give the code its own def, or use the two projections `Base` already provides:
 
 ```python
 def main() -> U32:
@@ -198,19 +192,23 @@ def main() -> U32:
 42
 ```
 
-`Pair.fst` and `Pair.snd` are one-line defs in `Base` whose parameters are pairs — exactly the shape the rule demands. Wherever a `Type` is read, something comes back beside the value, and a parameter is where you take it apart.
+`Pair.fst` and `Pair.snd` are one-line defs whose parameter is a pair, which is exactly the shape the rule asks for. The general pattern: whenever you read from a `Type`, the thing you read from comes back alongside the value, and a function parameter is where you take the pair apart.
 
-## Three selling points, one mechanism
+## Three selling points, one rule
 
-Bend advertises fast, parallel and provable. In the guide these are separate chapters. In fact each one is a corollary of "one value, one owner", and the guide says so in passing.
+The guide covers speed, parallelism and proofs in separate chapters, but each follows from "one value, one owner", and the guide says so in passing.
 
-**No garbage collector.** From the guide:
+### No garbage collector
+
+From the guide:
 
 > There is no garbage collector. Since values are affine, a `match` frees the node it opens on the spot, and only `+` values carry a reference count.
 
-One owner means that when `match` opens a node, the act of reading it out is also the act of freeing it, because there is provably nobody else holding it — and `affine` (not `linear`) is what makes that free when nobody holds the value at all. This explains a Bend rule that otherwise looks like mere style: you destructure values with `match` rather than by reaching for fields. That is not idiom. It is the only memory management the language has.
+With a single owner, opening a node with `match` can free it immediately, because nobody else can be holding it. And because the logic is affine rather than linear, a value that is never used can simply be dropped. This also explains a rule that looks like style: in Bend you destructure with `match` rather than reaching for fields. That isn't an idiom. It is the language's memory management.
 
-**Parallelism that needs no proof from you.** A parallel call is an ordinary assignment — two calls on the right of it, two names on the left. Here it is doing real work, in a function you can run:
+### Parallelism you don't have to justify
+
+A parallel call is an ordinary assignment: two calls on the right, two names on the left. Here it is doing real work:
 
 ```python
 import Base
@@ -232,46 +230,46 @@ def main() -> IO(Unit):
 1024
 ```
 
-Two calls, two tasks, joined by the assignment. `p` is the predecessor the `case 1n+p` pattern binds, and **both calls read it**, which is legal only because `+n` marks it reusable. Take the `+` away and the line is refused, with the message you met further up: `expected : p`, `observed : p (consumed more than once)`.
+The two calls run as two tasks and are joined by the assignment. Both read `p`, the predecessor bound by `case 1n+p`, which is only legal because `+n` makes it reusable. Remove the `+` and the line is refused with the error from earlier: `expected : p`, `observed : p (consumed more than once)`.
 
-The guide frames the rest of it as a two-part promise:
+The guide describes the contract like this:
 
 > A parallel call promises the compiler two things: 1. The calls are independent. 2. They run in roughly the same time.
 >
 > **Since Bend is pure and affine, the first point always holds.** The second is yours to keep.
 
-Read that division of labour again, because it is the best thing in the language. Point 1 — that the two calls do not interfere — is not something you assert and not something you must prove. It is the ownership rule, applied to a line that happens to run twice at once: no second reference to a value is expressible, so there is nothing to alias, so there is nothing to race — and so nothing you were asked to prove. Point 2, load balancing, is the part that genuinely requires a human. You are left with the scheduling problem and relieved of the correctness proof.
+This split is my favourite thing in the language. You never assert or prove that the two calls don't interfere. The ownership rule already guarantees it: a second reference to a value can't be written, so there is nothing to alias and nothing to race. What's left for you is load balancing, which really does need a human.
 
-The sharper form is the negative one: **in Bend you cannot write the racy program.** For both sides of a parallel call to touch one array, that array would have to be reusable — and you already watched that be refused, on the kind rather than the shape. It is not that the compiler warns you about the race. There is no program to warn about.
+Put the other way round: **in Bend you cannot write the racy program.** For both sides of a parallel call to touch one array, the array would have to be reusable, and we've already seen that refused, because of its kind. The compiler doesn't warn you about the race; there is no program to warn about.
 
-**Proofs that vanish at runtime.** The `-x` quantity marks an *erased* variable:
+### Proofs that vanish at runtime
+
+The `-x` quantity marks an *erased* variable:
 
 > Erased variables can only appear in types and proofs: the checker sees them, the compiler deletes them.
 
-Proofs live entirely in the checker's view of the program and cost nothing when it runs. Combined with the erased quantity, this is how Bend can offer formal verification without paying for it at runtime — which is what makes the promise "fast *and* provable" coherent rather than a trade-off.
+Proofs live entirely in the checker's view of the program and are gone by the time it runs. That is how Bend can promise "fast *and* provable" without it being a trade-off.
 
-## The price, and where Bend parts ways with Rust
+## The price, and where Bend differs from Rust
 
-Affine types are not unique to Bend. Rust has them — a moved value is affine, `use after move` is a compile error. But the two languages pay for the property in completely different currency, and this is the comparison I would want before writing a line of Bend.
+Rust has affine types too: a moved value is affine, and use after move is a compile error. But the two languages pay for the property in very different ways, and this is the comparison I wish I'd had before writing any Bend.
 
-**Rust adds borrowing on top of affinity.** The type system enforces "one owner", and then `&x` lets you *temporarily* have a second viewer, with lifetimes making sure the view ends before the value does. That is a large amount of machinery, and it buys you the ordinary programming experience: pass a reference, use it, keep your value.
+**Rust adds borrowing on top.** Ownership stays single, but `&x` gives you a temporary second viewer, and lifetimes make sure the view ends before the value does. It is a lot of machinery, and it buys the ordinary experience: pass a reference, use it, keep your value.
 
-**Bend has no borrow at all.** I grepped the entire guide: the word "borrow" appears **zero** times, while "affine" appears nine. There is no `&x` to reach for, no lifetime to satisfy. A function argument is consumed by default — after `f(xs)`, `xs` is gone.
+**Bend has no borrowing.** The word "borrow" appears nowhere in the guide; "affine" appears nine times. There is no `&x` and no lifetime. A function argument is consumed by default: after `f(xs)`, `xs` is gone.
 
 | | Rust | Bend 2 |
 |---|---|---|
 | default | affine (move) | affine |
 | use it temporarily | `&x`, restored when the borrow ends | no such concept |
 | use it more than once | `.clone()`, or restructure ownership | `+x`, a reference count |
-| not needed at runtime | monomorphisation | `-x`, erased |
+| exists only for the type checker | `PhantomData`, zero-sized types | `-x`, erased |
 
-The consequence is the verbosity the guide openly admits to:
+That leaves you two choices for any value, consume it or reference-count it, and you have to say which. The guide admits the cost openly:
 
 > Bend does almost no inference, meaning it requires more annotations than similar languages. This is what allows Bend's checker to be significantly faster than other provers, and its error messages more precise, at the expense of programs and proofs being more verbose.
 
-Rust uses borrowing to avoid copying. Bend cannot, so its only moves are *consume* or *refcount*. That is where the annotations come from, and it is a real cost, not a stylistic one.
-
-It also produces the one result that changed how I think about the design. Closures in Bend are affine and **cannot** be given `+`:
+The verbosity is real, not cosmetic. But the rule also produced the result that changed how I see the design. Closures in Bend are affine and **cannot** be given `+`:
 
 ```python
 def main() -> U32:
@@ -285,9 +283,9 @@ Error:
 - observed : Type
 ```
 
-A closure is a `Type`, so even a closure that captures nothing cannot be copied. Read naively, this is a restriction the language makes you work around.
+A closure is a `Type`, so even one that captures nothing can't be copied. At first this looks like a restriction you have to work around.
 
-Bend's answer is a **template parameter**, written `~f`, which inlines its argument at compile time:
+Bend's answer is a **template parameter**, written `~f`, which substitutes its argument at compile time:
 
 ```python
 # ~f: substituted at compile time, not passed at runtime
@@ -295,18 +293,18 @@ def twice(~f: U32 -> U32, x: U32) -> U32:
   f(f(x))
 ```
 
-Inside the template, `f` is not a value being passed — it is syntax being substituted. The guide's own words:
+Inside `twice`, `f` isn't a value being passed around; it is code being substituted. In the guide's words:
 
 > Each distinct set of `~` arguments compiles to its own copy of `twice`, so `f` costs nothing at runtime and, unlike a closure, may be called as many times as you like.
 
-The constraint "a closure cannot be copied" does not lead to "so write more code". It leads to "so inline the function" — and inlining is faster than the function pointer you would have used otherwise. **A restriction in the type system became an optimisation in the runtime.** Bend writes `List.map` this way.
+So "a closure can't be copied" doesn't lead to "write more code". It leads to "inline the function", which is faster than the function pointer you'd otherwise have used. A restriction in the type system turns into an optimisation at runtime. `List.map` is written this way.
 
-## The one sentence
+## In one sentence
 
 > **Affinity means a value is consumed at most once, on any execution path.**
 
-From that single rule you get: memory management with no collector, because the last use is the only use and can free on the spot. Parallelism with no locking and nothing to prove, because two owners are unrepresentable. And proofs with no runtime cost, because proofs can be erased entirely.
+That single rule gives you memory management without a collector, because the one use can free the value on the spot. It gives you parallelism without locks and without proof obligations, because two owners can't be expressed. And erasure on top of it gives you proofs with no runtime cost.
 
-The cost is symmetrical: no borrower, so the alternative to consuming a value is reference-counting it, and everything must be annotated to say which one you meant.
+The price is that there is no borrowing, so a value is either consumed or reference-counted, and you have to annotate which.
 
-That is why it is called the first key. Not because it is Bend's most important feature, but because Bend does not really have three features — it has one, and the other two are what falls out. If you take "one value, one owner" as given, most of the language stops being surprising, including the parts that are annoying.
+That is why I call it the first key. Not because it is Bend's most important feature, but because Bend doesn't really have three features. It has one, and the others follow from it. Once you accept "one value, one owner", most of the language stops being surprising, including the annoying parts.
