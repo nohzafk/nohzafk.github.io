@@ -1,0 +1,444 @@
+/* Figures for the context-fold post. Everything is scoped under .cf. */
+
+.cf {
+    --cf-a: #b07800;
+    --cf-b: #16857a;
+    --cf-c: #7250c0;
+    --cf-d: #c0443f;
+    --cf-sys: #6b7280;
+    --cf-hot: #d62828;
+    --cf-ok: #2b8a3e;
+    --cf-dim: var(--text-color-alt, #666);
+    --cf-bg: var(--background-color, #fafafa);
+    --cf-bg2: var(--background-color-alt, #eee);
+    --cf-fg: var(--text-color, #000);
+    position: relative;
+    margin: 2rem 0 !important;
+    padding: 12px;
+    border: 2px solid var(--cf-fg);
+    font-family: var(--code-font-family, monospace);
+    font-size: 11px;
+    line-height: 1.35;
+    color: var(--cf-fg);
+    background: var(--cf-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cf {
+        --cf-a: #f0b429;
+        --cf-b: #3cc7b4;
+        --cf-c: #a78bfa;
+        --cf-d: #f07167;
+        --cf-sys: #9ca3af;
+        --cf-hot: #ff6b6b;
+        --cf-ok: #69db7c;
+    }
+}
+
+/* the blog theme puts margin-top on every *+*; our layout does its own spacing */
+.cf *,
+.cf *+* {
+    margin-top: 0;
+    box-sizing: border-box;
+}
+
+.cf-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1ch;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.cf-btn {
+    font: inherit;
+    font-size: 11px;
+    padding: 2px 10px;
+    border: 1.5px solid var(--cf-fg);
+    background: var(--cf-bg);
+    color: var(--cf-fg);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.cf-btn:hover {
+    background: var(--cf-fg);
+    color: var(--cf-bg);
+}
+
+.cf-foot {
+    margin-top: 10px !important;
+    color: var(--cf-dim);
+    font-size: 10.5px;
+}
+
+/* ---------- rows: one message each ---------- */
+
+.cf-row {
+    --c: var(--cf-sys);
+    position: relative;
+    height: 15px;
+    line-height: 15px;
+    margin-bottom: 3px;
+    padding: 0 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-left: 3px solid var(--c);
+    background: color-mix(in srgb, var(--c) 14%, transparent);
+    font-size: 10px;
+    opacity: 1;
+    transition: height .5s ease, margin .5s ease, opacity .4s ease,
+        padding .5s ease, background .4s ease, transform .4s ease;
+    animation: cf-in .35s ease;
+}
+
+.cf-row.u { font-weight: 700; }
+.cf-row.t { padding-left: 16px; color: var(--cf-dim); }
+.cf-row.a { font-weight: 600; background: color-mix(in srgb, var(--c) 28%, transparent); }
+.cf-row.a::before { content: "◆ "; color: var(--c); }
+.cf-row.u::before { content: "you ▸ "; color: var(--c); }
+
+.cf-row.ta { --c: var(--cf-a); }
+.cf-row.tb { --c: var(--cf-b); }
+.cf-row.tc { --c: var(--cf-c); }
+.cf-row.td { --c: var(--cf-d); }
+
+.cf-row.gone {
+    height: 0;
+    margin-bottom: 0;
+    opacity: 0;
+}
+
+.cf-row.lit {
+    background: color-mix(in srgb, var(--c) 40%, transparent);
+}
+
+@keyframes cf-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* a fold result: small, still says what happened */
+.cf-chip {
+    --c: var(--cf-sys);
+    height: 32px;
+    margin-bottom: 3px;
+    padding: 2px 6px;
+    border: 1.5px dashed var(--c);
+    border-left-width: 3px;
+    border-left-style: solid;
+    font-size: 9.5px;
+    line-height: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: cf-chip .5s ease;
+}
+.cf-chip b { color: var(--c); }
+.cf-chip .cf-arch { color: var(--cf-dim); float: right; }
+.cf-chip .cf-l2 { display: block; text-overflow: ellipsis; overflow: hidden; }
+
+@keyframes cf-chip {
+    from { height: 0; opacity: 0; }
+    to { height: 32px; opacity: 1; }
+}
+
+/* a compaction summary: opaque, hatched, originals gone */
+.cf-summary {
+    height: 34px;
+    margin-bottom: 3px;
+    padding: 3px 6px;
+    font-size: 9.5px;
+    line-height: 14px;
+    color: var(--cf-fg);
+    border-left: 3px solid var(--cf-sys);
+    background: repeating-linear-gradient(-45deg,
+            color-mix(in srgb, var(--cf-sys) 25%, transparent) 0 4px,
+            color-mix(in srgb, var(--cf-sys) 8%, transparent) 4px 8px);
+    animation: cf-chip .5s ease;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.cf-summary s { color: var(--cf-hot); }
+
+/* ---------- figure 1: compress vs fold ---------- */
+
+.cf-duo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 560px) {
+    .cf-duo { grid-template-columns: 1fr; }
+}
+
+.cf-pane-h {
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.cf-status {
+    height: 28px;
+    color: var(--cf-dim);
+    font-size: 10px;
+    line-height: 14px;
+    overflow: hidden;
+    transition: color .3s;
+}
+.cf-status.hot { color: var(--cf-hot); }
+.cf-status.ok { color: var(--cf-ok); }
+
+.cf-win {
+    position: relative;
+    height: 330px;
+    padding: 6px 6px 6px 14px;
+    background: var(--cf-bg2);
+    overflow: hidden;
+}
+
+.cf-list { position: relative; }
+
+.cf-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 272px;
+    border-top: 1.5px dashed var(--cf-hot);
+    pointer-events: none;
+    z-index: 2;
+}
+.cf-line span {
+    position: absolute;
+    right: 4px;
+    top: -14px;
+    font-size: 9px;
+    color: var(--cf-hot);
+    background: var(--cf-bg2);
+    padding: 0 3px;
+}
+
+.cf-win.flash { animation: cf-flash .6s ease 2; }
+@keyframes cf-flash {
+    50% { background: color-mix(in srgb, var(--cf-hot) 22%, var(--cf-bg2)); }
+}
+
+/* the bracket drawn upward: looking back */
+.cf-bracket {
+    position: absolute;
+    left: -10px;
+    width: 6px;
+    border: 2px solid var(--cf-fg);
+    border-right: 0;
+    transition: top .7s ease, height .7s ease, opacity .3s;
+    z-index: 3;
+}
+
+.cf-meter {
+    margin-top: 6px !important;
+    font-size: 10px;
+    color: var(--cf-dim);
+}
+.cf-meter .bar {
+    height: 6px;
+    margin-top: 3px !important;
+    background: var(--cf-bg2);
+    overflow: hidden;
+}
+.cf-meter .bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--cf-fg);
+    transition: width .35s ease;
+}
+.cf-meter .bar i.hot { background: var(--cf-hot); }
+
+/* ---------- figure 2: the card, in a terminal ---------- */
+
+.cf-term {
+    min-height: 420px;
+    padding: 10px 12px;
+    background: #111;
+    color: #ddd;
+    font-size: 11px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border-radius: 3px;
+}
+.cf-term .k { color: #8a8a8a; }
+.cf-term .y { color: #f0b429; }
+.cf-term .g { color: #69db7c; }
+.cf-term .c { color: #66d9ef; }
+.cf-term .m { color: #c792ea; }
+.cf-term .cur {
+    display: inline-block;
+    width: .6em;
+    height: 1.1em;
+    vertical-align: text-bottom;
+    background: #ddd;
+    animation: cf-blink 1s steps(1) infinite;
+}
+@keyframes cf-blink { 50% { opacity: 0; } }
+
+/* ---------- figure 3: the stack ---------- */
+
+.cf-trio {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 560px) {
+    .cf-trio { grid-template-columns: 1fr; }
+}
+
+.cf-col {
+    position: relative;
+    min-height: 330px;
+    padding: 6px;
+    background: var(--cf-bg2);
+    transition: opacity .4s, outline-color .4s;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+}
+.cf-col.idle { opacity: .35; }
+.cf-col.live { outline-color: var(--cf-fg); }
+
+.cf-col-h {
+    font-weight: 700;
+    font-size: 10.5px;
+    margin-bottom: 2px;
+}
+.cf-col-s {
+    height: 26px;
+    font-size: 9.5px;
+    line-height: 13px;
+    color: var(--cf-dim);
+}
+
+.cf-prefix {
+    height: 34px;
+    margin-bottom: 3px;
+    padding: 3px 6px;
+    font-size: 9.5px;
+    line-height: 14px;
+    border-left: 3px solid var(--cf-sys);
+    background: color-mix(in srgb, var(--cf-sys) 18%, transparent);
+    transition: box-shadow .4s, background .4s;
+}
+.cf-prefix.hit {
+    box-shadow: 0 0 0 2px var(--cf-ok) inset;
+    background: color-mix(in srgb, var(--cf-ok) 16%, transparent);
+}
+
+.cf-ghost {
+    height: 30px;
+    margin-bottom: 3px;
+    padding: 2px 6px;
+    font-size: 9.5px;
+    line-height: 13px;
+    border: 1.5px dashed var(--cf-ok);
+    color: var(--cf-ok);
+    animation: cf-chip .5s ease;
+    overflow: hidden;
+}
+
+.cf-snap {
+    --c: var(--cf-c);
+    height: 30px;
+    margin-bottom: 3px;
+    padding: 2px 6px;
+    font-size: 9.5px;
+    line-height: 13px;
+    border-left: 3px solid var(--c);
+    background: color-mix(in srgb, var(--c) 22%, transparent);
+    animation: cf-chip .5s ease;
+    overflow: hidden;
+}
+.cf-snap.fresh { --c: var(--cf-b); }
+
+.cf-report {
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    min-height: 44px;
+    padding: 4px 6px;
+    font-size: 9.5px;
+    line-height: 13px;
+    border: 2px solid var(--cf-c);
+    background: var(--cf-bg);
+    opacity: 0;
+    transition: opacity .3s;
+}
+.cf-report.on { opacity: 1; }
+.cf-report b { color: var(--cf-c); }
+.cf-report.bump { animation: cf-bump .4s ease; }
+@keyframes cf-bump { 40% { transform: scale(1.04); } }
+
+.cf-fly {
+    position: fixed;
+    z-index: 50;
+    margin: 0 !important;
+    pointer-events: none;
+    transition: transform .8s cubic-bezier(.5, 0, .2, 1), opacity .8s;
+}
+
+/* ---------- figure 4: s-expression ---------- */
+
+.cf-sexp {
+    padding: 10px 12px;
+    background: var(--cf-bg2);
+    font-size: 12px;
+    line-height: 1.9;
+    white-space: pre;
+    overflow-x: auto;
+}
+.cf-sexp .hd { font-weight: 700; }
+.cf-sexp .goal { color: var(--cf-dim); }
+.cf-sexp .body {
+    display: inline-block;
+    max-width: 40ch;
+    overflow: hidden;
+    vertical-align: bottom;
+    color: var(--cf-dim);
+    transition: max-width .8s ease, opacity .6s;
+}
+.cf-sexp .ev .body { max-width: 0; opacity: 0; }
+.cf-sexp .val {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    vertical-align: bottom;
+    font-weight: 700;
+    transition: max-width .8s ease .4s;
+}
+.cf-sexp .ev .val { max-width: 44ch; }
+.cf-sexp .cl { display: inline-block; transition: color .3s; }
+.cf-sexp .closing .cl { color: var(--cf-hot); animation: cf-bump .5s ease; font-weight: 700; }
+.cf-sexp .f1 .hd, .cf-sexp .f1 .val { color: var(--cf-a); }
+.cf-sexp .f2 .hd, .cf-sexp .f2 .val { color: var(--cf-c); }
+.cf-sexp .f3 .hd, .cf-sexp .f3 .val { color: var(--cf-b); }
+.cf-sexp .f4 .hd { color: var(--cf-d); }
+.cf-sexp .cur {
+    display: inline-block;
+    width: .55em;
+    height: 1.05em;
+    vertical-align: text-bottom;
+    background: var(--cf-fg);
+    animation: cf-blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cf-row, .cf-chip, .cf-summary, .cf-ghost, .cf-snap { animation: none; }
+}
+
+/* first paint: jump straight to the final frame */
+.cf-instant *,
+.cf-instant *::before {
+    transition: none !important;
+    animation: none !important;
+}

@@ -1,0 +1,7 @@
+{{- /* Animated figure for the context-fold post: {{< cf "compare" >}}caption{{< /cf >}} */ -}}
+{{- if not (.Page.Store.Get "cf-assets") -}}
+{{- .Page.Store.Set "cf-assets" true -}}
+<link rel="stylesheet" href="{{ "css/context-fold.css" | relURL }}">
+<script src="{{ "js/context-fold.js" | relURL }}" defer></script>
+{{- end }}
+<div class="cf" data-cf="{{ .Get 0 }}">{{ with .Inner }}{{ . | markdownify }}{{ end }}</div>
