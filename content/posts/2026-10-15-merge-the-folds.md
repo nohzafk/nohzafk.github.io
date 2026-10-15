@@ -7,7 +7,7 @@ series: ["Building My Own Harness"]
 math: true
 ---
 
-[Last time](/posts/2026-09-28-fold-dont-compress/) I argued that an agent should not wait for the context window to fill. When a unit of work closes, the model says so, and the host replaces that unit's turns with one title line and archives the originals to disk. I called it a fold, and I left compaction in the harness as the emergency path.
+[Last time](/posts/2026-09-28-fold-dont-compress/) I argued that an agent should not wait for the context window to fill. When a unit of work closes, the model says so, and the host replaces that unit's turns with one title line and archives the originals to disk. I called it a fold, and I left compaction in place as the emergency path.
 
 Folding solved the problem I had. It created a smaller one, and this post is about that one. After enough folds the prompt has three parts: the standing part (system prompt and tool list), a flat list of titles, one per closed unit, oldest first, and the open tail where the work is happening. The list grows by one line per unit and never shrinks. My longest session so far has 455 closed units. Its title list is 82 KB, about 23k tokens, and it sits in front of every request.
 
@@ -67,7 +67,7 @@ Three findings from this, and they set the other two answers.
 
 **A bigger budget is better, and cheap.** Found rate rose from 29% at a 1 KB cover to 69% at 128 KB with no plateau. The cover's share of the session's prompt spend was under 1% at every budget from 8 KB up, because the cover is almost always a cache hit. Money does not decide the budget. But there is a floor: at 2 KB the 455-unit session rewrote its cover 94 times, once every five closes. Why there is a floor is in the next section.
 
-**The order does not measurably matter.** I compared the rank my harness uses today, oldest-and-smallest first, against smallest-block-first. 43.7% against 46.8% found, which is inside the small model's own run-to-run noise. The order is a parameter, and I pick it by reasoning, not by data.
+**The order does not measurably matter.** I compared two orders, oldest-and-smallest first against smallest-block-first. 43.7% against 46.8% found, which is inside the small model's own run-to-run noise. The order is a parameter, and I pick it by reasoning, not by data.
 
 ## Aligned blocks: a line is written once
 
@@ -97,15 +97,54 @@ And closing a unit is a binary increment. The new unit is a level-0 block at the
 
 ## The rule
 
-The host holds one thing: the current view. After every close it has to keep four promises. The view still partitions all the units, with every block aligned and every block carrying a line. The rendered view fits in a budget. The view is edited as rarely as possible, since every edit re-bills the tail. And when it is edited, small blocks merge before big ones, since size is what a merged line costs.
+The shape of the rule is not mine. It is Victor Taelin's, from [OptMem](https://github.com/VictorTaelin/OptMem) and [OptChat](https://gist.github.com/VictorTaelin/91837951a5ce5b38f341ec1ba1df6449): a log that is only appended to, a binary tree of one-line summaries over it where each node is built once from its two halves, a *view* that is a list of tree nodes covering the whole log, oldest first, with recent lines fine and old lines coarse, and a `zoom` that opens a line into the two it was made from. The merge order in OptChat comes from his rollback-netcode push, which is the binary counter from the last section. The three differ in what a leaf is:
 
-**close.** A unit closes. It is appended to the view as a level-0 block, $n$ becomes $n + 1$, then *settle*. This is the only event that touches the cover.
+| | a leaf is | who decides a leaf exists |
+|---|---|---|
+| OptMem | one durable note, a line the agent chose to remember | the agent, with `memo note` |
+| OptChat | every message in the chat, compressed to one line | the host, for every message |
+| fold cover | one closed unit, with its title as the line | the model, when it judges the work done |
 
-**settle.** If the rendered view is within the budget $B$, do nothing. Otherwise, repeat: list the mergeable pairs, two adjacent view blocks that are the halves of one parent. If there are none, stop and report that the view is at its floor. Do not drop a unit. Otherwise take the top-ranked pair, write the parent's line if it has none, and replace the pair by the parent. Stop once the rendering is at most $L = B/2$.
+Everything about the tree carries over unchanged. What a fold-cover leaf changes is where the cost goes. A unit is already a summary of its turns, written by the model that did the work, so the tree starts one level higher and no cheap model ever reads a raw transcript. And a unit closes only at the tail, so every event that touches the tree is already a tail rewrite. The rest of this section is the rule as a host runs it, with the places where measurement changed a constant or an order.
 
-**write.** A line is written only at the moment settle is about to merge the block, by a cheap model whose whole prompt is the block's inputs. Not earlier. No measured session ever needed a merge at the budget I use, so a line written ahead of time would usually never be shown, and it costs real output tokens.
+The host holds one thing, the **view**: a list of blocks, oldest first, each with a line, that together cover units $0$ to $n - 1$. Two events change it, and one reads it.
 
-**zoom.** Read-only. A block expands to its units' titles, a unit to its archive. Zoom shows what is under a line in order. Finding a detail is still grep.
+```
+close(title):                       # the model folded a unit
+    append block [n] at level 0, with `title` as its line
+    n += 1
+    settle()
+
+settle():
+    if lines(view) <= B: return                   # within budget, do nothing
+    while lines(view) > L:                        # L = B/2
+        pairs = adjacent blocks in view that are the two halves of one parent
+        if pairs is empty:                        # the view is at its floor
+            report it; return                     # never drop a unit
+        (a, b) = the top pair by rank
+        if parent(a, b) has no line:
+            write(parent(a, b))                   # a cheap model; its whole prompt is the inputs
+        replace a, b in view by parent(a, b)
+
+write(block):
+    inputs = titles of its units        if the block has at most R units
+           = lines of its two children  otherwise
+    one line, at most t tokens, written once and never again
+
+zoom(block):                        # read-only, outside the prompt
+    a block  -> the titles of its units, in order
+    a unit   -> its archive
+```
+
+Four things to notice.
+
+**Close is the only event that touches the cover.** A close has already rewritten the tail, and the cover sits right in front of it, so a merge made during the same settle costs only the rest of the cover. OptChat merges on a size trigger after a message; here the trigger is a close, which is a tail rewrite by definition.
+
+**A line is written only when settle is about to merge the block.** OptChat builds every node in the background as soon as its halves exist. For a cover that is the wrong trade: no measured session ever needed a merge at the budget below, so a line written early would usually never be shown, and it costs real output tokens. Lazy writing means every line that exists is a line that was displayed.
+
+**Settle never invents and never drops.** A pair whose parent has no line yet is written first, then merged. If no pair can be merged, the view is reported as stuck, and every unit stays.
+
+**Finding a detail is grep, not zoom.** Zoom shows what is under a line, in order. Every genuine re-open in the measured sessions was a text search on the archive path, so the view is for orientation only, and a line is written as a summary rather than an index.
 
 ### Why settle to half the budget
 
@@ -123,13 +162,13 @@ A view cannot have fewer lines than the one-bits of $n$, and in the worst case, 
 
 $$B \geq 2\,(\lfloor \log_2 n \rfloor + 1)\, t$$
 
-which is about 1,400 tokens for $n < 4096$. The budget I actually use is twenty times that, so the floor never binds. It says what a budget must not be.
+which is about 1,400 tokens for $n < 4096$. A budget of a tenth of the window is twenty times that, so the floor never binds. It says what a budget must not be.
 
 ### The constants
 
 | constant | value | why |
 |---|---|---|
-| $B$ | $0.1 \cdot W$ | under 1% of the session's spend at that size, and every session so far fits in it unmerged. A fraction scales with the window; a byte count does not |
+| $B$ | $0.1 \cdot W$ | under 1% of the session's spend at that size, and every measured session fits in it unmerged. A fraction scales with the window; a byte count does not |
 | $L$ | $B/2$ | hysteresis: at most $2nt/B$ edits over $n$ closes |
 | floor | $B \geq 2(\lfloor \log_2 n \rfloor + 1)\,t$ | below it the cover is rewritten every few closes |
 | $R$ | 16 | the largest block whose line is written from titles rather than from its children. It only bounds the writer's prompt |
@@ -139,7 +178,7 @@ which is about 1,400 tokens for $n < 4096$. The budget I actually use is twenty 
 Settle may face several mergeable pairs, and a strict order decides which goes first. The proofs below hold for any order, so this is a policy, not part of the rule. Two orders have names.
 
 - **Smallest first**, oldest among equals. A bigger block is formed only when no smaller pair is left, so the deepest block in the view is as shallow as the line count allows. The view holds at most two block sizes at a time. This is the default, because the measured cost is the block's size.
-- **Age over size**, what my harness runs today: for the pair's parent, its age divided by its size, largest first. The oldest lines come to stand for the most units, and the cover settles into geometric rings, the same number of lines per doubling of age.
+- **Age over size**, OptChat's order: for the pair's parent, its age divided by its size, largest first. OptChat calls this *due*, how long ago the pair ended measured in its own line size, and it reproduces the rollback push exactly when the budget is the push's own length. The oldest lines come to stand for the most units, and the cover settles into geometric rings, the same number of lines per doubling of age.
 
 The data separates them by 3 points, in favour of smallest first, within noise. Of the six real re-opens, four went to the oldest tenth of the session, the early design decisions. Nothing I have says old units are asked for less.
 
@@ -167,7 +206,7 @@ The core keeps the forest, newest tree first. A node is what the prompt shows fo
 
 Before any proof is trusted, every law runs at literals: 40 closes under three write policies at eleven budgets, plus a few hand-made malformed views. After the proofs, each law gets one mutant, a deliberate break of the rule, which has to falsify the law and break exactly that law's proof. Both gates pass.
 
-What the proof buys is portability. My Rust harness runs a version of this rule today. The TypeScript agent from the [codemode posts](/posts/2026-10-10-codemode-without-a-sandbox/) gets the same rule from the core, with the guarantee that its cover cannot drop a unit, fold an open one, invent a line, or exceed the budget while a merge is still possible.
+What the proof buys is portability. Any host that drives the core gets the same rule with the same guarantee: its cover cannot drop a unit, fold an open one, invent a line, or exceed the budget while a merge is still possible.
 
 ## Compaction is still there, for one case
 
@@ -185,19 +224,9 @@ The three mechanisms stack, and each is cheaper than the next because it fires l
 
 An ultra-long session is one where the third row never fires. In the 455-unit session it did not have to: 82 KB of titles fit under the budget without a single merge.
 
-## What changes in my harness
-
-The rule differs from what my Rust harness runs today in five places, in order of value.
-
-1. **Stop writing merged lines ahead of time.** Today the host sends the main model a merge card whenever the cover passes $B/2$, and the main model writes lines alongside its work. No measured session needed one. Write at settle, with a cheap model.
-2. **Find by grep.** A search tool over the session's archives, title first and then text, is the locator. Zoom stays for reading a block in order.
-3. **The budget as a fraction of the window**, not the constant 128,000 bytes in the policy file. Equal today, wrong the first time the window changes.
-4. **The floor.** Never settle below $2(\lfloor \log_2 n \rfloor + 1)$ lines. Report a stuck view instead of rewriting on every close.
-5. **Rank smallest first.** No measured difference, a bounded worst depth, and a cover that holds at most two block sizes, which reads better.
-
 ## What I don't know yet
 
 - **The attention cost of a long cover.** It is the reason $B$ is a fraction and not "everything". The found-rate experiment does not measure it. The test I need is the same open-tail question answered with a 1k cover and a 23k cover in front.
 - **What is asked for, by age.** Six real re-opens is a small count, and four went to the oldest tenth. The rank waits on this. Smallest first is the default meanwhile.
-- **The writing recipe.** The found rate was 71% for a line written from one or two titles, 60% from 8 to 16, 40% from two halves, and 0% two levels further. The merge card asks for a summary, what has lasting effect. The reader needs an index, what is in here. That is a different line, not a different schedule, and it is probably the bigger lever.
+- **The writing recipe.** The found rate was 71% for a line written from one or two titles, 60% from 8 to 16, 40% from two halves, and 0% two levels further. The writer is asked for a summary, what has lasting effect. The reader needs an index, what is in here. That is a different line, not a different schedule, and it is probably the bigger lever.
 - **Where the standing part ends.** The tool list is prefix too, and a tool list that changes mid-session is the most expensive rewrite there is. Same cost model, next post.

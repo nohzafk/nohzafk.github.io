@@ -175,7 +175,7 @@
       const budget = h("input"); budget.type = "range"; budget.min = "3"; budget.max = "16"; budget.value = "8";
       budgetLbl.append(budget);
       const rankLbl = h("label", null, "rank ");
-      const rank = h("select", null, `<option value="small">smallest first</option><option value="age">age/size (cordis)</option>`);
+      const rank = h("select", null, `<option value="small">smallest first</option><option value="age">age/size (OptChat)</option>`);
       rankLbl.append(rank);
       ctl.append(b1, b10, br, budgetLbl, rankLbl);
 
