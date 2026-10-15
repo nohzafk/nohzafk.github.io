@@ -97,16 +97,6 @@ And closing a unit is a binary increment. The new unit is a level-0 block at the
 
 ## The rule
 
-The shape of the rule is not mine. It is Victor Taelin's, from [OptMem](https://github.com/VictorTaelin/OptMem) and [OptChat](https://gist.github.com/VictorTaelin/91837951a5ce5b38f341ec1ba1df6449): a log that is only appended to, a binary tree of one-line summaries over it where each node is built once from its two halves, a *view* that is a list of tree nodes covering the whole log, oldest first, with recent lines fine and old lines coarse, and a `zoom` that opens a line into the two it was made from. The merge order in OptChat comes from his rollback-netcode push, which is the binary counter from the last section. The three differ in what a leaf is:
-
-| | a leaf is | who decides a leaf exists |
-|---|---|---|
-| OptMem | one durable note, a line the agent chose to remember | the agent, with `memo note` |
-| OptChat | every message in the chat, compressed to one line | the host, for every message |
-| fold cover | one closed unit, with its title as the line | the model, when it judges the work done |
-
-Everything about the tree carries over unchanged. What a fold-cover leaf changes is where the cost goes. A unit is already a summary of its turns, written by the model that did the work, so the tree starts one level higher and no cheap model ever reads a raw transcript. And a unit closes only at the tail, so every event that touches the tree is already a tail rewrite. The rest of this section is the rule as a host runs it, with the places where measurement changed a constant or an order.
-
 The host holds one thing, the **view**: a list of blocks, oldest first, each with a line, that together cover units $0$ to $n - 1$. Two events change it, and one reads it.
 
 ```
@@ -138,13 +128,25 @@ zoom(block):                        # read-only, outside the prompt
 
 Four things to notice.
 
-**Close is the only event that touches the cover.** A close has already rewritten the tail, and the cover sits right in front of it, so a merge made during the same settle costs only the rest of the cover. OptChat merges on a size trigger after a message; here the trigger is a close, which is a tail rewrite by definition.
+**Close is the only event that touches the cover.** A close has already rewritten the tail, and the cover sits right in front of it, so a merge made during the same settle costs only the rest of the cover. A merge on any other turn would pay for the tail again.
 
-**A line is written only when settle is about to merge the block.** OptChat builds every node in the background as soon as its halves exist. For a cover that is the wrong trade: no measured session ever needed a merge at the budget below, so a line written early would usually never be shown, and it costs real output tokens. Lazy writing means every line that exists is a line that was displayed.
+**A line is written only when settle is about to merge the block.** No measured session ever needed a merge at the budget below, so a line written early would usually never be shown, and it costs real output tokens. Lazy writing means every line that exists is a line that was displayed.
 
 **Settle never invents and never drops.** A pair whose parent has no line yet is written first, then merged. If no pair can be merged, the view is reported as stuck, and every unit stays.
 
 **Finding a detail is grep, not zoom.** Zoom shows what is under a line, in order. Every genuine re-open in the measured sessions was a text search on the archive path, so the view is for orientation only, and a line is written as a summary rather than an index.
+
+### Where the shape comes from
+
+The shape of this rule is not mine. It is Victor Taelin's, from [OptMem](https://github.com/VictorTaelin/OptMem) and [OptChat](https://gist.github.com/VictorTaelin/91837951a5ce5b38f341ec1ba1df6449): a log that is only appended to, a binary tree of one-line summaries over it where each node is built once from its two halves, a view that is a list of tree nodes covering the whole log with recent lines fine and old lines coarse, and a zoom that opens a line into the two it was made from. The merge order in OptChat comes from his rollback-netcode push, which is the same binary counter as the carry in the last section. The three differ in what a leaf is:
+
+| | a leaf is | who decides a leaf exists |
+|---|---|---|
+| OptMem | one durable note, a line the agent chose to remember | the agent, with `memo note` |
+| OptChat | every message in the chat, compressed to one line | the host, for every message |
+| fold cover | one closed unit, with its title as the line | the model, when it judges the work done |
+
+Everything about the tree carries over unchanged. Moving the leaf up to a closed unit changes two things, and both are about cost. A unit is already a summary of its turns, written by the model that did the work, so the tree starts one level higher and no cheap model ever reads a raw transcript. And a unit closes only at the tail, so every event that reaches the tree is already a tail rewrite. That is why the two timing choices above go the other way from OptChat: OptChat merges when the view passes a size and builds every node in the background as soon as its halves exist, which is right when every message is a leaf and nodes are cheap to build; here a merge waits for a close, and a line waits for the merge that will show it.
 
 ### Why settle to half the budget
 
