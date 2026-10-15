@@ -1,0 +1,21 @@
+{{- /* Interactive figures for the merge-the-folds post.
+
+       Usage:  {{< fc "sim" >}}Caption, markdown allowed.{{< /fc >}}
+       Kinds:  cache · forest · saw · sim
+
+       Each figure is a small model of the cover rule, computed by the
+       same steps the host takes. Styles live in assets/css/fold-cover.css,
+       behaviour in assets/js/fold-cover.js; both are fingerprinted and
+       loaded once per page. Without JS a figure shows only its caption. */ -}}
+
+{{- $kind := .Get 0 -}}
+{{- if not (.Page.Store.Get "fc-assets") -}}
+{{- .Page.Store.Set "fc-assets" true -}}
+{{- $css := resources.Get "css/fold-cover.css" | fingerprint -}}
+{{- $js := resources.Get "js/fold-cover.js" | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{- end }}
+<figure class="fc" data-fc="{{ $kind }}">
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

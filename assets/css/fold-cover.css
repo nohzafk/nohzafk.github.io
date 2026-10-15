@@ -1,0 +1,295 @@
+/* Figures for the merge-the-folds post. Everything is scoped under .fc.
+   Same bench as the one-buffer figures: a model you drive, not a picture.
+   Colour means one thing each: amber is a block in the view, red is the
+   pair that just merged, grey is a block that exists but is not shown. */
+
+.fc {
+    --fc-fg: var(--text-color, #111);
+    --fc-dim: var(--text-color-alt, #666);
+    --fc-bg: var(--background-color, #fafafa);
+    --fc-bg2: var(--background-color-alt, #eee);
+    --fc-a: #b07800;                 /* a block in the view */
+    --fc-a-fill: rgba(176, 120, 0, 0.18);
+    --fc-pair: #c0443f;              /* the pair that just merged */
+    --fc-ghost: #8a94a6;             /* exists, not in the view */
+    --fc-ok: #2b8a3e;
+    --fc-cached: rgba(138, 148, 166, 0.28);
+    --fc-hot: rgba(192, 68, 63, 0.3);
+
+    margin: 2.2rem 0 !important;
+    padding: 14px 16px 12px;
+    border-left: 4px solid var(--fc-a);
+    background: var(--fc-bg2);
+    font-family: var(--code-font-family, monospace);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--fc-fg);
+}
+
+@media (prefers-color-scheme: dark) {
+    .fc {
+        --fc-a: #f0b429;
+        --fc-a-fill: rgba(240, 180, 41, 0.2);
+        --fc-pair: #ff7b72;
+        --fc-ghost: #8d99ad;
+        --fc-ok: #69db7c;
+        --fc-cached: rgba(141, 153, 173, 0.28);
+        --fc-hot: rgba(255, 123, 114, 0.32);
+    }
+}
+
+/* the theme puts margin-top on every *+* */
+.fc *,
+.fc *+* {
+    margin-top: 0;
+    box-sizing: border-box;
+}
+
+.fc figcaption {
+    margin-top: 12px;
+    font-family: var(--font-family, monospace);
+    font-size: 13px;
+    color: var(--fc-dim);
+}
+
+.fc code {
+    font-size: inherit;
+}
+
+.fc-h {
+    font-size: 11px;
+    color: var(--fc-dim);
+    margin: 8px 0 4px;
+}
+
+.fc pre {
+    margin: 0;
+    padding: 6px 8px;
+    background: var(--fc-bg);
+    border: 1px solid var(--fc-cached);
+    font-size: 11.5px;
+    line-height: 1.45;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* ── svg ───────────────────────────────────────────────────── */
+
+.fc svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.fc svg text {
+    font-family: var(--code-font-family, monospace);
+    font-size: 11px;
+    fill: var(--fc-fg);
+}
+
+.fc svg text.fc-lbl {
+    fill: var(--fc-dim);
+}
+
+.fc svg .fc-bit {
+    fill: var(--fc-a);
+    font-weight: 600;
+}
+
+.fc-blk {
+    fill: none;
+    stroke-width: 1.2;
+}
+
+.fc-blk.ghost {
+    stroke: var(--fc-ghost);
+    stroke-dasharray: 3 3;
+    opacity: 0.6;
+}
+
+.fc-blk.view {
+    stroke: var(--fc-a);
+    fill: var(--fc-a-fill);
+}
+
+.fc-blk.pair {
+    stroke: var(--fc-pair);
+    stroke-width: 2.2;
+    stroke-dasharray: none;
+    opacity: 1;
+}
+
+.fc-saw .fc-B { stroke: var(--fc-pair); stroke-dasharray: 4 3; }
+.fc-saw .fc-L { stroke: var(--fc-ok); stroke-dasharray: 4 3; }
+.fc-saw .fc-axis { stroke: var(--fc-ghost); }
+.fc-saw .fc-line { fill: none; stroke: var(--fc-fg); stroke-width: 1.6; }
+.fc-saw .fc-dot { fill: var(--fc-a); }
+
+/* ── strips (what a change costs) ──────────────────────────── */
+
+.fc-strips {
+    display: grid;
+    gap: 6px;
+}
+
+.fc-strip {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.fc-strip-lbl {
+    width: 13ch;
+    flex: none;
+    color: var(--fc-dim);
+    font-size: 11px;
+}
+
+.fc-cell {
+    flex: 1 1 0;
+    text-align: center;
+    padding: 3px 0;
+    font-size: 10.5px;
+    border: 1px solid transparent;
+}
+
+.fc-cell.cached {
+    background: var(--fc-cached);
+}
+
+.fc-cell.hot {
+    background: var(--fc-hot);
+    border-color: var(--fc-pair);
+}
+
+.fc-key {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--fc-dim);
+}
+
+.fc-key .fc-cell {
+    display: inline-block;
+    width: 2.2ch;
+    padding: 1px 0;
+}
+
+/* ── the three views ───────────────────────────────────────── */
+
+.fc-views {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.fc-view pre {
+    font-size: 10.5px;
+}
+
+@media (max-width: 640px) {
+    .fc-views {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── controls (simulator) ──────────────────────────────────── */
+
+.fc-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    margin-bottom: 10px;
+}
+
+.fc button {
+    font: inherit;
+    font-weight: 600;
+    text-transform: none;
+    height: auto;
+    line-height: 1.4;
+    padding: 3px 10px;
+    border: 1.5px solid var(--fc-fg);
+    border-radius: 3px;
+    background: var(--fc-bg);
+    color: var(--fc-fg);
+    cursor: pointer;
+}
+
+.fc button:hover {
+    background: var(--fc-fg);
+    color: var(--fc-bg);
+}
+
+.fc button.fc-quiet {
+    font-weight: 400;
+    border-color: var(--fc-ghost);
+    color: var(--fc-dim);
+}
+
+.fc label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--fc-dim);
+}
+
+.fc label output {
+    color: var(--fc-fg);
+    font-weight: 600;
+    min-width: 2ch;
+    text-align: right;
+}
+
+.fc input[type="range"] {
+    width: 110px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    accent-color: var(--fc-a);
+    -webkit-appearance: auto;
+    appearance: auto;
+}
+
+.fc select {
+    font: inherit;
+    font-size: 11.5px;
+    padding: 2px 4px;
+    background: var(--fc-bg);
+    color: var(--fc-fg);
+    border: 1px solid var(--fc-ghost);
+    border-radius: 3px;
+}
+
+.fc-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin-bottom: 8px;
+    font-size: 11.5px;
+}
+
+.fc-stats .fc-lbl {
+    color: var(--fc-dim);
+    margin-right: 6px;
+}
+
+.fc-stats b.over {
+    color: var(--fc-pair);
+}
+
+.fc-lines {
+    max-height: 190px;
+    overflow-y: auto;
+}
+
+.fc-log {
+    max-height: 120px;
+    overflow-y: auto;
+    color: var(--fc-dim);
+}
