@@ -9,6 +9,10 @@ enableRobotsTXT = true
 [permalinks]
 posts = "/posts/:contentbasename/"
 
+[taxonomies]
+tag = "tags"
+series = "series"
+
 [[menu.main]]
 name = "Home"
 url = ""

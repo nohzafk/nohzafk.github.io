@@ -3,6 +3,7 @@ title: "Codemode Without a Sandbox: Why I Kept opencode's Evaluator and Replaced
 post: 2026-10-10-codemode-without-a-sandbox.md
 date: 2026-10-10T05:00:00+0200
 tags: [ai-agents, codemode, mcp, bend, typescript, programming]
+series: ["Building My Own Harness"]
 ---
 
 I am building a coding agent. It is a per-user daemon written in TypeScript, and every decision it makes — what to send to the model, when to ask the user, what a cancel closes — lives in a core written in [Bend](https://bend-lang.com), where laws are proved for every input. The agent is new and has no users yet, so I can try things that an established agent cannot.

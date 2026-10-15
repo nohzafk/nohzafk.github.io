@@ -3,6 +3,7 @@ title: "Real Async in Codemode: A Proved Scheduler, and Where I Part Ways With o
 post: 2026-10-10-real-async-in-codemode.md
 date: 2026-10-10T23:00:00+0200
 tags: [ai-agents, codemode, bend, typescript, javascript, programming]
+series: ["Building My Own Harness"]
 ---
 
 In [the previous post](/posts/2026-10-10-codemode-without-a-sandbox/) I explained why my agent keeps the evaluator of [opencode's codemode package](https://github.com/anomalyco/opencode/tree/dev/packages/codemode) and replaces its scheduler with a core written in [Bend](https://bend-lang.com). At that point the scheduler was a list of candidate laws. It is now built, proved, and wired into the evaluator.

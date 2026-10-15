@@ -121,6 +121,101 @@
     color: var(--hud-accent-dim);
 }
 
+/* ─── Series ────────────────────────────────────────────────────────────────── */
+.article-series {
+    margin: 1.25rem auto 0;
+    max-width: 36rem;
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--header-meta-color);
+}
+
+/* the theme puts margin-top on every *+*; this block does its own spacing */
+.article-series *,
+.article-series *+* {
+    margin-top: 0;
+}
+
+.series-frame {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--hud-accent);
+}
+
+.series-frame.bottom {
+    margin-top: 0.35rem;
+}
+
+.series-rule {
+    flex: 1;
+    border-top: 1px dashed var(--hud-accent-dim);
+}
+
+.series-name {
+    color: var(--hud-accent);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.series-name:hover {
+    text-decoration: underline;
+}
+
+.series-pos {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--hud-accent-dim);
+    white-space: nowrap;
+}
+
+.series-parts {
+    list-style: none;
+    padding: 0.35rem 0 0 1.5rem;
+    margin: 0;
+}
+
+.article-series .series-parts li {
+    display: flex;
+    gap: 0.75rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* the theme numbers every ol with a counter; the index is our own */
+.article-series .series-parts li::before {
+    content: none;
+    counter-increment: none;
+}
+
+.series-idx {
+    flex: none;
+    width: 3ch;
+    color: var(--hud-accent-dim);
+    white-space: pre;
+}
+
+.series-parts a {
+    color: var(--header-tag-color);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.series-parts a:hover {
+    color: var(--header-tag-hover);
+}
+
+.series-parts li.current .series-idx,
+.series-parts li.current a {
+    color: var(--hud-accent);
+}
+
 /* ─── About Section ─────────────────────────────────────────────────────────── */
 .about-section {
     margin: 2rem 0;
@@ -182,5 +277,13 @@
 
     .article-meta {
         font-size: 0.7rem;
+    }
+
+    .article-series {
+        font-size: 0.7rem;
+    }
+
+    .series-parts {
+        padding-left: 0.5rem;
     }
 }

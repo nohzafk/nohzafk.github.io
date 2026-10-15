@@ -33,4 +33,40 @@
         <span class="meta-separator">│</span>
         <span>{{ $.ReadingTime }}min</span>
     </div>
+
+    {{- /* Series block: the posts that share this one's `series` term, in
+           reading order, with this post marked. Rendered only when the
+           series has more than one post. */ -}}
+    {{ with .Params.series }}
+    {{- $name := index . 0 -}}
+    {{- with $.Site.GetPage (printf "/series/%s" ($name | urlize)) -}}
+    {{- $parts := (where .Pages "Type" "posts").ByDate -}}
+    {{- if gt (len $parts) 1 -}}
+    {{- $idx := 0 -}}
+    {{- range $i, $p := $parts }}{{ if eq $p.RelPermalink $.RelPermalink }}{{ $idx = add $i 1 }}{{ end }}{{ end -}}
+    <nav class="article-series" aria-label="series">
+        <div class="series-frame">
+            <span class="series-corner">├─</span>
+            <a class="series-name" href="{{ .RelPermalink }}">SERIES · {{ $name }}</a>
+            <span class="series-pos">{{ $idx }}/{{ len $parts }}</span>
+            <span class="series-corner">─┤</span>
+        </div>
+        <ol class="series-parts">
+            {{- range $i, $p := $parts }}
+            {{- $short := index (split $p.Title ":") 0 }}
+            <li{{ if eq $p.RelPermalink $.RelPermalink }} class="current" aria-current="page"{{ end }}>
+                <span class="series-idx">{{ if eq $p.RelPermalink $.RelPermalink }}▶{{ else }}&nbsp;{{ end }} {{ add $i 1 }}</span>
+                <a href="{{ $p.RelPermalink }}" title="{{ $p.Title }}">{{ $short }}</a>
+            </li>
+            {{- end }}
+        </ol>
+        <div class="series-frame bottom">
+            <span class="series-corner">└</span>
+            <span class="series-rule"></span>
+            <span class="series-corner">┘</span>
+        </div>
+    </nav>
+    {{- end -}}
+    {{- end -}}
+    {{ end }}
 </header>

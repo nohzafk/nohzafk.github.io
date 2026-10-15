@@ -5,9 +5,9 @@
         <div class="terminal-header-left">
             <span class="terminal-cursor">░</span>
             <span class="terminal-prompt">grep -l .</span>
-            <span class="terminal-path">~/tags/*</span>
+            <span class="terminal-path">~/{{ .Data.Plural }}/*</span>
         </div>
-        <span class="terminal-count">[{{ len .Data.Terms }} TAGS]</span>
+        <span class="terminal-count">[{{ len .Data.Terms }} {{ upper .Data.Plural }}]</span>
     </div>
 
     <div class="tags-grid">

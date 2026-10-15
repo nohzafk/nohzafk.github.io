@@ -1,12 +1,13 @@
 {{ define "main" }}
 {{- $posts := where .Pages "Type" "eq" "posts" -}}
+{{- if eq .Data.Plural "series" }}{{ $posts = $posts.ByDate }}{{ end -}}
 
 <section class="taxonomy-section">
     <div class="terminal-header">
         <div class="terminal-header-left">
             <span class="terminal-cursor">░</span>
             <span class="terminal-prompt">cat</span>
-            <span class="terminal-path">~/tags/{{ .Title }}</span>
+            <span class="terminal-path">~/{{ .Data.Plural }}/{{ .Title }}</span>
         </div>
         <span class="terminal-count">[{{ len $posts }} {{ if eq (len $posts) 1 }}POST{{ else }}POSTS{{ end }}]</span>
     </div>

@@ -3,6 +3,7 @@ title: "One Buffer, One Window: Putting the Input Area Inside the Output"
 post: 2026-09-28-one-buffer-one-window.md
 date: 2026-09-28T21:05:00+0200
 tags: [emacs, elisp, programming]
+series: ["Building My Own Harness"]
 ---
 
 For a long time I talked to coding agents in Emacs through [agent-shell](https://github.com/xenodium/agent-shell). It worked well, except for one thing, and that one thing was the biggest problem: I could not type while the agent was writing its output. I would read the first lines of an answer, know what I wanted to say next, and then wait for the agent to finish before I could start. Every turn broke my train of thought.
