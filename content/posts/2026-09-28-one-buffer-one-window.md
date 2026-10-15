@@ -1,5 +1,5 @@
 ---
-title: "One Buffer, One Window: Putting the Input Area Inside the Output"
+title: "One Buffer, One Window: The Emacs Client for My Agent"
 post: 2026-09-28-one-buffer-one-window.md
 date: 2026-09-28T21:05:00+0200
 tags: [emacs, elisp, programming]
