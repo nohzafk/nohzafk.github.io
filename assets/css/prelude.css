@@ -1,0 +1,59 @@
+/* Figures for the prelude post. The frame, controls and palette are
+   fold-cover.css's (.fc). Grey is read from the cache, red is written
+   again (a miss), pale is new at the tail; amber marks what names sh(). */
+
+.pl-bar { width: 100%; height: auto; }
+.pl-blk { stroke: var(--fc-ghost); stroke-width: 1; }
+.pl-blk.cached { fill: var(--fc-cached); }
+.pl-blk.new { fill: var(--fc-bg2); }
+.pl-blk.written { fill: var(--fc-hot); stroke: var(--fc-pair); }
+.pl-blk.note { stroke-dasharray: 3 2; }
+.pl-chip { fill: var(--fc-a-fill); stroke: var(--fc-a); stroke-width: 1; }
+.fc svg text.pl-chip-t { fill: var(--fc-a); font-size: 8.5px; font-weight: 700; }
+.fc svg text.pl-req { fill: var(--fc-dim); font-size: 10.5px; }
+
+.pl-steps { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.fc button.pl-dot {
+    font-weight: 400;
+    padding: 1px 7px;
+    border-color: var(--fc-ghost);
+    color: var(--fc-dim);
+}
+.fc button.pl-dot.on {
+    border-color: var(--fc-a);
+    background: var(--fc-a-fill);
+    color: var(--fc-fg);
+    font-weight: 700;
+}
+.fc button:disabled { opacity: 0.35; cursor: default; }
+
+.pl-sw {
+    display: inline-block;
+    width: 1.6ch;
+    height: 0.9em;
+    vertical-align: -0.1em;
+    border: 1px solid var(--fc-ghost);
+}
+.pl-sw.cached { background: var(--fc-cached); }
+.pl-sw.new { background: var(--fc-bg2); }
+.pl-sw.written { background: var(--fc-hot); border-color: var(--fc-pair); }
+.pl-chip-k {
+    font-size: 0.85em;
+    font-weight: 700;
+    padding: 0 3px;
+    color: var(--fc-a);
+    background: var(--fc-a-fill);
+    border: 1px solid var(--fc-a);
+    border-radius: 2px;
+}
+
+.pl-info {
+    margin-top: 8px !important;
+    min-height: 3.2em;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere;
+    color: var(--fc-fg);
+}
+figure:has(.pl-bar) .fc-controls label:has(select) { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; max-width: 100%; }
+figure:has(.pl-bar) select { max-width: 100%; min-width: 0; }
+.pl-info.lost { color: var(--fc-pair); }

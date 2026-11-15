@@ -1,0 +1,64 @@
+{{- /* Figures for the prelude post.
+
+       Usage:  {{< pl "kept" >}}Caption, markdown allowed.{{< /pl >}}
+       Kinds:  kept (a static SVG, no script) · lexicon (filled by assets/js/prelude.js)
+
+       The frame and palette are the merge-the-folds figures' (assets/css/fold-cover.css,
+       scoped under .fc). Assets are emitted with every figure, as in ft.html. */ -}}
+
+{{- $kind := .Get 0 -}}
+{{- $base := resources.Get "css/fold-cover.css" | fingerprint -}}
+<link rel="stylesheet" href="{{ $base.RelPermalink }}">
+{{- if eq $kind "kept" }}
+<figure class="fc pl">
+  <svg viewBox="0 0 520 304" role="img" aria-label="The 37 helpers kept, by kind: 10 bash wrappers bound to a worktree or toolchain, 8 trimmed proof checkers, 6 splice-and-check helpers, 2 test runners, 11 single-purpose. Scripts that call a helper: 36 of 47, 40 of 52 and 30 of 41 in three subagents; 367 of 2,258 across all 25 sessions." style="font-size:11px">
+    <text x="10" y="22" style="fill:var(--fc-fg);font-weight:700">The 37 helpers kept, by what they do</text>
+    <g><title>sh(cmd, intention), run(cmd, intention): bash bound to a worktree or the pinned toolchain</title>
+    <text x="196" y="53" text-anchor="end">bash in a fixed worktree</text>
+    <rect x="204" y="40" width="220" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="430" y="53" style="fill:var(--fc-fg);font-weight:600">10</text></g>
+    <g><title>chk(), check(): the proof checker trimmed to its verdict</title>
+    <text x="196" y="77" text-anchor="end">proof check, trimmed</text>
+    <rect x="204" y="64" width="176" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="386" y="77" style="fill:var(--fc-fg);font-weight:600">8</text></g>
+    <g><title>insertAndCheck(path), ins(chunk), appendProof(text)</title>
+    <text x="196" y="101" text-anchor="end">splice into proof, check</text>
+    <rect x="204" y="88" width="132" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="342" y="101" style="fill:var(--fc-fg);font-weight:600">6</text></g>
+    <g><title>tuiTest(), bcelTests(selector)</title>
+    <text x="196" y="125" text-anchor="end">test runners</text>
+    <rect x="204" y="112" width="44" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="254" y="125" style="fill:var(--fc-fg);font-weight:600">2</text></g>
+    <g><title>ec(code): elisp in the live Emacs, 37 calls; rebaseStep(); patch(path, pairs)</title>
+    <text x="196" y="149" text-anchor="end">single-purpose</text>
+    <rect x="204" y="136" width="242" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="452" y="149" style="fill:var(--fc-fg);font-weight:600">11</text></g>
+    <text x="10" y="188" style="fill:var(--fc-fg);font-weight:700">Scripts that call a helper</text>
+    <text x="196" y="217" text-anchor="end">subagent A</text>
+    <rect x="204" y="204" width="200" height="18" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <rect x="204" y="204" width="153" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="410" y="217" style="fill:var(--fc-fg)">36 of 47</text>
+    <text x="196" y="241" text-anchor="end">subagent B</text>
+    <rect x="204" y="228" width="200" height="18" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <rect x="204" y="228" width="154" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="410" y="241" style="fill:var(--fc-fg)">40 of 52</text>
+    <text x="196" y="265" text-anchor="end">subagent C</text>
+    <rect x="204" y="252" width="200" height="18" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <rect x="204" y="252" width="146" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="410" y="265" style="fill:var(--fc-fg)">30 of 41</text>
+    <text x="196" y="289" text-anchor="end">all 25 sessions</text>
+    <rect x="204" y="276" width="200" height="18" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <rect x="204" y="276" width="33" height="18" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="410" y="289" style="fill:var(--fc-fg)">367 of 2,258</text>
+  </svg>
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- else }}
+{{- $css := resources.Get "css/prelude.css" | fingerprint -}}
+{{- $js := resources.Get "js/prelude.js" | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<script src="{{ $js.RelPermalink }}" defer></script>
+<figure class="fc pl" data-pl="{{ $kind }}">
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- end }}
