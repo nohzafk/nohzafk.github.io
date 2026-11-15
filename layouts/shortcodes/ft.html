@@ -1,0 +1,50 @@
+{{- /* Interactive figures for the when-to-fold post.
+
+       Usage:  {{< ft "rule" >}}Caption, markdown allowed.{{< /ft >}}
+       Kinds:  pulse · rule · rent, and layout (a static SVG, no script)
+
+       Each figure is a small model of the fold-timing rule, computed the
+       way the host computes it. The figure frame, controls and colours are
+       the merge-the-folds figures' (assets/css/fold-cover.css, scoped under
+       .fc); what is new lives in assets/css/fold-time.css, behaviour in
+       assets/js/fold-time.js. Without JS a figure shows only its caption. */ -}}
+
+{{- $kind := .Get 0 -}}
+{{- /* Emitted with every figure: a page-level "loaded once" flag in .Page.Store
+       outlives `hugo server` rebuilds and drops the assets after the first
+       edit. The script guards itself, and the browser fetches each file once. */ -}}
+{{- $base := resources.Get "css/fold-cover.css" | fingerprint -}}
+{{- $css := resources.Get "css/fold-time.css" | fingerprint -}}
+{{- $js := resources.Get "js/fold-time.js" | fingerprint -}}
+<link rel="stylesheet" href="{{ $base.RelPermalink }}">
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{- if eq $kind "layout" }}
+<figure class="fc ft">
+  <svg viewBox="0 0 520 136" role="img" aria-label="The request as one bar: tools, system prompt and cover form the stable prefix S; the queued spans are the debt D; the rest of the tail follows; L is the whole request; everything after S is rewritten when the queue is applied." style="font-size:12px">
+    <rect x="10" y="40" width="52" height="30" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <text x="36" y="59" text-anchor="middle">tools</text>
+    <rect x="62" y="40" width="116" height="30" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <text x="120" y="59" text-anchor="middle">system prompt</text>
+    <rect x="178" y="40" width="52" height="30" style="fill:var(--fc-cached);stroke:var(--fc-ghost);stroke-width:1"/>
+    <text x="204" y="59" text-anchor="middle">cover</text>
+    <rect x="230" y="40" width="106" height="30" style="fill:var(--fc-a-fill);stroke:var(--fc-a);stroke-width:1"/>
+    <text x="283" y="59" text-anchor="middle">queued spans</text>
+    <rect x="336" y="40" width="174" height="30" style="fill:var(--fc-hot);stroke:var(--fc-pair);stroke-width:1"/>
+    <text x="423" y="59" text-anchor="middle">rest of the tail</text>
+    <path d="M10 35 V30 H228 V35" style="fill:none;stroke:var(--fc-fg);stroke-width:1.4"/>
+    <text x="119" y="24" text-anchor="middle" style="fill:var(--fc-fg)"><tspan style="font-weight:700;fill:var(--fc-fg)">S</tspan>  stable prefix</text>
+    <path d="M232 35 V30 H336 V35" style="fill:none;stroke:var(--fc-a);stroke-width:1.4"/>
+    <text x="284" y="24" text-anchor="middle" style="fill:var(--fc-a)"><tspan style="font-weight:700;fill:var(--fc-a)">D</tspan>  debt</text>
+    <path d="M10 75 V80 H510 V75" style="fill:none;stroke:var(--fc-fg);stroke-width:1.4"/>
+    <text x="260" y="95" text-anchor="middle" style="fill:var(--fc-fg)"><tspan style="font-weight:700;fill:var(--fc-fg)">L</tspan>  the whole request</text>
+    <path d="M232 107 V112 H510 V107" style="fill:none;stroke:var(--fc-pair);stroke-width:1.4"/>
+    <text x="371" y="127" text-anchor="middle" style="fill:var(--fc-pair)"><tspan style="font-weight:700;fill:var(--fc-pair)"></tspan>  rewritten when the queue is applied</text>
+  </svg>
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- else }}
+<figure class="fc ft" data-ft="{{ $kind }}">
+  {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- end }}

@@ -1,0 +1,106 @@
+/* Figures for the when-to-fold post. The frame, controls and palette are
+   fold-cover.css's (.fc); this file adds what those figures did not need.
+   Grey is read from the cache, red is written (a miss), amber is the debt
+   a fold removes, blue is a cold stretch where a miss was coming anyway. */
+
+.ft {
+    --ft-cold: rgba(77, 132, 196, 0.13);
+    --ft-cold-dot: #4d84c4;
+}
+
+@media (prefers-color-scheme: dark) {
+    .ft {
+        --ft-cold: rgba(116, 168, 230, 0.16);
+        --ft-cold-dot: #74a8e6;
+    }
+}
+
+.ft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px 14px;
+}
+
+.ft-grid label {
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.ft-grid select {
+    min-width: 0;
+    max-width: 65%;
+}
+
+.ft input[type="checkbox"] {
+    accent-color: var(--fc-a);
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    -webkit-appearance: auto;
+    appearance: auto;
+}
+
+/* ── pulse ─────────────────────────────────────────────────── */
+
+.ft-bar.cached { fill: var(--fc-cached); }
+.ft-bar.written { fill: var(--fc-pair); opacity: 0.75; }
+.ft-bar.focus { opacity: 1; stroke: var(--fc-fg); stroke-width: 0.6; }
+.ft-cold { fill: var(--ft-cold); }
+.ft-hit { fill: transparent; cursor: crosshair; }
+.ft-axis { stroke: var(--fc-ghost); }
+.ft-trigger { stroke: var(--fc-pair); stroke-dasharray: 4 3; opacity: 0.6; }
+.ft svg text.ft-mk.card { fill: var(--fc-a); font-size: 7px; }
+.ft svg text.ft-total { fill: var(--fc-fg); font-weight: 600; }
+.ft-apply { fill: var(--fc-a); }
+.ft-apply.cold { fill: var(--ft-cold-dot); }
+.ft-apply.pressure { fill: var(--fc-pair); }
+
+.ft-sw {
+    display: inline-block;
+    width: 1.6ch;
+    height: 0.9em;
+    vertical-align: -0.1em;
+}
+.ft-sw.cached { background: var(--fc-cached); }
+.ft-sw.written { background: var(--fc-pair); opacity: 0.75; }
+.ft-sw.cold { background: var(--ft-cold); outline: 1px solid var(--ft-cold-dot); }
+.ft-mk.card { color: var(--fc-a); }
+.ft-mk.apply { color: var(--fc-a); }
+
+.ft-info {
+    margin-top: 8px !important;
+    min-height: 4.4em;
+    color: var(--fc-dim);
+}
+
+/* ── rule ──────────────────────────────────────────────────── */
+
+.ft-seg.stable { fill: var(--fc-cached); }
+.ft-seg.debt { fill: var(--fc-a-fill); stroke: var(--fc-a); }
+.ft-seg.rest { fill: var(--fc-hot); stroke: var(--fc-pair); }
+.ft-brace { stroke: var(--fc-ghost); }
+.ft-need { stroke: var(--fc-fg); stroke-dasharray: 3 2; stroke-width: 1.4; }
+
+.ft-math {
+    margin-top: 8px !important;
+}
+
+.ft-verdict {
+    margin-top: 8px;
+    padding: 5px 8px;
+    font-weight: 600;
+    border: 1.5px solid var(--fc-ghost);
+}
+.ft-verdict.apply { border-color: var(--fc-ok); color: var(--fc-ok); }
+.ft-verdict.wait { border-color: var(--fc-a); color: var(--fc-a); }
+
+/* ── rent ──────────────────────────────────────────────────── */
+
+.ft-l { fill: none; stroke-width: 1.8; }
+.ft-l.wait { stroke: var(--fc-ghost); stroke-width: 5; opacity: 0.6; }
+.ft-l.buy { stroke: var(--fc-a); }
+.ft-l.be { stroke: var(--fc-pair); stroke-dasharray: 5 3; }
+.ft-h { stroke: var(--fc-fg); stroke-dasharray: 2 3; opacity: 0.6; }
+.ft-cross { fill: var(--fc-pair); }

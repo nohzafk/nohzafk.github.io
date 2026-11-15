@@ -72,6 +72,10 @@ enable = true
 block = [["$$", "$$"]]
 inline = [["$", "$"]]
 
+# Hugo 0.16x refuses .html content files by default; two posts are plain HTML
+[security]
+allowContent = ['.*']
+
 # utterance support
 [module]
 [[module.imports]]

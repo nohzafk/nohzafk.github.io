@@ -9,13 +9,13 @@
        loaded once per page. Without JS a figure shows only its caption. */ -}}
 
 {{- $kind := .Get 0 -}}
-{{- if not (.Page.Store.Get "fc-assets") -}}
-{{- .Page.Store.Set "fc-assets" true -}}
+{{- /* Emitted with every figure: a page-level "loaded once" flag in .Page.Store
+       outlives `hugo server` rebuilds and drops the assets after the first
+       edit. The script guards itself, and the browser fetches each file once. */ -}}
 {{- $css := resources.Get "css/fold-cover.css" | fingerprint -}}
 {{- $js := resources.Get "js/fold-cover.js" | fingerprint -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 <script src="{{ $js.RelPermalink }}" defer></script>
-{{- end }}
 <figure class="fc" data-fc="{{ $kind }}">
   {{ with .Inner }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
 </figure>

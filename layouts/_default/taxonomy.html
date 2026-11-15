@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- $posts := where .Pages "Type" "eq" "posts" -}}
-{{- if eq .Data.Plural "series" }}{{ $posts = $posts.ByDate }}{{ end -}}
+{{- if eq .Data.Plural "series" }}{{ $posts = $posts.ByParam "series_weight" }}{{ end -}}
 
 <section class="taxonomy-section">
     <div class="terminal-header">

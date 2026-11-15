@@ -4,6 +4,7 @@ post: 2026-10-15-merge-the-folds.md
 date: 2026-10-15T12:00:00+0200
 tags: [ai-agents, llm, bend, programming]
 series: ["Building My Own Harness"]
+series_weight: 20
 math: true
 ---
 
@@ -244,4 +245,4 @@ An ultra-long session is one where the third row never fires. In the 455-unit se
 - **The attention cost of a long cover.** It is the reason $B$ is a fraction and not "everything". The found-rate experiment does not measure it. The test I need is the same open-tail question answered with a 1k cover and a 23k cover in front.
 - **What is asked for, by age.** Six real re-opens is a small count, and four went to the oldest tenth. The rank waits on this. Smallest first is the default meanwhile.
 - **The writing recipe.** Counting only whether the model's first pick was the right line, before any zooming: 71% for a line written from one or two titles, 60% from 8 to 16 titles, 40% from two halves' lines, and 0% two levels further. The writer is asked for a summary, what has lasting effect. The reader needs an index, what is in here. That is a different line, not a different schedule, and it is probably the bigger lever.
-- **Where the standing part ends.** The tool list is prefix too, and a tool list that changes mid-session is the most expensive rewrite there is. Same cost model, next post.
+- **Where the standing part ends.** The tool list is prefix too, and a tool list that changes mid-session is the most expensive rewrite there is. Same cost model, a later post.

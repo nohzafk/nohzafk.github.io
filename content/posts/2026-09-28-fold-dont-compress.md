@@ -4,6 +4,7 @@ post: 2026-09-28-fold-dont-compress.md
 date: 2026-09-28T02:40:00+0200
 tags: [ai-agents, llm, programming]
 series: ["Building My Own Harness"]
+series_weight: 10
 ---
 
 Every coding agent I use handles a long conversation the same way. It lets the context grow until it gets close to the window, sends the whole thing back to the model with "summarize this", and carries on from the summary. Claude Code calls it auto-compact. Codex does it. My own agent, a small harness written in Rust, did it too.
