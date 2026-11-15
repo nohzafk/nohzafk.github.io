@@ -4,6 +4,12 @@ Personal blog built with Hugo using a custom terminal/console-themed design.
 
 ## Quick Start
 
+Hugo comes from the repo's flake (`flake.nix`), pinned to the version the GitHub
+workflow uses; no global `hugo` is installed. direnv loads it on `cd` (run
+`direnv allow` once); without direnv, prefix commands with `nix develop -c`.
+To change the Hugo version, move the nixpkgs pin in `flake.nix` and
+`HUGO_VERSION` in `.github/workflows/hugo.yml` together.
+
 ```bash
 # Development server
 hugo server
