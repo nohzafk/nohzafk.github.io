@@ -32,12 +32,10 @@
     <link rel="stylesheet" href="{{ "css/favorite.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/image.css" | relURL }}" />
 
-    {{ template "_internal/twitter_cards.html" . }}
+    {{ $mermaidCSS := resources.Get "css/mermaid-viewer.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $mermaidCSS.RelPermalink }}">
 
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
-    </script>
+    {{ template "_internal/twitter_cards.html" . }}
 </head>
 <body>
     <div itemscope="" itemtype="http://schema.org/Blog">

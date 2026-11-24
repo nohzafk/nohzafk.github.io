@@ -36,13 +36,12 @@
 
     {{- /* Series block: the posts that share this one's `series` term, in
            reading order (front matter `series_weight`, ascending), with this post
-           marked. Rendered only when the
-           series has more than one post. */ -}}
+           marked. */ -}}
     {{ with .Params.series }}
     {{- $name := index . 0 -}}
     {{- with $.Site.GetPage (printf "/series/%s" ($name | urlize)) -}}
     {{- $parts := (where .Pages "Type" "posts").ByParam "series_weight" -}}
-    {{- if gt (len $parts) 1 -}}
+    {{- if ge (len $parts) 1 -}}
     {{- $idx := 0 -}}
     {{- range $i, $p := $parts }}{{ if eq $p.RelPermalink $.RelPermalink }}{{ $idx = add $i 1 }}{{ end }}{{ end -}}
     <nav class="article-series" aria-label="series">

@@ -37,6 +37,10 @@
 {{/* scramble text effect */}}
 <script defer src="/js/scramble-text.js"></script>
 
+{{/* mermaid rendering & click-to-enlarge viewer */}}
+{{ $mermaidJS := resources.Get "js/mermaid-viewer.js" | resources.Minify }}
+<script type="module" src="{{ $mermaidJS.RelPermalink }}"></script>
+
 {{/* shiki syntax highlighting */}}
 <script type="module">
 import { createHighlighter, bundledLanguages } from 'https://esm.sh/shiki@3.0.0';

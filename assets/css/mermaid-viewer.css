@@ -1,0 +1,234 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MERMAID VIEWER - Terminal-themed click-to-enlarge modal for Mermaid SVGs
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mermaid-block {
+    position: relative;
+    margin: 1.5rem 0;
+    padding: 1.75rem 1rem 1rem;
+    border: 1px dashed var(--terminal-accent-dim, rgba(139, 90, 0, 0.5));
+    background: var(--background-color-alt, #eee);
+    overflow-x: auto;
+    cursor: zoom-in;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mermaid-block *,
+.mermaid-block *+* {
+    margin-top: 0;
+}
+
+.mermaid-block:hover,
+.mermaid-block:focus-visible {
+    border-color: var(--terminal-accent, #8b5a00);
+    outline: none;
+}
+
+.mermaid-block:focus-visible {
+    box-shadow: 0 0 0 2px var(--terminal-accent-dim, rgba(139, 90, 0, 0.5));
+}
+
+.mermaid-block pre.mermaid {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+}
+
+.mermaid-block pre.mermaid svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.mermaid-hint {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.5rem;
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--terminal-text-dim, #666);
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.15s ease;
+}
+
+.mermaid-block:hover .mermaid-hint,
+.mermaid-block:focus-visible .mermaid-hint {
+    color: var(--terminal-accent, #8b5a00);
+}
+
+/* ─── Full-screen Modal Overlay ─────────────────────────────────────────────── */
+.mermaid-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.mermaid-viewer *,
+.mermaid-viewer *+* {
+    margin-top: 0;
+}
+
+.mermaid-viewer.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mermaid-viewer-dialog {
+    width: min(94vw, 1500px);
+    height: min(90vh, 960px);
+    display: flex;
+    flex-direction: column;
+    background: var(--background-color, #fafafa);
+    color: var(--text-color, #000);
+    border: 1px solid var(--terminal-accent, #8b5a00);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+/* ─── Modal Header / Footer Bars ────────────────────────────────────────────── */
+.mermaid-viewer-bar {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--terminal-accent, #8b5a00);
+    background: var(--background-color-alt, #eee);
+    border-bottom: 1px solid var(--terminal-accent-dim, rgba(139, 90, 0, 0.5));
+    user-select: none;
+}
+
+.mermaid-viewer-bar.bottom {
+    border-bottom: 0;
+    border-top: 1px solid var(--terminal-accent-dim, rgba(139, 90, 0, 0.5));
+    color: var(--terminal-text-dim, #666);
+    font-size: 0.65rem;
+}
+
+.mermaid-viewer-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.mermaid-viewer-counter {
+    color: var(--terminal-text-dim, #666);
+}
+
+.mermaid-viewer-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.mermaid-viewer-btn {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--terminal-accent-dim, rgba(139, 90, 0, 0.5));
+    color: var(--text-color, #000);
+    font-family: 'Departure Mono', 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1;
+    height: auto;
+    padding: 0.35rem 0.55rem;
+    min-width: 2rem;
+    cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease, background-color 0.12s ease;
+}
+
+.mermaid-viewer-btn:hover,
+.mermaid-viewer-btn:focus-visible {
+    background: var(--background-color, #fafafa);
+    border: 1px solid var(--terminal-accent, #8b5a00);
+    color: var(--terminal-accent, #8b5a00);
+    outline: none;
+}
+
+.mermaid-viewer-btn:active {
+    transform: none;
+}
+
+.mermaid-viewer-btn.close {
+    border-color: var(--terminal-accent, #8b5a00);
+    color: var(--terminal-accent, #8b5a00);
+}
+
+.mermaid-viewer-zoom {
+    min-width: 3.6ch;
+    text-align: center;
+    color: var(--terminal-text-dim, #666);
+    font-size: 0.68rem;
+}
+
+/* ─── Pan & Zoom Stage ──────────────────────────────────────────────────────── */
+.mermaid-viewer-stage {
+    position: relative;
+    flex: 1 1 auto;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    background: var(--background-color, #fafafa);
+}
+
+.mermaid-viewer-stage.is-dragging {
+    cursor: grabbing;
+}
+
+.mermaid-viewer-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.mermaid-viewer-canvas svg {
+    display: block;
+    max-width: none !important;
+    max-height: none !important;
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .mermaid-viewer {
+        padding: 0.5rem;
+    }
+
+    .mermaid-viewer-dialog {
+        width: 100%;
+        height: 92vh;
+    }
+
+    .mermaid-viewer-bar {
+        flex-wrap: wrap;
+        font-size: 0.65rem;
+    }
+
+    .mermaid-viewer-bar.bottom .mermaid-viewer-help {
+        display: none;
+    }
+}
