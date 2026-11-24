@@ -7,7 +7,7 @@ series: ["A Live-Image Agent Harness"]
 series_weight: 10
 ---
 
-I am building an agent harness with Common Lisp (SBCL) as its foundation — a long-lived live image where the harness loop, its tools, and its [Bend-proved cores](/posts/2026-11-23-abstract-and-concrete/) share a single process, heap, and debugger.
+I am building an agent harness with Common Lisp (SBCL) as its foundation — a long-lived live image where the harness loop, its tools, and its Bend-proved cores share a single process, heap, and debugger.
 
 Two orthogonal pillars hold that harness up:
 
